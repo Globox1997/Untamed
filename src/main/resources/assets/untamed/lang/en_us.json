@@ -1,0 +1,35 @@
+{
+  "entity.untamed.lion": "Lion",
+  "entity.untamed.lioness": "Lioness",
+  "entity.untamed.rhino": "Rhino",
+  "entity.untamed.capybara": "Capybara",
+  "entity.untamed.octopus": "Octopus",
+
+  "item.untamed.item_group": "Untamed",
+
+  "item.untamed.lion_spawn_egg": "Lion Spawn Egg",
+  "item.untamed.lioness_spawn_egg": "Lioness Spawn Egg",
+  "item.untamed.rhino_spawn_egg": "Rhino Spawn Egg",
+  "item.untamed.capybara_spawn_egg": "Capybara Spawn Egg",
+  "item.untamed.octopus_spawn_egg": "Octopus Spawn Egg",
+
+  "item.untamed.raw_lion": "Raw Lion",
+  "item.untamed.cooked_lion": "Cooked Lion",
+  "item.untamed.raw_rhino": "Raw Rhino",
+  "item.untamed.cooked_rhino": "Cooked Rhino",
+  "item.untamed.raw_capybara": "Raw Capybara",
+  "item.untamed.cooked_capybara": "Cooked Capybara",
+  "item.untamed.raw_octopus": "Raw Octopus",
+  "item.untamed.cooked_octopus": "Cooked Octopus",
+
+  "tag.item.untamed.lion_food": "Lion Food",
+  "tag.item.untamed.lioness_food": "Lioness Food",
+  "tag.item.untamed.rhino_food": "Rhino Food",
+  "tag.item.untamed.capybara_food": "Capybara Food",
+  "tag.item.untamed.octopus_food": "Octopus Food",
+
+  "tag.block.untamed.lions_spawnable_on": "Lions Spawnable On",
+  "tag.block.untamed.rhinos_spawnable_on": "Rhinos Spawnable On",
+  "tag.block.untamed.capybaras_spawnable_on": "Capybaras Spawnable On",
+  "tag.block.untamed.octopuses_spawnable_on": "Octopuses Spawnable On"
+}

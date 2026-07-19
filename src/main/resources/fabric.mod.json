@@ -1,0 +1,39 @@
+{
+	"schemaVersion": 1,
+	"id": "untamed",
+	"version": "${version}",
+	"name": "Untamed",
+	"description": "Explore untaimed mobs",
+	"authors": [
+		"Globox_Z"
+	],
+	"contact": {
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/untamed",
+		"sources": "https://github.com/Globox1997/Untamed",
+		"issues": "https://github.com/Globox1997/Untamed/issues"
+	},
+	"license": ["MIT", "ARR (Assets)"],
+	"icon": "assets/untaimed/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.untamed.UntamedMain"
+		],
+		"client": [
+			"net.untamed.UntamedClient"
+		],
+		"modmenu": [
+			"net.untamed.config.ModMenuIntegration"
+		]
+	},
+	"mixins": [
+		"untamed.mixins.json"
+	],
+	"depends": {
+		"java": ">=21",
+		"minecraft": ">=${minecraft_version}",
+		"fabric-api": ">=${fabric_api_version}",
+		"fabricloader": ">=${loader_version}",
+		"cloth-config2": ">=${cloth_config_version}"
+	}
+}
