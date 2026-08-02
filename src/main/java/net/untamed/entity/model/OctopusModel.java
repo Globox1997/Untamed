@@ -129,7 +129,7 @@ public class OctopusModel<T extends OctopusEntity> extends HierarchicalModel<T> 
             float crawlWave = Mth.sin(limbSwing * 0.5F + phase) * crawlStrength * 0.35F * (idx % 2 == 0 ? 1.0F : -1.0F);
             float totalZRot = idleWave + swimWave + crawlWave;
 
-            float sway = Mth.cos(ageInTicks * idleFrequency * 0.6F + phase) * 0.12F;
+            float sway = Mth.cos(ageInTicks * idleFrequency * 0.6F + phase) * 0.1F;
 
             ModelPart left = this.leftArmParts[idx];
             ModelPart right = this.rightArmParts[idx];

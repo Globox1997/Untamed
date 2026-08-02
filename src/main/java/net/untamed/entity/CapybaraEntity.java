@@ -11,6 +11,8 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingLookControl;
+import net.minecraft.world.entity.ai.control.SmoothSwimmingMoveControl;
 import net.minecraft.world.entity.ai.goal.*;
 import net.minecraft.world.entity.ai.navigation.AmphibiousPathNavigation;
 import net.minecraft.world.entity.ai.navigation.PathNavigation;
@@ -24,6 +26,8 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.pathfinder.PathType;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.DifficultyInstance;
 import net.untamed.init.EntityInit;
@@ -34,6 +38,9 @@ public class CapybaraEntity extends Animal {
 
     public CapybaraEntity(EntityType<? extends CapybaraEntity> entityType, Level level) {
         super(entityType, level);
+        this.setPathfindingMalus(PathType.WATER, 0.0F);
+        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.1F, 0.5F, false);
+        this.lookControl = new SmoothSwimmingLookControl(this, 20);
     }
 
     @Nullable
@@ -58,9 +65,9 @@ public class CapybaraEntity extends Animal {
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(0, new FloatGoal(this));
         this.goalSelector.addGoal(1, new PanicGoal(this, 2.0));
         this.goalSelector.addGoal(2, new BreedGoal(this, 1.0));
+        this.goalSelector.addGoal(2, new RandomSwimmingGoal(this, 1.0, 240));
         this.goalSelector.addGoal(3, new GoToWaterGoal(this, 1.0, 24));
         this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.25));
         this.goalSelector.addGoal(5, new RandomStrollGoal(this, 0.8, 1) {
@@ -106,6 +113,17 @@ public class CapybaraEntity extends Animal {
     @Override
     public int getMaxAirSupply() {
         return 4800;
+    }
+
+    @Override
+    public void travel(Vec3 vec3) {
+        if (this.isControlledByLocalInstance() && this.isInWater()) {
+            this.moveRelative(this.getSpeed(), vec3);
+            this.move(MoverType.SELF, this.getDeltaMovement());
+            this.setDeltaMovement(this.getDeltaMovement().scale(0.9));
+        } else {
+            super.travel(vec3);
+        }
     }
 
     public static class GoToWaterGoal extends MoveToBlockGoal {

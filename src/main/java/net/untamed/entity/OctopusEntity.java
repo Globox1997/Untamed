@@ -192,8 +192,7 @@ public class OctopusEntity extends Animal {
 
         @Override
         protected boolean isValidTarget(LevelReader levelReader, BlockPos blockPos) {
-            return levelReader.getBlockState(blockPos).is(Blocks.WATER)
-                    && levelReader.getBlockState(blockPos.above()).isAir();
+            return levelReader.getBlockState(blockPos).is(Blocks.WATER) && levelReader.getBlockState(blockPos.above()).isAir();
         }
 
         @Override
@@ -264,7 +263,8 @@ public class OctopusEntity extends Animal {
                         continue;
                     }
                     BlockPos below = candidate.below();
-                    boolean groundIsSuitable = !level.getFluidState(below).is(FluidTags.WATER) && level.getBlockState(below).is(TagInit.OCTOPUSES_SPAWNABLE_ON);
+//                    boolean groundIsSuitable = !level.getFluidState(below).is(FluidTags.WATER) && level.getBlockState(below).is(TagInit.OCTOPUSES_SPAWNABLE_ON);
+                    boolean groundIsSuitable = !level.getFluidState(below).is(FluidTags.WATER) && level.getBlockState(below).isCollisionShapeFullBlock(level, below);
                     if (groundIsSuitable) {
                         this.wantedX = candidate.getX() + 0.5;
                         this.wantedY = candidate.getY();
