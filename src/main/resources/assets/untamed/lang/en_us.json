@@ -7,6 +7,7 @@
   "entity.untamed.kiwi": "Kiwi",
   "entity.untamed.black_bear": "Black Bear",
   "entity.untamed.buffalo": "Buffalo",
+  "entity.untamed.bison": "Bison",
 
   "item.untamed.item_group": "Untamed",
 
@@ -18,6 +19,7 @@
   "item.untamed.kiwi_spawn_egg": "Kiwi Spawn Egg",
   "item.untamed.black_bear_spawn_egg": "Black Bear Spawn Egg",
   "item.untamed.buffalo_spawn_egg": "Buffalo Spawn Egg",
+  "item.untamed.bison_spawn_egg": "Bison Spawn Egg",
 
   "item.untamed.raw_lion": "Raw Lion",
   "item.untamed.cooked_lion": "Cooked Lion",
@@ -33,6 +35,8 @@
   "item.untamed.cooked_bear": "Cooked Bear",
   "item.untamed.raw_buffalo": "Raw Buffalo",
   "item.untamed.cooked_buffalo": "Cooked Buffalo",
+  "item.untamed.raw_bison": "Raw Bison",
+  "item.untamed.cooked_bison": "Cooked Bison",
 
   "tag.item.untamed.lion_food": "Lion Food",
   "tag.item.untamed.lioness_food": "Lioness Food",
@@ -42,6 +46,7 @@
   "tag.item.untamed.kiwi_food": "Kiwi Food",
   "tag.item.untamed.black_bear_food": "Black Bear Food",
   "tag.item.untamed.buffalo_food": "Buffalo Food",
+  "tag.item.untamed.bison_food": "Bison Food",
 
   "tag.block.untamed.lions_spawnable_on": "Lions Spawnable On",
   "tag.block.untamed.rhinos_spawnable_on": "Rhinos Spawnable On",
@@ -49,5 +54,6 @@
   "tag.block.untamed.octopuses_spawnable_on": "Octopuses Spawnable On",
   "tag.block.untamed.kiwis_spawnable_on": "Kiwis Spawnable On",
   "tag.block.untamed.black_bears_spawnable_on": "Black Bears Spawnable On",
-  "tag.block.untamed.buffalos_spawnable_on": "Buffalos Spawnable On"
+  "tag.block.untamed.buffalos_spawnable_on": "Buffalos Spawnable On",
+  "tag.block.untamed.bisons_spawnable_on": "Bisons Spawnable On"
 }

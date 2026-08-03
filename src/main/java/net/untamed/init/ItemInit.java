@@ -41,6 +41,9 @@ public class ItemInit {
     public static final Item RAW_BUFFALO = register("raw_buffalo", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
     public static final Item COOKED_BUFFALO = register("cooked_buffalo", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build())));
 
+    public static final Item RAW_BISON = register("raw_bison", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
+    public static final Item COOKED_BISON = register("cooked_bison", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build())));
+
     private static Item register(String id, Item item) {
         return register(UntamedMain.identifierOf(id), item);
     }

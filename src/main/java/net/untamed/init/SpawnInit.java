@@ -44,6 +44,7 @@ public class SpawnInit {
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_TAIGA), MobCategory.CREATURE, EntityInit.KIWI, ConfigInit.CONFIG.kiwi_spawn_weight, 2, 2);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_FOREST), MobCategory.CREATURE, EntityInit.BLACK_BEAR, ConfigInit.CONFIG.black_bear_spawn_weight, 2, 2);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.BUFFALO, ConfigInit.CONFIG.buffalo_spawn_weight, 2, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.BISON, ConfigInit.CONFIG.bison_spawn_weight, 2, 2);
     }
 
     private static void setSpawnRestriction() {
@@ -55,6 +56,7 @@ public class SpawnInit {
         SpawnPlacements.register(EntityInit.KIWI, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, KiwiEntity::checkKiwiEntitySpawnRules);
         SpawnPlacements.register(EntityInit.BLACK_BEAR, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BlackBearEntity::checkBlackBearEntitySpawnRules);
         SpawnPlacements.register(EntityInit.BUFFALO, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BuffaloEntity::checkBuffaloEntitySpawnRules);
+        SpawnPlacements.register(EntityInit.BISON, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BisonEntity::checkBisonEntitySpawnRules);
     }
 
 }
