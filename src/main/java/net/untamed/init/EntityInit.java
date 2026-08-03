@@ -28,6 +28,8 @@ public class EntityInit {
             "octopus", 12893370, 11433813, EntityType.Builder.of(OctopusEntity::new, MobCategory.CREATURE).sized(1.4F, 1.4F).clientTrackingRange(10).build());
     public static final EntityType<KiwiEntity> KIWI = register(
             "kiwi", 7160104, 11895390, EntityType.Builder.of(KiwiEntity::new, MobCategory.CREATURE).sized(0.54F, 0.64F).clientTrackingRange(10).build());
+    public static final EntityType<BlackBearEntity> BLACK_BEAR = register(
+            "black_bear", 2434343, 4078651, EntityType.Builder.of(BlackBearEntity::new, MobCategory.CREATURE).sized(1.2F, 1.0F).clientTrackingRange(10).build());
 
     private static <T extends Entity> EntityType<T> register(String id, int primaryColor, int secondaryColor, EntityType<T> entityType) {
         if (primaryColor != 0) {
@@ -46,5 +48,6 @@ public class EntityInit {
         FabricDefaultAttributeRegistry.register(CAPYBARA, CapybaraEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(OCTOPUS, OctopusEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(KIWI, KiwiEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(BLACK_BEAR, BlackBearEntity.createAttributes());
     }
 }

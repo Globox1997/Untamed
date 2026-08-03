@@ -42,6 +42,7 @@ public class SpawnInit {
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_RIVER), MobCategory.CREATURE, EntityInit.CAPYBARA, ConfigInit.CONFIG.capybara_spawn_weight, 2, 3);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_OCEAN), MobCategory.CREATURE, EntityInit.OCTOPUS, ConfigInit.CONFIG.octopus_spawn_weight, 2, 2);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_TAIGA), MobCategory.CREATURE, EntityInit.KIWI, ConfigInit.CONFIG.kiwi_spawn_weight, 2, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_FOREST), MobCategory.CREATURE, EntityInit.BLACK_BEAR, ConfigInit.CONFIG.black_bear_spawn_weight, 2, 2);
     }
 
     private static void setSpawnRestriction() {
@@ -51,6 +52,7 @@ public class SpawnInit {
         SpawnPlacements.register(EntityInit.CAPYBARA, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CapybaraEntity::checkCapybaraEntitySpawnRules);
         SpawnPlacements.register(EntityInit.OCTOPUS, SpawnPlacementTypes.IN_WATER, Heightmap.Types.OCEAN_FLOOR, OctopusEntity::checkOctopusEntitySpawnRules);
         SpawnPlacements.register(EntityInit.KIWI, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, KiwiEntity::checkKiwiEntitySpawnRules);
+        SpawnPlacements.register(EntityInit.BLACK_BEAR, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BlackBearEntity::checkBlackBearEntitySpawnRules);
     }
 
 }
