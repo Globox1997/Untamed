@@ -19,6 +19,7 @@ public class RenderInit {
     public static final ModelLayerLocation OCTOPUS_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("octopus_render_layer"), "octopus_render_layer");
     public static final ModelLayerLocation KIWI_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("kiwi_render_layer"), "kiwi_render_layer");
     public static final ModelLayerLocation BLACK_BEAR_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("black_bear_render_layer"), "black_bear_render_layer");
+    public static final ModelLayerLocation BUFFALO_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("buffalo_render_layer"), "buffalo_render_layer");
 
     public static void init() {
         // Entity Renderer
@@ -29,6 +30,7 @@ public class RenderInit {
         EntityRendererRegistry.register(EntityInit.OCTOPUS, OctopusRenderer::new);
         EntityRendererRegistry.register(EntityInit.KIWI, KiwiRenderer::new);
         EntityRendererRegistry.register(EntityInit.BLACK_BEAR, BlackBearRenderer::new);
+        EntityRendererRegistry.register(EntityInit.BUFFALO, BuffaloRenderer::new);
         // Entity Layer
         EntityModelLayerRegistry.registerModelLayer(LION_LAYER, LionModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(LIONESS_LAYER, LionessModel::createBodyLayer);
@@ -37,5 +39,6 @@ public class RenderInit {
         EntityModelLayerRegistry.registerModelLayer(OCTOPUS_LAYER, OctopusModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(KIWI_LAYER, KiwiModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(BLACK_BEAR_LAYER, BlackBearModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(BUFFALO_LAYER, BuffaloModel::createBodyLayer);
     }
 }
