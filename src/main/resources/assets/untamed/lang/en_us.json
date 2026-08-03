@@ -4,6 +4,7 @@
   "entity.untamed.rhino": "Rhino",
   "entity.untamed.capybara": "Capybara",
   "entity.untamed.octopus": "Octopus",
+  "entity.untamed.kiwi": "Kiwi",
 
   "item.untamed.item_group": "Untamed",
 
@@ -12,6 +13,7 @@
   "item.untamed.rhino_spawn_egg": "Rhino Spawn Egg",
   "item.untamed.capybara_spawn_egg": "Capybara Spawn Egg",
   "item.untamed.octopus_spawn_egg": "Octopus Spawn Egg",
+  "item.untamed.kiwi_spawn_egg": "Kiwi Spawn Egg",
 
   "item.untamed.raw_lion": "Raw Lion",
   "item.untamed.cooked_lion": "Cooked Lion",
@@ -21,15 +23,19 @@
   "item.untamed.cooked_capybara": "Cooked Capybara",
   "item.untamed.raw_octopus": "Raw Octopus",
   "item.untamed.cooked_octopus": "Cooked Octopus",
+  "item.untamed.raw_kiwi": "Raw Kiwi",
+  "item.untamed.cooked_kiwi": "Cooked Kiwi",
 
   "tag.item.untamed.lion_food": "Lion Food",
   "tag.item.untamed.lioness_food": "Lioness Food",
   "tag.item.untamed.rhino_food": "Rhino Food",
   "tag.item.untamed.capybara_food": "Capybara Food",
   "tag.item.untamed.octopus_food": "Octopus Food",
+  "tag.item.untamed.kiwi_food": "Kiwi Food",
 
   "tag.block.untamed.lions_spawnable_on": "Lions Spawnable On",
   "tag.block.untamed.rhinos_spawnable_on": "Rhinos Spawnable On",
   "tag.block.untamed.capybaras_spawnable_on": "Capybaras Spawnable On",
-  "tag.block.untamed.octopuses_spawnable_on": "Octopuses Spawnable On"
+  "tag.block.untamed.octopuses_spawnable_on": "Octopuses Spawnable On",
+  "tag.block.untamed.kiwis_spawnable_on": "Kiwis Spawnable On"
 }

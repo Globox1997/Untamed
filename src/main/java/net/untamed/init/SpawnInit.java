@@ -39,8 +39,9 @@ public class SpawnInit {
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.LION, ConfigInit.CONFIG.lion_spawn_weight, 1, 2);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.LIONESS, ConfigInit.CONFIG.lioness_spawn_weight, 1, 2);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.RHINO, ConfigInit.CONFIG.rhino_spawn_weight, 2, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_RIVER), MobCategory.CREATURE, EntityInit.CAPYBARA, ConfigInit.CONFIG.capybara_spawn_weight, 2, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_RIVER), MobCategory.CREATURE, EntityInit.CAPYBARA, ConfigInit.CONFIG.capybara_spawn_weight, 2, 3);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_OCEAN), MobCategory.CREATURE, EntityInit.OCTOPUS, ConfigInit.CONFIG.octopus_spawn_weight, 2, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_TAIGA), MobCategory.CREATURE, EntityInit.KIWI, ConfigInit.CONFIG.kiwi_spawn_weight, 2, 2);
     }
 
     private static void setSpawnRestriction() {
@@ -49,6 +50,7 @@ public class SpawnInit {
         SpawnPlacements.register(EntityInit.RHINO, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RhinoEntity::checkRhinoEntitySpawnRules);
         SpawnPlacements.register(EntityInit.CAPYBARA, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, CapybaraEntity::checkCapybaraEntitySpawnRules);
         SpawnPlacements.register(EntityInit.OCTOPUS, SpawnPlacementTypes.IN_WATER, Heightmap.Types.OCEAN_FLOOR, OctopusEntity::checkOctopusEntitySpawnRules);
+        SpawnPlacements.register(EntityInit.KIWI, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, KiwiEntity::checkKiwiEntitySpawnRules);
     }
 
 }
