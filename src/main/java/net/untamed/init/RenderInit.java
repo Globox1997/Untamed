@@ -21,6 +21,7 @@ public class RenderInit {
     public static final ModelLayerLocation BLACK_BEAR_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("black_bear_render_layer"), "black_bear_render_layer");
     public static final ModelLayerLocation BUFFALO_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("buffalo_render_layer"), "buffalo_render_layer");
     public static final ModelLayerLocation BISON_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("bison_render_layer"), "bison_render_layer");
+    public static final ModelLayerLocation VULTURE_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("vulture_render_layer"), "vulture_render_layer");
 
     public static void init() {
         // Entity Renderer
@@ -33,6 +34,7 @@ public class RenderInit {
         EntityRendererRegistry.register(EntityInit.BLACK_BEAR, BlackBearRenderer::new);
         EntityRendererRegistry.register(EntityInit.BUFFALO, BuffaloRenderer::new);
         EntityRendererRegistry.register(EntityInit.BISON, BisonRenderer::new);
+        EntityRendererRegistry.register(EntityInit.VULTURE, VultureRenderer::new);
         // Entity Layer
         EntityModelLayerRegistry.registerModelLayer(LION_LAYER, LionModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(LIONESS_LAYER, LionessModel::createBodyLayer);
@@ -43,5 +45,6 @@ public class RenderInit {
         EntityModelLayerRegistry.registerModelLayer(BLACK_BEAR_LAYER, BlackBearModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(BUFFALO_LAYER, BuffaloModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(BISON_LAYER, BisonModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(VULTURE_LAYER, VultureModel::createBodyLayer);
     }
 }
