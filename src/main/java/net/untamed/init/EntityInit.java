@@ -36,6 +36,8 @@ public class EntityInit {
             "bison", 3157034, 7031870, EntityType.Builder.of(BisonEntity::new, MobCategory.CREATURE).sized(1.8F, 1.7F).clientTrackingRange(10).build());
     public static final EntityType<VultureEntity> VULTURE = register(
             "vulture", 5721404, 11306089, EntityType.Builder.of(VultureEntity::new, MobCategory.CREATURE).sized(0.85F, 1.0F).clientTrackingRange(10).build());
+    public static final EntityType<BlackPantherEntity> BLACK_PANTHER = register(
+            "black_panther", 3354167, 3880766, EntityType.Builder.of(BlackPantherEntity::new, MobCategory.CREATURE).sized(1.55F, 1.5F).clientTrackingRange(10).build());
 
     private static <T extends Entity> EntityType<T> register(String id, int primaryColor, int secondaryColor, EntityType<T> entityType) {
         if (primaryColor != 0) {
@@ -58,5 +60,6 @@ public class EntityInit {
         FabricDefaultAttributeRegistry.register(BUFFALO, BuffaloEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(BISON, BisonEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(VULTURE, VultureEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(BLACK_PANTHER, BlackPantherEntity.createAttributes());
     }
 }

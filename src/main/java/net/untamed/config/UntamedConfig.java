@@ -48,4 +48,8 @@ public class UntamedConfig implements ConfigData {
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
     public int vulture_spawn_weight = 1;
+    @ConfigEntry.Category("spawn_setting")
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+    public int black_panther_spawn_weight = 1;
 }

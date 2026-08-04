@@ -46,6 +46,7 @@ public class SpawnInit {
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.BUFFALO, ConfigInit.CONFIG.buffalo_spawn_weight, 2, 2);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.BISON, ConfigInit.CONFIG.bison_spawn_weight, 2, 2);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.VULTURE, ConfigInit.CONFIG.vulture_spawn_weight, 2, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.BLACK_PANTHER, ConfigInit.CONFIG.black_panther_spawn_weight, 2, 2);
     }
 
     private static void setSpawnRestriction() {
@@ -59,6 +60,7 @@ public class SpawnInit {
         SpawnPlacements.register(EntityInit.BUFFALO, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BuffaloEntity::checkBuffaloEntitySpawnRules);
         SpawnPlacements.register(EntityInit.BISON, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BisonEntity::checkBisonEntitySpawnRules);
         SpawnPlacements.register(EntityInit.VULTURE, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, VultureEntity::checkVultureEntitySpawnRules);
+        SpawnPlacements.register(EntityInit.BLACK_PANTHER, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BlackPantherEntity::checkBlackPantherEntitySpawnRules);
     }
 
 }
