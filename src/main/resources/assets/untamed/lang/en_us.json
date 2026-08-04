@@ -10,6 +10,7 @@
   "entity.untamed.bison": "Bison",
   "entity.untamed.vulture": "Vulture",
   "entity.untamed.black_panther": "Black Panther",
+  "entity.untamed.hyena": "Hyena",
 
   "item.untamed.item_group": "Untamed",
 
@@ -24,6 +25,7 @@
   "item.untamed.bison_spawn_egg": "Bison Spawn Egg",
   "item.untamed.vulture_spawn_egg": "Vulture Spawn Egg",
   "item.untamed.black_panther_spawn_egg": "Black Panther Spawn Egg",
+  "item.untamed.hyena_spawn_egg": "Hyena Spawn Egg",
 
   "item.untamed.raw_lion": "Raw Lion",
   "item.untamed.cooked_lion": "Cooked Lion",
@@ -45,6 +47,8 @@
   "item.untamed.cooked_vulture": "Cooked Vulture",
   "item.untamed.raw_panther": "Raw Panther",
   "item.untamed.cooked_panther": "Cooked Panther",
+  "item.untamed.raw_hyena": "Raw Hyena",
+  "item.untamed.cooked_hyena": "Cooked Hyena",
 
   "tag.item.untamed.lion_food": "Lion Food",
   "tag.item.untamed.lioness_food": "Lioness Food",
@@ -57,6 +61,7 @@
   "tag.item.untamed.bison_food": "Bison Food",
   "tag.item.untamed.vulture_food": "Vulture Food",
   "tag.item.untamed.black_panther_food": "Black Panther Food",
+  "tag.item.untamed.hyena_food": "Hyena Food",
 
   "tag.block.untamed.lions_spawnable_on": "Lions Spawnable On",
   "tag.block.untamed.rhinos_spawnable_on": "Rhinos Spawnable On",
@@ -68,6 +73,7 @@
   "tag.block.untamed.bisons_spawnable_on": "Bisons Spawnable On",
   "tag.block.untamed.vultures_spawnable_on": "Vultures Spawnable On",
   "tag.block.untamed.black_panthers_spawnable_on": "Black Panthers Spawnable On",
+  "tag.block.untamed.hyenas_spawnable_on": "Hyenas Spawnable On",
 
   "text.autoconfig.untamed.title": "Untamed",
   "text.autoconfig.untamed.option.lionSpawnweight": "Lion Spawn Weight",
