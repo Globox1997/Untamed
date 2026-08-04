@@ -67,5 +67,19 @@
   "tag.block.untamed.buffalos_spawnable_on": "Buffalos Spawnable On",
   "tag.block.untamed.bisons_spawnable_on": "Bisons Spawnable On",
   "tag.block.untamed.vultures_spawnable_on": "Vultures Spawnable On",
-  "tag.block.untamed.black_panthers_spawnable_on": "Black Panthers Spawnable On"
+  "tag.block.untamed.black_panthers_spawnable_on": "Black Panthers Spawnable On",
+
+  "text.autoconfig.untamed.title": "Untamed",
+  "text.autoconfig.untamed.option.lionSpawnweight": "Lion Spawn Weight",
+  "text.autoconfig.untamed.option.lionessSpawnWeight": "Lioness Spawn Weight",
+  "text.autoconfig.untamed.option.rhinoSpawnWeight": "Rhino Spawn Weight",
+  "text.autoconfig.untamed.option.capybaraSpawnWeight": "Capybara Spawn Weight",
+  "text.autoconfig.untamed.option.octopusSpawnWeight": "Octopus Spawn Weight",
+  "text.autoconfig.untamed.option.kiwiSpawnWeight": "Kiwi Spawn Weight",
+  "text.autoconfig.untamed.option.blackBearSpawnWeight": "Black Bear Spawn Weight",
+  "text.autoconfig.untamed.option.buffaloSpawnWeight": "Buffalo Spawn Weight",
+  "text.autoconfig.untamed.option.bisonSpawnWeight": "Bison Spawn Weight",
+  "text.autoconfig.untamed.option.vultureSpawnWeight": "Vulture Spawn Weight",
+  "text.autoconfig.untamed.option.blackPantherSpawnWeight": "Black Panther Spawn Weight",
+  "text.autoconfig.untamed.option.hyenaSpawnWeight": "Hyena Spawn Weight"
 }

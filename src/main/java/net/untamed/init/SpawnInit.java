@@ -36,17 +36,17 @@ public class SpawnInit {
 //                ConfigInit.CONFIG.enderwarthog_spawn_weight, 1, 1);
 //        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_FOREST), SpawnGroup.CREATURE, EntityInit.DEER, ConfigInit.CONFIG.deer_spawn_weight, 2, 3);
 
-        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.LION, ConfigInit.CONFIG.lion_spawn_weight, 1, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.LIONESS, ConfigInit.CONFIG.lioness_spawn_weight, 1, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.RHINO, ConfigInit.CONFIG.rhino_spawn_weight, 2, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_RIVER), MobCategory.CREATURE, EntityInit.CAPYBARA, ConfigInit.CONFIG.capybara_spawn_weight, 2, 3);
-        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_OCEAN), MobCategory.CREATURE, EntityInit.OCTOPUS, ConfigInit.CONFIG.octopus_spawn_weight, 2, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_TAIGA), MobCategory.CREATURE, EntityInit.KIWI, ConfigInit.CONFIG.kiwi_spawn_weight, 2, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_FOREST), MobCategory.CREATURE, EntityInit.BLACK_BEAR, ConfigInit.CONFIG.black_bear_spawn_weight, 2, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.BUFFALO, ConfigInit.CONFIG.buffalo_spawn_weight, 2, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.BISON, ConfigInit.CONFIG.bison_spawn_weight, 2, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.VULTURE, ConfigInit.CONFIG.vulture_spawn_weight, 2, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.BLACK_PANTHER, ConfigInit.CONFIG.black_panther_spawn_weight, 2, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.LION, ConfigInit.CONFIG.lionSpawnweight, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.LIONESS, ConfigInit.CONFIG.lionessSpawnWeight, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.RHINO, ConfigInit.CONFIG.rhinoSpawnWeight, 2, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_RIVER), MobCategory.CREATURE, EntityInit.CAPYBARA, ConfigInit.CONFIG.capybaraSpawnWeight, 2, 3);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_OCEAN), MobCategory.CREATURE, EntityInit.OCTOPUS, ConfigInit.CONFIG.octopusSpawnWeight, 2, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_TAIGA), MobCategory.CREATURE, EntityInit.KIWI, ConfigInit.CONFIG.kiwiSpawnWeight, 2, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_FOREST), MobCategory.CREATURE, EntityInit.BLACK_BEAR, ConfigInit.CONFIG.blackBearSpawnWeight, 2, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.BUFFALO, ConfigInit.CONFIG.buffaloSpawnWeight, 2, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.BISON, ConfigInit.CONFIG.bisonSpawnWeight, 2, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.VULTURE, ConfigInit.CONFIG.vultureSpawnWeight, 2, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.BLACK_PANTHER, ConfigInit.CONFIG.blackPantherSpawnWeight, 2, 2);
     }
 
     private static void setSpawnRestriction() {

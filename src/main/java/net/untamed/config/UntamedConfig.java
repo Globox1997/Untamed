@@ -11,45 +11,49 @@ public class UntamedConfig implements ConfigData {
     @ConfigEntry.Category("spawn_setting")
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
-    public int lion_spawn_weight = 1;
+    public int lionSpawnweight = 1;
     @ConfigEntry.Category("spawn_setting")
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
-    public int lioness_spawn_weight = 1;
+    public int lionessSpawnWeight = 1;
     @ConfigEntry.Category("spawn_setting")
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
-    public int rhino_spawn_weight = 1;
+    public int rhinoSpawnWeight = 1;
     @ConfigEntry.Category("spawn_setting")
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
-    public int capybara_spawn_weight = 1;
+    public int capybaraSpawnWeight = 1;
     @ConfigEntry.Category("spawn_setting")
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
-    public int octopus_spawn_weight = 1;
+    public int octopusSpawnWeight = 1;
     @ConfigEntry.Category("spawn_setting")
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
-    public int kiwi_spawn_weight = 1;
+    public int kiwiSpawnWeight = 1;
     @ConfigEntry.Category("spawn_setting")
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
-    public int black_bear_spawn_weight = 1;
+    public int blackBearSpawnWeight = 1;
     @ConfigEntry.Category("spawn_setting")
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
-    public int buffalo_spawn_weight = 1;
+    public int buffaloSpawnWeight = 1;
     @ConfigEntry.Category("spawn_setting")
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
-    public int bison_spawn_weight = 1;
+    public int bisonSpawnWeight = 1;
     @ConfigEntry.Category("spawn_setting")
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
-    public int vulture_spawn_weight = 1;
+    public int vultureSpawnWeight = 1;
     @ConfigEntry.Category("spawn_setting")
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
-    public int black_panther_spawn_weight = 1;
+    public int blackPantherSpawnWeight = 1;
+    @ConfigEntry.Category("spawn_setting")
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+    public int hyenaSpawnWeight = 1;
 }
