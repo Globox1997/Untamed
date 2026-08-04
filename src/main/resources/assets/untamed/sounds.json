@@ -1,0 +1,25 @@
+{
+  "kiwi_idle": {
+    "sounds": [
+      "untamed:kiwi_idle_1",
+      "untamed:kiwi_idle_2"
+    ]
+  },
+  "kiwi_hurt": {
+    "sounds": [
+      "untamed:kiwi_hurt_1",
+      "untamed:kiwi_hurt_2"
+    ]
+  },
+  "kiwi_death": {
+    "sounds": [
+      "untamed:kiwi_death_1",
+      "untamed:kiwi_death_2"
+    ]
+  },
+  "kiwi_step": {
+    "sounds": [
+      "untamed:kiwi_step_1"
+    ]
+  }
+}

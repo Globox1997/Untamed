@@ -25,6 +25,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.untamed.init.EntityInit;
+import net.untamed.init.SoundInit;
 import net.untamed.init.TagInit;
 import org.jetbrains.annotations.Nullable;
 
@@ -71,8 +72,7 @@ public class KiwiEntity extends Animal {
 
     public static boolean checkKiwiEntitySpawnRules(EntityType<KiwiEntity> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
         Holder<Biome> holder = levelAccessor.getBiome(blockPos);
-        return !holder.is(BiomeTags.IS_TAIGA)
-                ? checkAnimalSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource)
+        return !holder.is(BiomeTags.IS_TAIGA) ? checkAnimalSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource)
                 : isBrightEnoughToSpawn(levelAccessor, blockPos) && levelAccessor.getBlockState(blockPos.below()).is(TagInit.KIWIS_SPAWNABLE_ON);
     }
 
@@ -88,22 +88,22 @@ public class KiwiEntity extends Animal {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isBaby() ? SoundEvents.POLAR_BEAR_AMBIENT_BABY : SoundEvents.POLAR_BEAR_AMBIENT;
+        return this.isBaby() ? SoundInit.KIWI_IDLE_EVENT : SoundInit.KIWI_IDLE_EVENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.POLAR_BEAR_HURT;
+        return SoundInit.KIWI_HURT_EVENT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.POLAR_BEAR_DEATH;
+        return SoundInit.KIWI_DEATH_EVENT;
     }
 
     @Override
     protected void playStepSound(BlockPos blockPos, BlockState blockState) {
-        this.playSound(SoundEvents.POLAR_BEAR_STEP, 0.15F, 1.0F);
+        this.playSound(SoundInit.KIWI_STEP_EVENT, 0.15F, 1.0F);
     }
 
     @Override
