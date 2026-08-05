@@ -21,5 +21,38 @@
     "sounds": [
       "untamed:kiwi_step_1"
     ]
+  },
+  "bison_idle": {
+    "sounds": [
+      "untamed:bison_idle_1",
+      "untamed:bison_idle_2",
+      "untamed:bison_idle_3",
+      "untamed:bison_idle_4"
+    ]
+  },
+  "bison_hurt": {
+    "sounds": [
+      "untamed:bison_hurt_1",
+      "untamed:bison_hurt_2"
+    ]
+  },
+  "bison_death": {
+    "sounds": [
+      "untamed:bison_death_1"
+    ]
+  },
+  "bison_step": {
+    "sounds": [
+      "untamed:bison_step_1",
+      "untamed:bison_step_2",
+      "untamed:bison_step_3",
+      "untamed:bison_step_4"
+    ]
+  },
+  "bison_warning": {
+    "sounds": [
+      "untamed:bison_warning_1",
+      "untamed:bison_warning_2"
+    ]
   }
 }

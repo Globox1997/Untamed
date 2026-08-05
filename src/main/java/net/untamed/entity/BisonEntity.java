@@ -30,6 +30,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.untamed.init.EntityInit;
+import net.untamed.init.SoundInit;
 import net.untamed.init.TagInit;
 import org.jetbrains.annotations.Nullable;
 
@@ -133,27 +134,27 @@ public class BisonEntity extends Animal implements NeutralMob {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isBaby() ? SoundEvents.POLAR_BEAR_AMBIENT_BABY : SoundEvents.POLAR_BEAR_AMBIENT;
+        return this.isBaby() ? SoundInit.BISON_IDLE_EVENT : SoundInit.BISON_IDLE_EVENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.POLAR_BEAR_HURT;
+        return SoundInit.BISON_HURT_EVENT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.POLAR_BEAR_DEATH;
+        return SoundInit.BISON_DEATH_EVENT;
     }
 
     @Override
     protected void playStepSound(BlockPos blockPos, BlockState blockState) {
-        this.playSound(SoundEvents.POLAR_BEAR_STEP, 0.15F, 1.0F);
+        this.playSound(SoundInit.BISON_STEP_EVENT, 0.15F, 1.0F);
     }
 
     protected void playWarningSound() {
         if (this.warningSoundTicks <= 0) {
-            this.makeSound(SoundEvents.POLAR_BEAR_WARNING);
+            this.makeSound(SoundInit.BISON_WARNING_EVENT);
             this.warningSoundTicks = 40;
         }
     }
