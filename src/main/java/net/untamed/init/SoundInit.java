@@ -18,6 +18,12 @@ public class SoundInit {
     public static SoundEvent BISON_STEP_EVENT = register("bison_step");
     public static SoundEvent BISON_WARNING_EVENT = register("bison_warning");
 
+    public static SoundEvent BUFFALO_IDLE_EVENT = register("buffalo_idle");
+    public static SoundEvent BUFFALO_HURT_EVENT = register("buffalo_hurt");
+    public static SoundEvent BUFFALO_DEATH_EVENT = register("buffalo_death");
+    public static SoundEvent BUFFALO_STEP_EVENT = register("buffalo_step");
+    public static SoundEvent BUFFALO_WARNING_EVENT = register("buffalo_warning");
+
     private static SoundEvent register(String id) {
         return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(UntamedMain.identifierOf(id)));
     }

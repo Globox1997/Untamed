@@ -54,5 +54,38 @@
       "untamed:bison_warning_1",
       "untamed:bison_warning_2"
     ]
+  },
+  "buffalo_idle": {
+    "sounds": [
+      "untamed:buffalo_idle_1",
+      "untamed:buffalo_idle_2",
+      "untamed:buffalo_idle_3"
+    ]
+  },
+  "buffalo_hurt": {
+    "sounds": [
+      "untamed:buffalo_hurt_1",
+      "untamed:buffalo_hurt_2"
+    ]
+  },
+  "buffalo_death": {
+    "sounds": [
+      "untamed:buffalo_death_1",
+      "untamed:buffalo_death_2"
+    ]
+  },
+  "buffalo_step": {
+    "sounds": [
+      "untamed:buffalo_step_1",
+      "untamed:buffalo_step_2"
+    ]
+  },
+  "buffalo_warning": {
+    "sounds": [
+      "untamed:buffalo_warning_1",
+      "untamed:buffalo_warning_2",
+      "untamed:buffalo_warning_3",
+      "untamed:buffalo_warning_4"
+    ]
   }
 }

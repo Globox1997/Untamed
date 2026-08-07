@@ -25,6 +25,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.untamed.init.EntityInit;
+import net.untamed.init.SoundInit;
 import net.untamed.init.TagInit;
 import org.jetbrains.annotations.Nullable;
 
@@ -88,22 +89,22 @@ public class BuffaloEntity extends Animal {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isBaby() ? SoundEvents.POLAR_BEAR_AMBIENT_BABY : SoundEvents.POLAR_BEAR_AMBIENT;
+        return this.isBaby() ? SoundInit.BUFFALO_IDLE_EVENT : SoundInit.BUFFALO_IDLE_EVENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.POLAR_BEAR_HURT;
+        return SoundInit.BUFFALO_HURT_EVENT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.POLAR_BEAR_DEATH;
+        return SoundInit.BUFFALO_DEATH_EVENT;
     }
 
     @Override
     protected void playStepSound(BlockPos blockPos, BlockState blockState) {
-        this.playSound(SoundEvents.POLAR_BEAR_STEP, 0.15F, 1.0F);
+        this.playSound(SoundInit.BUFFALO_STEP_EVENT, 0.15F, 1.0F);
     }
 
     @Override
