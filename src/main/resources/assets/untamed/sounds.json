@@ -87,5 +87,45 @@
       "untamed:buffalo_warning_3",
       "untamed:buffalo_warning_4"
     ]
+  },
+  "lion_idle": {
+    "sounds": [
+      "untamed:lion_idle_1",
+      "untamed:lion_idle_2",
+      "untamed:lion_idle_3",
+      "untamed:lion_idle_4",
+      "untamed:lion_idle_5"
+    ]
+  },
+  "lion_hurt": {
+    "sounds": [
+      "untamed:lion_hurt_1",
+      "untamed:lion_hurt_2",
+      "untamed:lion_hurt_3",
+      "untamed:lion_hurt_4"
+    ]
+  },
+  "lion_death": {
+    "sounds": [
+      "untamed:lion_death_1",
+      "untamed:lion_death_2"
+    ]
+  },
+  "lion_step": {
+    "sounds": [
+      "untamed:lion_step_1",
+      "untamed:lion_step_2"
+    ]
+  },
+  "lion_roaring": {
+    "sounds": [
+      "untamed:lion_roaring_1"
+    ]
+  },
+  "lion_sleeping": {
+    "sounds": [
+      "untamed:lion_sleeping_1",
+      "untamed:lion_sleeping_2"
+    ]
   }
 }
