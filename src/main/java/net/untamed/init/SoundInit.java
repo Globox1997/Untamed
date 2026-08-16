@@ -31,6 +31,11 @@ public class SoundInit {
     public static SoundEvent LION_ROARING_EVENT = register("lion_roaring");
     public static SoundEvent LION_SLEEPING_EVENT = register("lion_sleeping");
 
+    public static SoundEvent OCTOPUS_IDLE_EVENT = register("octopus_idle");
+    public static SoundEvent OCTOPUS_HURT_EVENT = register("octopus_hurt");
+    public static SoundEvent OCTOPUS_DEATH_EVENT = register("octopus_death");
+    public static SoundEvent OCTOPUS_STEP_EVENT = register("octopus_step");
+
     private static SoundEvent register(String id) {
         return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(UntamedMain.identifierOf(id)));
     }

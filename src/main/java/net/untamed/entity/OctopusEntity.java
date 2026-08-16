@@ -36,6 +36,7 @@ import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.untamed.init.EntityInit;
+import net.untamed.init.SoundInit;
 import net.untamed.init.TagInit;
 import org.jetbrains.annotations.Nullable;
 
@@ -159,11 +160,9 @@ public class OctopusEntity extends Animal {
 
     private void releaseInkCloud(DamageSource damageSource) {
         if (this.level() instanceof ServerLevel serverLevel) {
-            serverLevel.sendParticles(ParticleTypes.SQUID_INK,
-                    this.getX(), this.getY(0.5), this.getZ(),
-                    14, 0.3, 0.3, 0.3, 0.05);
+            serverLevel.sendParticles(ParticleTypes.SQUID_INK, this.getX(), this.getY(0.5), this.getZ(), 14, 0.3, 0.3, 0.3, 0.05);
         }
-        this.playSound(SoundEvents.AXOLOTL_SPLASH, 1.0F, 1.0F);
+        this.playSound(SoundInit.OCTOPUS_HURT_EVENT, 1.0F, 1.0F);
         this.addEffect(new MobEffectInstance(MobEffects.MOVEMENT_SPEED, 60, 1));
 
         Entity attacker = damageSource.getEntity();
@@ -293,21 +292,22 @@ public class OctopusEntity extends Animal {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.AXOLOTL_IDLE_WATER;
+        return SoundInit.OCTOPUS_IDLE_EVENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.AXOLOTL_HURT;
+        return SoundInit.OCTOPUS_HURT_EVENT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.AXOLOTL_DEATH;
+        return SoundInit.OCTOPUS_DEATH_EVENT;
     }
 
     @Override
     protected void playStepSound(BlockPos blockPos, BlockState blockState) {
+        this.playSound(SoundInit.OCTOPUS_STEP_EVENT, 0.15F, 1.0F);
     }
 
     @Override

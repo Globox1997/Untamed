@@ -127,5 +127,41 @@
       "untamed:lion_sleeping_1",
       "untamed:lion_sleeping_2"
     ]
+  },
+  "octopus_idle": {
+    "sounds": [
+      "untamed:octopus_idle_1",
+      "untamed:octopus_idle_2",
+      "untamed:octopus_idle_3",
+      "untamed:octopus_idle_4",
+      "untamed:octopus_idle_5",
+      "untamed:octopus_idle_6",
+      "untamed:octopus_idle_7"
+    ]
+  },
+  "octopus_hurt": {
+    "sounds": [
+      "untamed:octopus_hurt_1",
+      "untamed:octopus_hurt_2",
+      "untamed:octopus_hurt_3",
+      "untamed:octopus_hurt_4",
+      "untamed:octopus_hurt_5"
+    ]
+  },
+  "octopus_death": {
+    "sounds": [
+      "untamed:octopus_death_1",
+      "untamed:octopus_death_2",
+      "untamed:octopus_death_3"
+    ]
+  },
+  "octopus_step": {
+    "sounds": [
+      "untamed:octopus_step_1",
+      "untamed:octopus_step_2",
+      "untamed:octopus_step_3",
+      "untamed:octopus_step_4",
+      "untamed:octopus_step_5"
+    ]
   }
 }
