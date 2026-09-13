@@ -2,6 +2,7 @@ package net.untamed.init;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.untamed.UntamedMain;
@@ -32,6 +33,8 @@ public class TagInit {
     public static final TagKey<Item> VULTURE_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("vulture_food"));
     public static final TagKey<Item> BLACK_PANTHER_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("black_panther_food"));
     public static final TagKey<Item> HYENA_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("hyena_food"));
+
+    public static final TagKey<EntityType<?>> CAPYBARA_PREDATORS = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("capybara_predators"));
 
     public static void init(){
     }

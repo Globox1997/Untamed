@@ -16,6 +16,7 @@ public class UntamedMain implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		ConfigInit.init();
+		BrainInit.init();
 		EntityInit.init();
 		ItemInit.init();
 		SoundInit.init();
