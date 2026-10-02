@@ -6,7 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
@@ -89,7 +88,7 @@ public class BuffaloEntity extends Animal {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isBaby() ? SoundInit.BUFFALO_IDLE_EVENT : SoundInit.BUFFALO_IDLE_EVENT;
+        return SoundInit.BUFFALO_IDLE_EVENT;
     }
 
     @Override
@@ -105,6 +104,11 @@ public class BuffaloEntity extends Animal {
     @Override
     protected void playStepSound(BlockPos blockPos, BlockState blockState) {
         this.playSound(SoundInit.BUFFALO_STEP_EVENT, 0.15F, 1.0F);
+    }
+
+    @Override
+    public float getVoicePitch() {
+        return this.isBaby() ? (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.7F : (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F;
     }
 
     @Override

@@ -6,7 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
@@ -88,7 +87,7 @@ public class KiwiEntity extends Animal {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isBaby() ? SoundInit.KIWI_IDLE_EVENT : SoundInit.KIWI_IDLE_EVENT;
+        return SoundInit.KIWI_IDLE_EVENT;
     }
 
     @Override

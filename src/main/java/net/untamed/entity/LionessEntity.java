@@ -8,7 +8,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
@@ -146,7 +145,7 @@ public class LionessEntity extends Animal implements NeutralMob {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isBaby() ? SoundInit.LION_IDLE_EVENT : SoundInit.LION_IDLE_EVENT;
+        return SoundInit.LION_IDLE_EVENT;
     }
 
     @Override
