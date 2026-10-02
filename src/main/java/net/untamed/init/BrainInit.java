@@ -10,8 +10,8 @@ import net.minecraft.world.entity.ai.sensing.SensorType;
 import net.minecraft.world.entity.ai.sensing.TemptingSensor;
 import net.untamed.UntamedMain;
 import net.untamed.entity.ai.capybara.CapybaraAi;
-import net.untamed.entity.ai.sensor.HerdSensor;
 import net.untamed.entity.ai.sensor.CapybaraPredatorsSensor;
+import net.untamed.entity.ai.sensor.HerdSensor;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,13 +19,11 @@ import java.util.function.Supplier;
 
 public class BrainInit {
 
-    // Custom memories (generic: reusable by other herd/prey mobs)
     public static final MemoryModuleType<LivingEntity> NEAREST_VISIBLE_PREDATOR = registerMemory("nearest_visible_predator");
     public static final MemoryModuleType<List<LivingEntity>> NEAREST_HERD_MEMBERS = registerMemory("nearest_herd_members");
     public static final MemoryModuleType<Unit> LOOK_AT_PLAYER_COOLDOWN = registerMemory("look_at_player_cooldown");
     public static final MemoryModuleType<Unit> IDLE_REST = registerMemory("idle_rest");
 
-    // Custom sensors
     public static final SensorType<CapybaraPredatorsSensor> CAPYBARA_PREDATORS = registerSensor("capybara_predators", CapybaraPredatorsSensor::new);
     public static final SensorType<HerdSensor> CAPYBARA_HERD = registerSensor("capybara_herd", () -> new HerdSensor(40, 8));
     public static final SensorType<TemptingSensor> CAPYBARA_TEMPTATIONS = registerSensor("capybara_temptations", () -> new TemptingSensor(CapybaraAi.getTemptations()));
@@ -38,14 +36,6 @@ public class BrainInit {
         return Registry.register(BuiltInRegistries.SENSOR_TYPE, UntamedMain.identifierOf(name), new SensorType<>(factory));
     }
 
-    @SuppressWarnings({"unused", "UnusedAssignment"})
     public static void init() {
-        MemoryModuleType<?> memories = NEAREST_VISIBLE_PREDATOR;
-        memories = NEAREST_HERD_MEMBERS;
-        memories = LOOK_AT_PLAYER_COOLDOWN;
-        memories = IDLE_REST;
-        SensorType<?> sensors = CAPYBARA_PREDATORS;
-        sensors = CAPYBARA_HERD;
-        sensors = CAPYBARA_TEMPTATIONS;
     }
 }
