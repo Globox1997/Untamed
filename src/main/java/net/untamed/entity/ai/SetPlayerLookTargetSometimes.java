@@ -10,15 +10,12 @@ import net.minecraft.world.entity.ai.memory.MemoryModuleType;
 import net.minecraft.world.entity.player.Player;
 import net.untamed.init.BrainInit;
 
-/**
- * Declarative replacement for the deprecated SetEntityLookTargetSometimes.
- * Periodically locks the look target onto the nearest visible player within range.
- */
 public final class SetPlayerLookTargetSometimes {
 
     private static final int LOOK_DURATION_TICKS = 40;
 
-    private SetPlayerLookTargetSometimes() {}
+    private SetPlayerLookTargetSometimes() {
+    }
 
     public static <E extends LivingEntity> OneShot<E> create(float maxDistance, UniformInt timeBetweenLooks) {
         final float maxDistanceSqr = maxDistance * maxDistance;

@@ -29,20 +29,21 @@ public class HerdTogether extends Behavior<CapybaraEntity> {
     private double distanceAtStart;
 
     public HerdTogether(float speedModifier) {
-        super(ImmutableMap.of(
-                BrainInit.NEAREST_HERD_MEMBERS, MemoryStatus.VALUE_PRESENT,
-                MemoryModuleType.IS_PANICKING, MemoryStatus.VALUE_ABSENT,
-                MemoryModuleType.TEMPTING_PLAYER, MemoryStatus.VALUE_ABSENT,
+        super(ImmutableMap.of(BrainInit.NEAREST_HERD_MEMBERS, MemoryStatus.VALUE_PRESENT, MemoryModuleType.IS_PANICKING, MemoryStatus.VALUE_ABSENT, MemoryModuleType.TEMPTING_PLAYER, MemoryStatus.VALUE_ABSENT,
                 MemoryModuleType.BREED_TARGET, MemoryStatus.VALUE_ABSENT), 80, 160);
         this.speedModifier = speedModifier;
     }
 
     @Override
     protected boolean checkExtraStartConditions(ServerLevel level, CapybaraEntity capybara) {
-        if (capybara.isBaby() || level.getGameTime() < this.retryAfter) return false;
+        if (capybara.isBaby() || level.getGameTime() < this.retryAfter) {
+            return false;
+        }
         List<LivingEntity> members = capybara.getBrain().getMemory(BrainInit.NEAREST_HERD_MEMBERS).orElse(List.of());
         for (LivingEntity member : members) {
-            if (!member.isAlive() || capybara.distanceTo(member) <= START_DISTANCE) continue;
+            if (!member.isAlive() || capybara.distanceTo(member) <= START_DISTANCE) {
+                continue;
+            }
             Path path = capybara.getNavigation().createPath(member.blockPosition(), MEMBER_PATH_RANGE);
             if (path != null && path.canReach()) {
                 this.herdMember = member;
@@ -62,15 +63,14 @@ public class HerdTogether extends Behavior<CapybaraEntity> {
 
     @Override
     protected boolean canStillUse(ServerLevel level, CapybaraEntity capybara, long time) {
-        return this.herdMember != null && this.herdMember.isAlive()
-                && capybara.distanceTo(this.herdMember) > STOP_DISTANCE
-                && !capybara.isPanicking();
+        return this.herdMember != null && this.herdMember.isAlive() && capybara.distanceTo(this.herdMember) > STOP_DISTANCE && !capybara.isPanicking();
     }
 
     @Override
     protected void stop(ServerLevel level, CapybaraEntity capybara, long time) {
-        if (this.distanceAtStart - capybara.distanceTo(this.herdMember) < MIN_PROGRESS)
+        if (this.distanceAtStart - capybara.distanceTo(this.herdMember) < MIN_PROGRESS) {
             this.retryAfter = time + RETRY_COOLDOWN_TICKS;
+        }
         capybara.getBrain().eraseMemory(MemoryModuleType.WALK_TARGET);
         capybara.getBrain().eraseMemory(MemoryModuleType.LOOK_TARGET);
         this.herdMember = null;
