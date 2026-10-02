@@ -5,7 +5,8 @@
 	"name": "Untamed",
 	"description": "Explore untamed mobs",
 	"authors": [
-		"Globox_Z"
+		"Globox_Z",
+		"Herobrot"
 	],
 	"contact": {
 		"homepage": "https://www.curseforge.com/minecraft/mc-mods/untamed",
@@ -13,7 +14,7 @@
 		"issues": "https://github.com/Globox1997/Untamed/issues"
 	},
 	"license": ["MIT", "ARR (Assets)"],
-	"icon": "assets/untaimed/icon.png",
+	"icon": "assets/untamed/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [
