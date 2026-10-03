@@ -83,12 +83,12 @@ public class BlackPantherEntity extends Animal implements NeutralMob {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 40.0).add(Attributes.FOLLOW_RANGE, 20.0).add(Attributes.MOVEMENT_SPEED, 0.22).add(Attributes.ATTACK_DAMAGE, 8.0).add(Attributes.ATTACK_KNOCKBACK, 1.0);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 28.0D).add(Attributes.FOLLOW_RANGE, 20.0D).add(Attributes.MOVEMENT_SPEED, 0.28D).add(Attributes.ATTACK_DAMAGE, 6.0D);
     }
 
     public static boolean checkBlackPantherEntitySpawnRules(EntityType<BlackPantherEntity> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
         Holder<Biome> holder = levelAccessor.getBiome(blockPos);
-        return !holder.is(BiomeTags.IS_FOREST)
+        return !holder.is(BiomeTags.IS_JUNGLE)
                 ? checkAnimalSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource)
                 : isBrightEnoughToSpawn(levelAccessor, blockPos) && levelAccessor.getBlockState(blockPos.below()).is(TagInit.BLACK_PANTHERS_SPAWNABLE_ON);
     }

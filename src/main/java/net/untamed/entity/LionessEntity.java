@@ -95,7 +95,7 @@ public class LionessEntity extends Animal implements NeutralMob {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 26.0).add(Attributes.FOLLOW_RANGE, 25.0).add(Attributes.MOVEMENT_SPEED, 0.27).add(Attributes.ATTACK_DAMAGE, 5.0);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 26.0D).add(Attributes.FOLLOW_RANGE, 28.0D).add(Attributes.MOVEMENT_SPEED, 0.27D).add(Attributes.ATTACK_DAMAGE, 7.0D);
     }
 
     public static boolean checkLionessEntitySpawnRules(EntityType<LionessEntity> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {

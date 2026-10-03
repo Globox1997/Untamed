@@ -382,16 +382,12 @@ public class CapybaraEntity extends Animal {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 12.0)
-                .add(Attributes.FOLLOW_RANGE, 16.0)
-                .add(Attributes.MOVEMENT_SPEED, 0.2)
-                .add(Attributes.STEP_HEIGHT, 1.0);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 14.0D).add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.MOVEMENT_SPEED, 0.24D).add(Attributes.STEP_HEIGHT, 1.0D);
     }
 
     public static boolean checkCapybaraEntitySpawnRules(EntityType<CapybaraEntity> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
         Holder<Biome> holder = levelAccessor.getBiome(blockPos);
-        return !holder.is(BiomeTags.IS_SAVANNA) ? checkAnimalSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource)
+        return !holder.is(BiomeTags.IS_RIVER) ? checkAnimalSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource)
                 : isBrightEnoughToSpawn(levelAccessor, blockPos) && levelAccessor.getBlockState(blockPos.below()).is(TagInit.CAPYBARAS_SPAWNABLE_ON);
     }
 

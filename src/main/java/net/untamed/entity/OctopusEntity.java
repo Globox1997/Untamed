@@ -89,11 +89,7 @@ public class OctopusEntity extends Animal {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes()
-                .add(Attributes.MAX_HEALTH, 10.0)
-                .add(Attributes.FOLLOW_RANGE, 16.0)
-                .add(Attributes.MOVEMENT_SPEED, 0.22)
-                .add(Attributes.ATTACK_DAMAGE, 0.0);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 10.0D).add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.MOVEMENT_SPEED, 0.22D);
     }
 
     public static boolean checkOctopusEntitySpawnRules(EntityType<OctopusEntity> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
