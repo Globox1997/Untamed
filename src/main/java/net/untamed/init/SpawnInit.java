@@ -40,6 +40,15 @@ public class SpawnInit {
 //        ConventionalBiomeTags.IS_AQUATIC_ICY seal
         // IS_RIVER hippo
         // IS_SAVANNA Giraffe
+
+//        Raccoon        minecraft:sweet_berries, minecraft:apple, minecraft:melon_slice, minecraft:cod
+//        Elephant        minecraft:wheat, minecraft:hay_block, minecraft:apple
+//        snow leopard    all meat
+//        Penguin        minecraft:cod, minecraft:salmon, minecraft:tropical_fish
+//        Alligator        minecraft:cod, minecraft:salmon, minecraft:chicken, minecraft:rabbit
+//        Seal        minecraft:cod, minecraft:salmon
+//        Hippo        minecraft:wheat, minecraft:hay_block, minecraft:melon_slice
+//        Giraffe        minecraft:wheat, minecraft:hay_block, minecraft:apple
     }
 
     private static void setSpawnRestriction() {
