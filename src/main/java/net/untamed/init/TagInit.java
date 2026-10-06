@@ -22,6 +22,7 @@ public class TagInit {
     public static final TagKey<Block> HYENAS_SPAWNABLE_ON = TagKey.create(Registries.BLOCK, UntamedMain.identifierOf("hyenas_spawnable_on"));
 
     public static final TagKey<Block> HERD_GRAZEABLE = TagKey.create(Registries.BLOCK, UntamedMain.identifierOf("herd_grazeable"));
+    public static final TagKey<Block> HYENA_COOLING_SPOTS = TagKey.create(Registries.BLOCK, UntamedMain.identifierOf("hyena_cooling_spots"));
 
     public static final TagKey<Item> LION_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("lion_food"));
     public static final TagKey<Item> LIONESS_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("lioness_food"));
@@ -41,6 +42,9 @@ public class TagInit {
     public static final TagKey<EntityType<?>> LION_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("lion_prey"));
     public static final TagKey<EntityType<?>> LION_LARGE_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("lion_large_prey"));
     public static final TagKey<EntityType<?>> LION_LIVESTOCK_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("lion_livestock_prey"));
+    public static final TagKey<EntityType<?>> HYENA_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("hyena_prey"));
+    public static final TagKey<EntityType<?>> HYENA_LARGE_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("hyena_large_prey"));
+    public static final TagKey<EntityType<?>> HYENA_LIVESTOCK_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("hyena_livestock_prey"));
 
     public static void init(){
     }

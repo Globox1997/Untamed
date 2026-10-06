@@ -30,7 +30,7 @@ public class SpawnInit {
         BiomeModifications.addSpawn(BiomeSelectors.tag(ConventionalBiomeTags.IS_PLAINS), MobCategory.CREATURE, EntityInit.BISON, ConfigInit.CONFIG.bisonSpawnWeight, 2, 4);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.VULTURE, ConfigInit.CONFIG.vultureSpawnWeight, 1, 3);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_JUNGLE), MobCategory.CREATURE, EntityInit.BLACK_PANTHER, ConfigInit.CONFIG.blackPantherSpawnWeight, 1, 2);
-        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.HYENA, ConfigInit.CONFIG.hyenaSpawnWeight, 2, 4);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.HYENA, ConfigInit.CONFIG.hyenaSpawnWeight, 1, 1);
 
 //        ConventionalBiomeTags.IS_ICY Penguin
 //        BiomeTags.IS_FOREST Racoon

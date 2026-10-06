@@ -356,5 +356,13 @@
       "untamed:hyena_attack_1",
       "untamed:hyena_attack_2"
     ]
+  },
+  "hyena_whoop": {
+    "sounds": [
+      "untamed:hyena_whoop_1",
+      "untamed:hyena_whoop_2",
+      "untamed:hyena_whoop_3",
+      "untamed:hyena_whoop_4"
+    ]
   }
 }

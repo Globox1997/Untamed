@@ -17,7 +17,7 @@ public class HyenaRenderer extends MobRenderer<HyenaEntity, HyenaModel<HyenaEnti
     private static final ResourceLocation HYENA_LOCATION = UntamedMain.identifierOf("textures/entity/hyena.png");
 
     public HyenaRenderer(EntityRendererProvider.Context context) {
-        super(context, new HyenaModel<>(context.bakeLayer(RenderInit.HYENA_LAYER)), 0.9F);
+        super(context, new HyenaModel<>(context.bakeLayer(RenderInit.HYENA_LAYER)), 0.6F);
     }
 
     @Override

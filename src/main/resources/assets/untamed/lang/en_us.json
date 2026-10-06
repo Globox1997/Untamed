@@ -82,6 +82,10 @@
   "tag.entity_type.untamed.lion_prey": "Lion Prey",
   "tag.entity_type.untamed.lion_large_prey": "Lion Large Prey",
   "tag.entity_type.untamed.lion_livestock_prey": "Lion Livestock Prey",
+  "tag.entity_type.untamed.hyena_prey": "Hyena Prey",
+  "tag.entity_type.untamed.hyena_large_prey": "Hyena Large Prey",
+  "tag.entity_type.untamed.hyena_livestock_prey": "Hyena Livestock Prey",
+  "tag.block.untamed.hyena_cooling_spots": "Hyena Cooling Spots",
 
   "text.autoconfig.untamed.title": "Untamed",
   "text.autoconfig.untamed.option.lionSpawnweight": "Lion Spawn Weight",
@@ -97,5 +101,6 @@
   "text.autoconfig.untamed.option.blackPantherSpawnWeight": "Black Panther Spawn Weight",
   "text.autoconfig.untamed.option.hyenaSpawnWeight": "Hyena Spawn Weight",
   "text.autoconfig.untamed.category.behavior_setting": "Behavior",
-  "text.autoconfig.untamed.option.lionsHuntLivestock": "Lions Hunt Livestock"
+  "text.autoconfig.untamed.option.lionsHuntLivestock": "Lions Hunt Livestock",
+  "text.autoconfig.untamed.option.hyenasHuntLivestock": "Hyenas Hunt Livestock"
 }

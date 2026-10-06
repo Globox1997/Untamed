@@ -25,6 +25,12 @@ public class HyenaModel<T extends HyenaEntity> extends HierarchicalModel<T> {
     private final ModelPart leftEar;
     private final ModelPart leftFrontLeg;
     private final ModelPart rightFrontLeg;
+    private float restAmount;
+    private float sniffAmount;
+    private float alertAmount;
+    private float excitedAmount;
+    private float whoopAmount;
+    private float eatAmount;
 
     public HyenaModel(ModelPart modelPart) {
         super();
@@ -79,7 +85,18 @@ public class HyenaModel<T extends HyenaEntity> extends HierarchicalModel<T> {
     }
 
     @Override
+    public void prepareMobModel(T entity, float f, float g, float partialTick) {
+        this.restAmount = entity.getRestAmount(partialTick);
+        this.sniffAmount = entity.getSniffAmount(partialTick);
+        this.alertAmount = entity.getAlertAmount(partialTick);
+        this.excitedAmount = entity.getExcitedAmount(partialTick);
+        this.whoopAmount = entity.getWhoopAmount(partialTick);
+        this.eatAmount = entity.getEatAmount(partialTick);
+    }
+
+    @Override
     public void setupAnim(T entity, float f, float g, float h, float i, float j) {
+        this.root().getAllParts().forEach(ModelPart::resetPose);
         this.head.xRot = j * (float) (Math.PI / 180.0);
         this.head.yRot = i * (float) (Math.PI / 180.0);
         this.tail.yRot = Mth.cos(f * 0.6662F) * 0.3F * g;
@@ -87,6 +104,46 @@ public class HyenaModel<T extends HyenaEntity> extends HierarchicalModel<T> {
         this.leftBackLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
         this.rightFrontLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
         this.leftFrontLeg.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
+
+        if (this.sniffAmount > 0.0F) {
+            this.body.xRot += 0.08F * this.sniffAmount;
+            this.head.y += 1.0F * this.sniffAmount;
+            this.head.xRot = Mth.lerp(this.sniffAmount, this.head.xRot, 0.8F + Mth.sin(h * 1.2F) * 0.06F);
+        }
+        if (this.eatAmount > 0.0F) {
+            this.body.xRot += 0.15F * this.eatAmount;
+            this.head.y += 3.0F * this.eatAmount;
+            this.head.xRot = Mth.lerp(this.eatAmount, this.head.xRot, 1.0F + Mth.sin(h * 0.8F) * 0.08F);
+        }
+        if (this.alertAmount > 0.0F) {
+            this.head.xRot = Mth.lerp(this.alertAmount, this.head.xRot, -0.25F);
+            this.rightEar.zRot -= 0.35F * this.alertAmount;
+            this.leftEar.zRot += 0.35F * this.alertAmount;
+        }
+        if (this.excitedAmount > 0.0F) {
+            this.head.xRot = Mth.lerp(this.excitedAmount, this.head.xRot, 0.2F);
+            this.tail.xRot = Mth.lerp(this.excitedAmount, this.tail.xRot, 2.3F);
+            this.rightEar.xRot -= 0.6F * this.excitedAmount;
+            this.leftEar.xRot -= 0.6F * this.excitedAmount;
+        }
+        if (this.whoopAmount > 0.0F) {
+            this.body.xRot += 0.15F * this.whoopAmount;
+            this.head.y += 2.0F * this.whoopAmount;
+            this.head.xRot = Mth.lerp(this.whoopAmount, this.head.xRot, 0.7F);
+        }
+        if (this.restAmount > 0.0F) {
+            float drop = 7.0F * this.restAmount;
+            this.body.y += drop;
+            this.head.xRot = Mth.lerp(this.restAmount, this.head.xRot, 0.2F);
+            this.leftFrontLeg.xRot = Mth.lerp(this.restAmount, this.leftFrontLeg.xRot, -1.45F);
+            this.rightFrontLeg.xRot = Mth.lerp(this.restAmount, this.rightFrontLeg.xRot, -1.45F);
+            this.leftBackLeg.xRot = Mth.lerp(this.restAmount, this.leftBackLeg.xRot, -1.45F);
+            this.rightBackLeg.xRot = Mth.lerp(this.restAmount, this.rightBackLeg.xRot, -1.45F);
+
+            this.leftBackLeg.yRot = Mth.lerp(this.restAmount, this.leftBackLeg.yRot, -0.3F);
+            this.rightBackLeg.yRot = Mth.lerp(this.restAmount, this.rightBackLeg.yRot, 0.3F);
+            this.tail.xRot = Mth.lerp(this.restAmount, this.tail.xRot, 1.3F);
+        }
     }
 
     @Override
