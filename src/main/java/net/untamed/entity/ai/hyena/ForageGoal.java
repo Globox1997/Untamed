@@ -10,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 
-// At night clan members split up and roam far from the den alone or in twos and threes, stopping to sniff around
 public class ForageGoal extends Goal {
 
     private static final double MIN_RADIUS = 16.0D;

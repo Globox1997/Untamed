@@ -174,8 +174,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
         return itemStack.is(TagInit.HYENA_FOOD);
     }
 
-    // Breeding: a full clan does not breed, cubs join their parent's clan
-
     @Override
     public boolean canFallInLove() {
         return super.canFallInLove() && this.clan.size() + 1 < MAX_CLAN_SIZE;
@@ -190,8 +188,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
         }
         return cub;
     }
-
-    // Spawning: a natural spawn founds a clan and brings 2 to 4 more members
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData) {
@@ -222,8 +218,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
             }
         }
     }
-
-    // Clan
 
     public void joinClan(@Nullable UUID clanId, @Nullable BlockPos den) {
         this.clanId = clanId;
@@ -302,7 +296,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
         this.clan = List.copyOf(members);
     }
 
-    // Hyenas without a clan (spawn eggs, old saves) join a clan nearby that has room, or found their own
     private void tryJoinClan(List<HyenaEntity> nearby) {
         for (HyenaEntity other : nearby) {
             if (other.clanId == null || this.distanceTo(other) > JOIN_RANGE) {
@@ -357,8 +350,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
         return this.denPos != null && this.blockPosition().distSqr(this.denPos) < distance * distance;
     }
 
-    // Daily rhythm: rest through the day, active at dusk, night and dawn
-
     public boolean isRestTime() {
         long time = this.level().getDayTime() % 24000L;
         return time >= 1000L && time <= 11500L;
@@ -368,8 +359,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
         long time = this.level().getDayTime() % 24000L;
         return time >= 22500L || time < 1000L;
     }
-
-    // Alarm
 
     public boolean isAlarmed() {
         return this.alarmTicks > 0;
@@ -404,8 +393,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
         return result;
     }
 
-    // Player tolerance
-
     public int getTolerance(Player player) {
         return this.playerTolerance.getOrDefault(player.getUUID(), 0);
     }
@@ -417,7 +404,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
         this.playerTolerance.merge(player.getUUID(), amount, (a, b) -> Math.min(max, a + b));
     }
 
-    // Provoked hyenas bring the clan along
     public void provokeBy(Player player, double rallyRange) {
         this.setTarget(player);
         this.setPersistentAngerTarget(player.getUUID());
@@ -432,8 +418,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
             }
         }
     }
-
-    // Hunger, stamina and hunting
 
     public boolean isHungry() {
         return this.hunger >= HUNGRY;
@@ -508,8 +492,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
         return super.killedEntity(serverLevel, livingEntity);
     }
 
-    // Whooping and rallying
-
     public void requestWhoop(int delay, boolean recruit) {
         long time = this.level().getGameTime() + delay;
         if (this.whoopRequestTime == 0L || time < this.whoopRequestTime) {
@@ -518,7 +500,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
         this.whoopRecruit |= recruit;
     }
 
-    // Contact whoops may be answered by clan members; recruiting whoops call clan members to this hyena
     public void whoop(boolean recruit, boolean invitesAnswer) {
         long time = this.level().getGameTime();
         if (recruit) {
@@ -577,8 +558,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
         this.rallyTicks = 0;
     }
 
-    // Foraging
-
     @Nullable
     public Vec3 getForageTarget() {
         return this.forageTarget;
@@ -587,8 +566,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
     public void setForageTarget(@Nullable Vec3 forageTarget) {
         this.forageTarget = forageTarget;
     }
-
-    // Pose
 
     public HyenaPose getHyenaPose() {
         return HyenaPose.byId(this.entityData.get(DATA_HYENA_POSE));
@@ -659,8 +636,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
         }
     }
 
-    // Sounds
-
     @Override
     protected SoundEvent getAmbientSound() {
         return SoundInit.HYENA_IDLE_EVENT;
@@ -704,8 +679,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
         this.playSound(SoundInit.HYENA_WHOOP_EVENT, 4.0F, this.getVoicePitch());
     }
 
-    // Anger
-
     @Override
     public void startPersistentAngerTimer() {
         this.setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(this.random));
@@ -731,8 +704,6 @@ public class HyenaEntity extends Animal implements NeutralMob {
     public UUID getPersistentAngerTarget() {
         return this.persistentAngerTarget;
     }
-
-    // Save data
 
     @Override
     public void addAdditionalSaveData(CompoundTag compoundTag) {

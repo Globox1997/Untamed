@@ -11,8 +11,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.EnumSet;
 import java.util.List;
 
-// Hungry hyenas find meat and bones lying around (for example the leftovers of a lion kill) and eat them.
-// Finding a lot of food calls the clan with a whoop.
 public class ScavengeGoal extends Goal {
 
     private static final double SEARCH_RANGE = 24.0D;

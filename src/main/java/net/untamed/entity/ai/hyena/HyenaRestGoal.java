@@ -12,7 +12,6 @@ import net.untamed.init.TagInit;
 
 import java.util.EnumSet;
 
-// Rests through the day, preferably at the den, otherwise in mud or at the water's edge to cool off, otherwise in shade
 public class HyenaRestGoal extends Goal {
 
     private static final int REST_TIME_CHANCE = 40;

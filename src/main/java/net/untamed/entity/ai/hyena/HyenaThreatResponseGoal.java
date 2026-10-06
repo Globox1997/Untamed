@@ -10,7 +10,6 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
 
-// A lone hyena keeps its distance, a few hyenas shadow the player, a large or defending group giggles and attacks
 public class HyenaThreatResponseGoal extends Goal {
 
     private static final double NOTICE_DISTANCE = 16.0D;

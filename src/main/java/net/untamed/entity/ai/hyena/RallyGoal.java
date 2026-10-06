@@ -7,7 +7,6 @@ import net.untamed.entity.HyenaEntity;
 
 import java.util.EnumSet;
 
-// Answers a recruiting whoop: runs to the caller, then joins its hunt or its fight
 public class RallyGoal extends Goal {
 
     private static final double ARRIVE_DISTANCE = 6.0D;

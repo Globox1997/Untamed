@@ -5,7 +5,6 @@ import net.untamed.entity.HyenaEntity;
 
 import java.util.EnumSet;
 
-// Contact whoops at night; clan members may answer. Recruiting whoops are triggered by HyenaEntity itself.
 public class WhoopGoal extends Goal {
 
     private static final int WHOOP_CHANCE = 800;

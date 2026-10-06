@@ -6,7 +6,6 @@ import net.untamed.entity.HyenaEntity;
 import java.util.ArrayList;
 import java.util.List;
 
-// Shared state of one clan hunt: a test run at the herd, then a long chase of the animal the leader picked out
 public class HyenaHunt {
 
     private final HyenaEntity leader;

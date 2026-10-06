@@ -6,7 +6,6 @@ import net.untamed.entity.HyenaEntity;
 
 import java.util.EnumSet;
 
-// Clan members come back to the den at dawn and stay near it through the day
 public class ReturnToDenGoal extends Goal {
 
     private static final double START_DISTANCE = 12.0D;

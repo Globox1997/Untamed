@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-// Hyenas do not stalk: they run at a herd to test it, the leader picks out the weakest animal and the clan chases it down
 public class HyenaHuntGoal extends Goal {
 
     private static final double SEARCH_RANGE = 24.0D;
@@ -147,7 +146,6 @@ public class HyenaHuntGoal extends Goal {
         }
     }
 
-    // The test run scatters the herd; pick the young, injured or straggling animal of the prey's kind
     private LivingEntity markWeakest(LivingEntity prey) {
         List<Animal> candidates = prey.level().getEntitiesOfClass(Animal.class, prey.getBoundingBox().inflate(MARK_RANGE),
                 animal -> animal.getType() == prey.getType() && this.hyena.isValidPrey(animal, this.hunt.getHunters().size()));
