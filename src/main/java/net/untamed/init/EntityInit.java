@@ -21,7 +21,7 @@ public class EntityInit {
     public static final EntityType<LionessEntity> LIONESS = register(
             "lioness", 12090190, 13070382, EntityType.Builder.of(LionessEntity::new, MobCategory.CREATURE).sized(1.4F, 1.4F).clientTrackingRange(10).build());
     public static final EntityType<RhinoEntity> RHINO = register(
-            "rhino", 7233109, 9272431, EntityType.Builder.of(RhinoEntity::new, MobCategory.CREATURE).sized(1.4F, 1.4F).clientTrackingRange(10).build());
+            "rhino", 7233109, 9272431, EntityType.Builder.of(RhinoEntity::new, MobCategory.CREATURE).sized(1.6F, 1.5F).clientTrackingRange(10).build());
     public static final EntityType<CapybaraEntity> CAPYBARA = register(
             "capybara", 4204056, 7949103, EntityType.Builder.of(CapybaraEntity::new, MobCategory.CREATURE).sized(0.9F, 0.75F).clientTrackingRange(10).build());
     public static final EntityType<OctopusEntity> OCTOPUS = register(

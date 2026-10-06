@@ -58,12 +58,16 @@ public class ThreatResponseGoal extends Goal {
     public void start() {
         this.warnTicks = 0;
         this.repathCooldown = 0;
+        if (this.player != null) {
+            this.mob.onThreatNoticed(this.player);
+        }
     }
 
     @Override
     public void stop() {
         this.mob.getNavigation().stop();
         this.mob.clearHerdPose(HerdBovineEntity.HerdPose.WARNING);
+        this.mob.clearHerdPose(HerdBovineEntity.HerdPose.ALERT);
         this.player = null;
         this.stage = Stage.NONE;
     }
@@ -77,6 +81,9 @@ public class ThreatResponseGoal extends Goal {
         if (newStage != Stage.WARN) {
             this.mob.clearHerdPose(HerdBovineEntity.HerdPose.WARNING);
         }
+        if (newStage != Stage.WATCH) {
+            this.mob.clearHerdPose(HerdBovineEntity.HerdPose.ALERT);
+        }
         if (newStage != Stage.FLEE && this.stage == Stage.FLEE) {
             this.mob.getNavigation().stop();
         }
@@ -84,6 +91,7 @@ public class ThreatResponseGoal extends Goal {
 
         switch (this.stage) {
             case WATCH -> {
+                this.mob.setHerdPose(HerdBovineEntity.HerdPose.ALERT);
                 this.mob.getNavigation().stop();
                 this.mob.getLookControl().setLookAt(this.player, 30.0F, 30.0F);
                 this.warnTicks = Math.max(0, this.warnTicks - 1);
@@ -117,7 +125,7 @@ public class ThreatResponseGoal extends Goal {
     }
 
     private Stage computeStage(Player player) {
-        if (this.mob.isFood(player.getMainHandItem()) || this.mob.isFood(player.getOffhandItem())) {
+        if (this.mob.isFood(player.getMainHandItem()) || this.mob.isFood(player.getOffhandItem()) || !this.mob.canDetect(player)) {
             return Stage.NONE;
         }
         HerdBovineEntity.ThreatProfile profile = this.mob.getThreatProfile();

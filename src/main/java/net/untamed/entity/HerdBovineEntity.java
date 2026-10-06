@@ -65,13 +65,14 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
     private float restAmount, restAmountO;
     private float warnAmount, warnAmountO;
     private float chargeAmount, chargeAmountO;
+    private float alertAmount, alertAmountO;
 
     protected HerdBovineEntity(EntityType<? extends HerdBovineEntity> entityType, Level level) {
         super(entityType, level);
     }
 
     public enum HerdPose {
-        NONE, GRAZING, RESTING, WARNING, CHARGING;
+        NONE, GRAZING, RESTING, WARNING, CHARGING, ALERT;
 
         private static final HerdPose[] VALUES = values();
 
@@ -180,17 +181,17 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
         found.sort(Comparator.comparingDouble(this::distanceToSqr));
         this.herd = found.size() > MAX_HERD_SIZE ? List.copyOf(found.subList(0, MAX_HERD_SIZE)) : List.copyOf(found);
 
-        if (this.herd.isEmpty()) {
-            this.herdCenter = null;
-        } else {
-            double x = 0, y = 0, z = 0;
-            for (HerdBovineEntity member : this.herd) {
+        double x = 0, y = 0, z = 0;
+        int followers = 0;
+        for (HerdBovineEntity member : this.herd) {
+            if (member.followsHerd()) {
                 x += member.getX();
                 y += member.getY();
                 z += member.getZ();
+                followers++;
             }
-            this.herdCenter = new Vec3(x / this.herd.size(), y / this.herd.size(), z / this.herd.size());
         }
+        this.herdCenter = followers == 0 ? null : new Vec3(x / followers, y / followers, z / followers);
 
         if (!this.isBaby()) {
             this.seniority += HERD_REFRESH_INTERVAL;
@@ -214,12 +215,15 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
             }
         }
         HerdBovineEntity adopted = null;
+        int adoptedScore = -1;
         for (HerdBovineEntity member : this.herd) {
-            if (!member.isBaby() && (!member.isMale() || adopted == null)) {
+            if (member.isBaby()) {
+                continue;
+            }
+            int score = (member.isMale() ? 0 : 2) + (member.hasOwnCalf() ? 0 : 1);
+            if (score > adoptedScore) {
                 adopted = member;
-                if (!member.isMale()) {
-                    break;
-                }
+                adoptedScore = score;
             }
         }
         this.mother = adopted;
@@ -285,6 +289,15 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
     public boolean hasCalfNearby(double distance) {
         for (HerdBovineEntity member : this.herd) {
             if (member.isAlive() && member.isBaby() && this.distanceToSqr(member) < distance * distance) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasOwnCalf() {
+        for (HerdBovineEntity member : this.herd) {
+            if (member.isAlive() && member.isBaby() && this.getUUID().equals(member.getMotherUUID())) {
                 return true;
             }
         }
@@ -375,6 +388,25 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
     public void onRestEnded() {
     }
 
+    public boolean followsHerd() {
+        return true;
+    }
+
+    public boolean calfLeadsMother() {
+        return false;
+    }
+
+    public boolean canDetect(Player player) {
+        return true;
+    }
+
+    public void onThreatNoticed(Player player) {
+    }
+
+    public double scoreRestSpot(BlockPos pos) {
+        return this.level().canSeeSky(pos.above()) ? -10.0D : 10.0D;
+    }
+
     public void grazeAt(BlockPos pos) {
         if (this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && this.level().getBlockState(pos).is(Blocks.SHORT_GRASS) && this.random.nextInt(3) == 0) {
             this.level().destroyBlock(pos, false);
@@ -423,6 +455,10 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
         return Mth.lerp(partialTick, this.chargeAmountO, this.chargeAmount);
     }
 
+    public float getAlertAmount(float partialTick) {
+        return Mth.lerp(partialTick, this.alertAmountO, this.alertAmount);
+    }
+
     @Override
     public void tick() {
         super.tick();
@@ -437,10 +473,12 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
             this.restAmountO = this.restAmount;
             this.warnAmountO = this.warnAmount;
             this.chargeAmountO = this.chargeAmount;
+            this.alertAmountO = this.alertAmount;
             this.grazeAmount = Mth.approach(this.grazeAmount, pose == HerdPose.GRAZING ? 1.0F : 0.0F, 0.1F);
             this.restAmount = Mth.approach(this.restAmount, pose == HerdPose.RESTING ? 1.0F : 0.0F, 0.05F);
             this.warnAmount = Mth.approach(this.warnAmount, pose == HerdPose.WARNING ? 1.0F : 0.0F, 0.15F);
             this.chargeAmount = Mth.approach(this.chargeAmount, pose == HerdPose.CHARGING ? 1.0F : 0.0F, 0.2F);
+            this.alertAmount = Mth.approach(this.alertAmount, pose == HerdPose.ALERT ? 1.0F : 0.0F, 0.15F);
         } else {
             this.updatePersistentAnger((ServerLevel) this.level(), true);
         }

@@ -1,5 +1,6 @@
 package net.untamed.entity.render;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 @Environment(EnvType.CLIENT)
 public class RhinoRenderer extends MobRenderer<RhinoEntity, RhinoModel<RhinoEntity>> {
 
+    private static final float BULL_SCALE = 1.15F;
     private static final ResourceLocation RHINO_LOCATION = UntamedMain.identifierOf("textures/entity/rhino.png");
 
     public RhinoRenderer(EntityRendererProvider.Context context) {
@@ -23,6 +25,13 @@ public class RhinoRenderer extends MobRenderer<RhinoEntity, RhinoModel<RhinoEnti
     @Override
     public @NotNull ResourceLocation getTextureLocation(RhinoEntity rhinoEntity) {
         return RHINO_LOCATION;
+    }
+
+    @Override
+    protected void scale(RhinoEntity rhinoEntity, PoseStack poseStack, float partialTick) {
+        if (rhinoEntity.isMale()) {
+            poseStack.scale(BULL_SCALE, BULL_SCALE, BULL_SCALE);
+        }
     }
 
 }

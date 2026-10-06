@@ -25,6 +25,11 @@ public class RhinoModel<T extends RhinoEntity> extends HierarchicalModel<T> {
     private final ModelPart leftBackLeg;
     private final ModelPart leftFrontLeg;
     private final ModelPart rightFrontLeg;
+    private float grazeAmount;
+    private float restAmount;
+    private float warnAmount;
+    private float chargeAmount;
+    private float alertAmount;
 
     public RhinoModel(ModelPart modelPart) {
         super();
@@ -84,8 +89,18 @@ public class RhinoModel<T extends RhinoEntity> extends HierarchicalModel<T> {
     }
 
     @Override
+    public void prepareMobModel(T entity, float f, float g, float partialTick) {
+        this.grazeAmount = entity.getGrazeAmount(partialTick);
+        this.restAmount = entity.getRestAmount(partialTick);
+        this.warnAmount = entity.getWarnAmount(partialTick);
+        this.chargeAmount = entity.getChargeAmount(partialTick);
+        this.alertAmount = entity.getAlertAmount(partialTick);
+    }
+
+    @Override
     public void setupAnim(T entity, float f, float g, float h, float i, float j) {
-        this.head.xRot = j * (float) (Math.PI / 180.0);
+        this.root().getAllParts().forEach(ModelPart::resetPose);
+        this.head.zRot = -j * (float) (Math.PI / 180.0);
         this.head.yRot = i * (float) (Math.PI / 180.0);
         this.tail.yRot = Mth.cos(f * 0.6662F) * 0.3F * g;
         this.rightBackLeg.zRot = Mth.cos(f * 0.6662F) * 1.4F * g;
@@ -93,6 +108,41 @@ public class RhinoModel<T extends RhinoEntity> extends HierarchicalModel<T> {
         this.rightFrontLeg.zRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
         this.leftFrontLeg.zRot = Mth.cos(f * 0.6662F) * 1.4F * g;
         this.horns.visible = !entity.isBaby();
+
+        float idle = 1.0F - this.alertAmount;
+        this.leftEar.yRot += Mth.sin(h * 0.07F) * 0.35F * idle;
+        this.rightEar.yRot += Mth.sin(h * 0.09F + 1.3F) * 0.35F * idle;
+        this.tail.yRot += Mth.sin(h * 0.35F) * 0.25F * Math.max(0.0F, Mth.sin(h * 0.04F));
+
+        if (this.grazeAmount > 0.0F) {
+            this.head.y += 3.0F * this.grazeAmount;
+            this.head.zRot = Mth.lerp(this.grazeAmount, this.head.zRot, -0.8F);
+        }
+        if (this.alertAmount > 0.0F) {
+            this.head.zRot = Mth.lerp(this.alertAmount, this.head.zRot, 0.2F);
+            this.leftEar.yRot = Mth.lerp(this.alertAmount, this.leftEar.yRot, -0.6F);
+            this.rightEar.yRot = Mth.lerp(this.alertAmount, this.rightEar.yRot, 0.6F);
+        }
+        if (this.warnAmount > 0.0F) {
+            this.head.zRot = Mth.lerp(this.warnAmount, this.head.zRot, -0.35F);
+            this.tail.zRot = Mth.lerp(this.warnAmount, this.tail.zRot, -1.2F);
+        }
+        if (this.chargeAmount > 0.0F) {
+            this.head.zRot = Mth.lerp(this.chargeAmount, this.head.zRot, -0.45F);
+            this.tail.zRot = Mth.lerp(this.chargeAmount, this.tail.zRot, -1.2F);
+        }
+        if (this.restAmount > 0.0F) {
+            float drop = 8.0F * this.restAmount;
+            this.body.y += drop;
+            this.body.xRot += 0.2F * this.restAmount;
+            this.head.y += 7.0F * this.restAmount;
+            this.head.zRot = Mth.lerp(this.restAmount, this.head.zRot, -0.1F);
+            this.tail.y += drop;
+            for (ModelPart leg : new ModelPart[]{this.leftFrontLeg, this.rightFrontLeg, this.leftBackLeg, this.rightBackLeg}) {
+                leg.y += drop;
+                leg.zRot = Mth.lerp(this.restAmount, leg.zRot, 1.5F);
+            }
+        }
     }
 
     @Override

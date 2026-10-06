@@ -24,7 +24,7 @@ public class FollowLeaderGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (this.mob.isBaby() || this.mob.isHerdLeader() || --this.checkCooldown > 0) {
+        if (this.mob.isBaby() || !this.mob.followsHerd() || this.mob.isHerdLeader() || --this.checkCooldown > 0) {
             return false;
         }
         this.checkCooldown = this.adjustedTickDelay(20 + this.mob.getRandom().nextInt(20));

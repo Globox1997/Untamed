@@ -27,7 +27,7 @@ public class RejoinHerdGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (this.mob.isBaby() || this.mob.isHerdLeader() || this.mob.level().getGameTime() < this.retryAfter) {
+        if (this.mob.isBaby() || !this.mob.followsHerd() || this.mob.isHerdLeader() || this.mob.level().getGameTime() < this.retryAfter) {
             return false;
         }
         Vec3 center = this.mob.getHerdCenter();

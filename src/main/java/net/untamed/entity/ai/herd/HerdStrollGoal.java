@@ -35,6 +35,9 @@ public class HerdStrollGoal extends RandomStrollGoal {
         Vec3 center = this.herdMob.getHerdCenter();
         if (center != null) {
             double distanceSqr = this.herdMob.position().distanceToSqr(center);
+            if (!this.herdMob.followsHerd()) {
+                return LandRandomPos.getPos(this.herdMob, 10, 7);
+            }
             if (this.herdMob.isHerdLeader()) {
                 if (distanceSqr > LEADER_WAIT_DISTANCE * LEADER_WAIT_DISTANCE) {
                     return null;

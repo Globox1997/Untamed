@@ -25,6 +25,7 @@ public class TagInit {
     public static final TagKey<Block> HYENA_COOLING_SPOTS = TagKey.create(Registries.BLOCK, UntamedMain.identifierOf("hyena_cooling_spots"));
     public static final TagKey<Block> KIWI_PROBE_BLOCKS = TagKey.create(Registries.BLOCK, UntamedMain.identifierOf("kiwi_probe_blocks"));
     public static final TagKey<Block> KIWI_COVER = TagKey.create(Registries.BLOCK, UntamedMain.identifierOf("kiwi_cover"));
+    public static final TagKey<Block> RHINO_WALLOW_BLOCKS = TagKey.create(Registries.BLOCK, UntamedMain.identifierOf("rhino_wallow_blocks"));
 
     public static final TagKey<Item> LION_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("lion_food"));
     public static final TagKey<Item> LIONESS_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("lioness_food"));

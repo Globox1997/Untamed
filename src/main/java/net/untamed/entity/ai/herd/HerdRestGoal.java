@@ -55,8 +55,8 @@ public class HerdRestGoal extends Goal {
     public void start() {
         this.seekingShade = false;
         if (this.mob.prefersShade() && this.mob.isRestTime() && this.mob.level().canSeeSky(this.mob.blockPosition())) {
-            Vec3 shade = LandRandomPos.getPos(this.mob, 12, 6, pos -> this.mob.level().canSeeSky(pos.above()) ? -10.0D : 10.0D);
-            if (shade != null && !this.mob.level().canSeeSky(BlockPos.containing(shade).above())) {
+            Vec3 shade = LandRandomPos.getPos(this.mob, 12, 6, this.mob::scoreRestSpot);
+            if (shade != null && this.mob.scoreRestSpot(BlockPos.containing(shade)) > 0.0D) {
                 this.seekingShade = this.mob.getNavigation().moveTo(shade.x, shade.y, shade.z, 0.9D);
             }
         }
