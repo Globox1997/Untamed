@@ -40,7 +40,7 @@ public class SoundInit {
     public static SoundEvent BLACK_BEAR_HURT_EVENT = register("black_bear_hurt");
     public static SoundEvent BLACK_BEAR_DEATH_EVENT = register("black_bear_death");
     public static SoundEvent BLACK_BEAR_STEP_EVENT = register("black_bear_step");
-    public static SoundEvent BLACK_BEAR_ATTACK_EVENT = register("black_attack_step");
+    public static SoundEvent BLACK_BEAR_ATTACK_EVENT = register("black_bear_attack");
 
     public static SoundEvent BLACK_PANTHER_IDLE_EVENT = register("black_panther_idle");
     public static SoundEvent BLACK_PANTHER_HURT_EVENT = register("black_panther_hurt");

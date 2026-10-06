@@ -1,0 +1,70 @@
+package net.untamed.entity.ai.bear;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.ai.util.LandRandomPos;
+import net.minecraft.world.phys.Vec3;
+import net.untamed.entity.BlackBearEntity;
+
+import java.util.EnumSet;
+
+public class BearDenGoal extends Goal {
+
+    private static final int SEARCH_RANGE = 16;
+
+    private final BlackBearEntity bear;
+    private boolean walking;
+
+    public BearDenGoal(BlackBearEntity bear) {
+        this.bear = bear;
+        this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK, Goal.Flag.JUMP));
+    }
+
+    @Override
+    public boolean canUse() {
+        return this.bear.isSnowingHere() && !this.bear.isAlarmed() && this.bear.getTarget() == null && this.bear.onGround()
+                && this.bear.getRandom().nextInt(reducedTickDelay(20)) == 0;
+    }
+
+    @Override
+    public boolean canContinueToUse() {
+        return this.bear.isSnowingHere() && !this.bear.isAlarmed() && this.bear.getTarget() == null && (this.walking || this.bear.isResting());
+    }
+
+    @Override
+    public void start() {
+        this.walking = false;
+        if (this.bear.scoreDenSpot(this.bear.blockPosition()) <= 0.0D) {
+            Vec3 den = LandRandomPos.getPos(this.bear, SEARCH_RANGE, 6, this.bear::scoreDenSpot);
+            if (den != null && this.bear.scoreDenSpot(BlockPos.containing(den)) > 0.0D) {
+                this.walking = this.bear.getNavigation().moveTo(den.x, den.y, den.z, 1.0D);
+            }
+        }
+        if (!this.walking) {
+            this.lieDown();
+        }
+    }
+
+    @Override
+    public void tick() {
+        if (this.walking) {
+            if (this.bear.getNavigation().isDone()) {
+                this.walking = false;
+                this.lieDown();
+            }
+        } else {
+            this.bear.getNavigation().stop();
+        }
+    }
+
+    @Override
+    public void stop() {
+        this.walking = false;
+        this.bear.clearBearPose(BlackBearEntity.BearPose.RESTING);
+    }
+
+    private void lieDown() {
+        this.bear.getNavigation().stop();
+        this.bear.setBearPose(BlackBearEntity.BearPose.RESTING);
+    }
+}

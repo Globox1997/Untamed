@@ -33,6 +33,7 @@ public class TagInit {
     public static final TagKey<Item> OCTOPUS_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("octopus_food"));
     public static final TagKey<Item> KIWI_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("kiwi_food"));
     public static final TagKey<Item> BLACK_BEAR_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("black_bear_food"));
+    public static final TagKey<Item> BLACK_BEAR_SCAVENGE = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("black_bear_scavenge"));
     public static final TagKey<Item> BUFFALO_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("buffalo_food"));
     public static final TagKey<Item> BISON_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("bison_food"));
     public static final TagKey<Item> VULTURE_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("vulture_food"));

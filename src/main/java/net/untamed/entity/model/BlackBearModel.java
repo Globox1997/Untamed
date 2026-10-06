@@ -23,6 +23,13 @@ public class BlackBearModel<T extends BlackBearEntity> extends HierarchicalModel
     private final ModelPart rightLegBack;
     private final ModelPart leftLegFront;
     private final ModelPart rightLegFront;
+    private static final float STAND_ANGLE = 1.2F;
+    private float standAmount;
+    private float restAmount;
+    private float forageAmount;
+    private float eatAmount;
+    private float huffAmount;
+    private float rubAmount;
 
     public BlackBearModel(ModelPart modelPart) {
         super();
@@ -68,13 +75,87 @@ public class BlackBearModel<T extends BlackBearEntity> extends HierarchicalModel
     }
 
     @Override
+    public void prepareMobModel(T entity, float f, float g, float partialTick) {
+        this.standAmount = entity.getStandAmount(partialTick);
+        this.restAmount = entity.getRestAmount(partialTick);
+        this.forageAmount = entity.getForageAmount(partialTick);
+        this.eatAmount = entity.getEatAmount(partialTick);
+        this.huffAmount = entity.getHuffAmount(partialTick);
+        this.rubAmount = entity.getRubAmount(partialTick);
+    }
+
+    @Override
     public void setupAnim(T entity, float f, float g, float h, float i, float j) {
+        this.root().getAllParts().forEach(ModelPart::resetPose);
         this.head.xRot = j * (float) (Math.PI / 180.0);
         this.head.yRot = i * (float) (Math.PI / 180.0);
         this.rightLegBack.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
         this.leftLegBack.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
         this.rightLegFront.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
         this.leftLegFront.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
+
+        if (this.forageAmount > 0.0F) {
+            this.head.y += 2.0F * this.forageAmount;
+            this.head.xRot = Mth.lerp(this.forageAmount, this.head.xRot, 0.9F);
+            this.rightLegFront.xRot = Mth.lerp(this.forageAmount, this.rightLegFront.xRot, -0.5F + Mth.sin(h * 0.5F) * 0.5F);
+        }
+        if (this.eatAmount > 0.0F) {
+            this.head.y += 2.0F * this.eatAmount;
+            this.head.xRot = Mth.lerp(this.eatAmount, this.head.xRot, 0.7F + Mth.sin(h * 0.6F) * 0.08F);
+        }
+        if (this.huffAmount > 0.0F) {
+            float slap = Math.max(0.0F, Mth.sin(h * 0.5F));
+            this.head.xRot = Mth.lerp(this.huffAmount, this.head.xRot, 0.35F);
+            this.head.z -= 1.0F * this.huffAmount;
+            this.leftLegFront.xRot = Mth.lerp(this.huffAmount, this.leftLegFront.xRot, -0.6F * slap);
+            this.rightLegFront.xRot = Mth.lerp(this.huffAmount, this.rightLegFront.xRot, -0.6F * slap);
+        }
+        if (this.standAmount > 0.0F) {
+            this.applyStanding(h);
+        }
+        if (this.restAmount > 0.0F) {
+            float drop = 6.0F * this.restAmount;
+            this.body.y += drop;
+            this.leftLegFront.y += drop;
+            this.rightLegFront.y += drop;
+            this.leftLegBack.y += drop;
+            this.rightLegBack.y += drop;
+            this.head.xRot = Mth.lerp(this.restAmount, this.head.xRot, 0.3F);
+            this.leftLegFront.xRot = Mth.lerp(this.restAmount, this.leftLegFront.xRot, -1.5F);
+            this.rightLegFront.xRot = Mth.lerp(this.restAmount, this.rightLegFront.xRot, -1.5F);
+            this.leftLegBack.xRot = Mth.lerp(this.restAmount, this.leftLegBack.xRot, 1.5F);
+            this.rightLegBack.xRot = Mth.lerp(this.restAmount, this.rightLegBack.xRot, 1.5F);
+        }
+    }
+
+    private void applyStanding(float ageInTicks) {
+        float angle = -STAND_ANGLE * this.standAmount;
+        float cos = Mth.cos(angle);
+        float sin = Mth.sin(angle);
+        float hipY = this.leftLegBack.y;
+        float hipZ = this.leftLegBack.z;
+
+        float bodyY = this.body.y - hipY;
+        float bodyZ = this.body.z - hipZ;
+        this.body.y = hipY + bodyY * cos - bodyZ * sin;
+        this.body.z = hipZ + bodyY * sin + bodyZ * cos;
+        this.body.xRot += angle;
+        this.head.xRot -= angle;
+
+        for (ModelPart leg : new ModelPart[]{this.leftLegFront, this.rightLegFront}) {
+            float legY = leg.y - hipY;
+            float legZ = leg.z - hipZ;
+            leg.y = hipY + legY * cos - legZ * sin;
+            leg.z = hipZ + legY * sin + legZ * cos;
+            leg.xRot = Mth.lerp(this.standAmount, leg.xRot, -0.4F);
+        }
+        this.leftLegBack.xRot = Mth.lerp(this.standAmount, this.leftLegBack.xRot, 0.0F);
+        this.rightLegBack.xRot = Mth.lerp(this.standAmount, this.rightLegBack.xRot, 0.0F);
+
+        if (this.rubAmount > 0.0F) {
+            this.body.zRot += Mth.sin(ageInTicks * 0.25F) * 0.12F * this.rubAmount;
+            this.body.y += Mth.sin(ageInTicks * 0.5F) * 0.4F * this.rubAmount;
+        }
     }
 
     @Override
