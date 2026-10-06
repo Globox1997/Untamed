@@ -79,6 +79,9 @@
 
   "tag.entity_type.untamed.capybara_predators": "Capybara Predators",
   "tag.entity_type.untamed.buffalo_threats": "Buffalo Threats",
+  "tag.entity_type.untamed.lion_prey": "Lion Prey",
+  "tag.entity_type.untamed.lion_large_prey": "Lion Large Prey",
+  "tag.entity_type.untamed.lion_livestock_prey": "Lion Livestock Prey",
 
   "text.autoconfig.untamed.title": "Untamed",
   "text.autoconfig.untamed.option.lionSpawnweight": "Lion Spawn Weight",
@@ -92,5 +95,7 @@
   "text.autoconfig.untamed.option.bisonSpawnWeight": "Bison Spawn Weight",
   "text.autoconfig.untamed.option.vultureSpawnWeight": "Vulture Spawn Weight",
   "text.autoconfig.untamed.option.blackPantherSpawnWeight": "Black Panther Spawn Weight",
-  "text.autoconfig.untamed.option.hyenaSpawnWeight": "Hyena Spawn Weight"
+  "text.autoconfig.untamed.option.hyenaSpawnWeight": "Hyena Spawn Weight",
+  "text.autoconfig.untamed.category.behavior_setting": "Behavior",
+  "text.autoconfig.untamed.option.lionsHuntLivestock": "Lions Hunt Livestock"
 }

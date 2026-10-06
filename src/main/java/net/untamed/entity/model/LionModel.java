@@ -17,6 +17,7 @@ public class LionModel<T extends LionEntity> extends HierarchicalModel<T> {
     private final ModelPart root;
     private final ModelPart body;
     private final ModelPart head;
+    private final ModelPart headfur;
     private final ModelPart mane;
     private final ModelPart tail;
     private final ModelPart tail2;
@@ -24,11 +25,13 @@ public class LionModel<T extends LionEntity> extends HierarchicalModel<T> {
     private final ModelPart leftFrontLeg;
     private final ModelPart rightBackLeg;
     private final ModelPart leftBackLeg;
+    private final LionPoses poses = new LionPoses();
 
     public LionModel(ModelPart modelPart) {
         super();
         this.root = modelPart.getChild("root");
         this.body = this.root.getChild("body");
+        this.headfur = this.body.getChild("headfur");
         this.head = this.body.getChild("head");
         this.mane = this.head.getChild("mane");
         this.tail = this.body.getChild("tail");
@@ -45,8 +48,9 @@ public class LionModel<T extends LionEntity> extends HierarchicalModel<T> {
 
         PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
 
-        PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-5.5F, -6.0F, -11.0F, 11.0F, 12.0F, 21.0F, new CubeDeformation(0.0F))
-                .texOffs(43, 0).addBox(-5.5F, -1.0F, -11.0F, 11.0F, 10.0F, 10.0F, new CubeDeformation(0.2F)), PartPose.offset(0.0F, -16.0F, 0.0F));
+        PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 0).addBox(-5.5F, -6.0F, -11.0F, 11.0F, 12.0F, 21.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -16.0F, 0.0F));
+
+        PartDefinition headfur = body.addOrReplaceChild("headfur", CubeListBuilder.create().texOffs(43, 0).addBox(-5.0F, -7.0F, -11.0F, 11.0F, 10.0F, 10.0F, new CubeDeformation(0.2F)), PartPose.offset(-0.5F, 6.0F, 0.0F));
 
         PartDefinition head = body.addOrReplaceChild("head", CubeListBuilder.create().texOffs(43, 4).addBox(5.0F, -10.0F, -5.0F, 4.0F, 3.0F, 1.0F, new CubeDeformation(0.0F))
                 .texOffs(43, 0).addBox(-3.0F, -10.0F, -5.0F, 4.0F, 3.0F, 1.0F, new CubeDeformation(0.0F))
@@ -80,7 +84,13 @@ public class LionModel<T extends LionEntity> extends HierarchicalModel<T> {
     }
 
     @Override
+    public void prepareMobModel(T entity, float f, float g, float partialTick) {
+        this.poses.prepare(entity, partialTick);
+    }
+
+    @Override
     public void setupAnim(T entity, float f, float g, float h, float i, float j) {
+        this.root().getAllParts().forEach(ModelPart::resetPose);
         this.head.xRot = j * (float) (Math.PI / 180.0);
         this.head.yRot = i * (float) (Math.PI / 180.0);
         this.tail.yRot = Mth.cos(f * 0.6662F) * 0.3F * g;
@@ -88,31 +98,10 @@ public class LionModel<T extends LionEntity> extends HierarchicalModel<T> {
         this.leftBackLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
         this.rightFrontLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
         this.leftFrontLeg.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
-
-        if (entity.isSleeping()) {
-            this.body.zRot = -1.52f;
-            this.body.y = -5f;
-            this.head.zRot = 1.44f;
-            this.head.y = -3f;
-            this.tail.yRot = -0.174f;
-            this.leftFrontLeg.xRot = -0.26f;
-            this.leftBackLeg.xRot = 0.17f;
-            this.rightFrontLeg.xRot = 0.2f;
-            this.rightFrontLeg.yRot = -0.1f;
-            this.rightFrontLeg.zRot = 0.2f;
-            this.rightBackLeg.xRot = 0.6f;
-            this.rightBackLeg.yRot = -0.26f;
-            this.rightBackLeg.zRot = 0.48f;
-        } else {
-            this.body.zRot = 0f;
-            this.body.y = -16f;
-            this.head.zRot = 0f;
-            this.head.y = -1f;
-            this.rightFrontLeg.yRot = 0f;
-            this.rightFrontLeg.zRot = 0f;
-            this.rightBackLeg.yRot = 0f;
-            this.rightBackLeg.zRot = 0f;
-        }
+        this.mane.visible = !entity.isBaby();
+        this.headfur.visible = !entity.isBaby();
+        this.head.z = entity.isBaby() ? -10f : -12.0f;
+        this.poses.apply(this.body, this.head, this.tail, this.rightFrontLeg, this.leftFrontLeg, this.rightBackLeg, this.leftBackLeg, h);
     }
 
     @Override

@@ -38,6 +38,9 @@ public class TagInit {
 
     public static final TagKey<EntityType<?>> CAPYBARA_PREDATORS = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("capybara_predators"));
     public static final TagKey<EntityType<?>> BUFFALO_THREATS = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("buffalo_threats"));
+    public static final TagKey<EntityType<?>> LION_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("lion_prey"));
+    public static final TagKey<EntityType<?>> LION_LARGE_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("lion_large_prey"));
+    public static final TagKey<EntityType<?>> LION_LIVESTOCK_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("lion_livestock_prey"));
 
     public static void init(){
     }

@@ -5,6 +5,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.untamed.entity.AbstractLionEntity;
 import net.untamed.entity.HerdBovineEntity;
 
 public class MobThreatGoal extends NearestAttackableTargetGoal<LivingEntity> {
@@ -17,7 +18,8 @@ public class MobThreatGoal extends NearestAttackableTargetGoal<LivingEntity> {
 
     public MobThreatGoal(HerdBovineEntity mob, TagKey<EntityType<?>> threats) {
         super(mob, LivingEntity.class, 10, true, false, entity -> entity.getType().is(threats)
-                && (mob.hasCalfNearby(CALF_GUARD_RANGE) || (entity instanceof Mob predator && predator.getTarget() instanceof HerdBovineEntity)));
+                && (mob.hasCalfNearby(CALF_GUARD_RANGE) || (entity instanceof Mob predator && predator.getTarget() instanceof HerdBovineEntity)
+                || (entity instanceof AbstractLionEntity lion && lion.getHuntPrey() instanceof HerdBovineEntity)));
         this.herdMob = mob;
     }
 

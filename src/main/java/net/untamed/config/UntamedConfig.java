@@ -56,4 +56,7 @@ public class UntamedConfig implements ConfigData {
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
     public int hyenaSpawnWeight = 1;
+
+    @ConfigEntry.Category("behavior_setting")
+    public boolean lionsHuntLivestock = true;
 }

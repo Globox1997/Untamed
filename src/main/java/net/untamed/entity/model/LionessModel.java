@@ -22,6 +22,7 @@ public class LionessModel<T extends LionessEntity> extends HierarchicalModel<T> 
     private final ModelPart leftFrontLeg;
     private final ModelPart rightBackLeg;
     private final ModelPart leftBackLeg;
+    private final LionPoses poses = new LionPoses();
 
     public LionessModel(ModelPart modelPart) {
         super();
@@ -68,7 +69,13 @@ public class LionessModel<T extends LionessEntity> extends HierarchicalModel<T> 
     }
 
     @Override
+    public void prepareMobModel(T entity, float f, float g, float partialTick) {
+        this.poses.prepare(entity, partialTick);
+    }
+
+    @Override
     public void setupAnim(T entity, float f, float g, float h, float i, float j) {
+        this.root().getAllParts().forEach(ModelPart::resetPose);
         this.head.xRot = j * (float) (Math.PI / 180.0);
         this.head.yRot = i * (float) (Math.PI / 180.0);
         this.tail.yRot = Mth.cos(f * 0.6662F) * 0.3F * g;
@@ -76,6 +83,7 @@ public class LionessModel<T extends LionessEntity> extends HierarchicalModel<T> 
         this.leftBackLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
         this.rightFrontLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
         this.leftFrontLeg.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
+        this.poses.apply(this.body, this.head, this.tail, this.rightFrontLeg, this.leftFrontLeg, this.rightBackLeg, this.leftBackLeg, h);
     }
 
     @Override

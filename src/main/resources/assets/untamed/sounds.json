@@ -118,7 +118,8 @@
   },
   "lion_roaring": {
     "sounds": [
-      "untamed:lion_roaring_1"
+      "untamed:lion_roaring_1",
+      "untamed:lion_roaring_2"
     ]
   },
   "lion_sleeping": {

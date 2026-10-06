@@ -17,7 +17,7 @@ import net.untamed.entity.*;
 public class EntityInit {
 
     public static final EntityType<LionEntity> LION = register(
-            "lion", 12090190, 10703370, EntityType.Builder.of(LionEntity::new, MobCategory.CREATURE).sized(1.4F, 1.4F).clientTrackingRange(10).build());
+            "lion", 12090190, 10703370, EntityType.Builder.of(LionEntity::new, MobCategory.CREATURE).sized(1.5F, 1.5F).clientTrackingRange(10).build());
     public static final EntityType<LionessEntity> LIONESS = register(
             "lioness", 12090190, 13070382, EntityType.Builder.of(LionessEntity::new, MobCategory.CREATURE).sized(1.4F, 1.4F).clientTrackingRange(10).build());
     public static final EntityType<RhinoEntity> RHINO = register(
