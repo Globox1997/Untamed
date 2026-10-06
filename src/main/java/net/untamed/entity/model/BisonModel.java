@@ -123,10 +123,19 @@ public class BisonModel<T extends BisonEntity> extends HierarchicalModel<T> {
             this.rightFrontLeg.y += drop;
             this.leftBackLeg.y += drop;
             this.rightBackLeg.y += drop;
-            this.leftFrontLeg.xRot = Mth.lerp(this.restAmount, this.leftFrontLeg.xRot, 1.45F);
-            this.rightFrontLeg.xRot = Mth.lerp(this.restAmount, this.rightFrontLeg.xRot, 1.45F);
-            this.leftBackLeg.xRot = Mth.lerp(this.restAmount, this.leftBackLeg.xRot, -1.45F);
-            this.rightBackLeg.xRot = Mth.lerp(this.restAmount, this.rightBackLeg.xRot, -1.45F);
+
+            this.leftFrontLeg.xRot = Mth.lerp(this.restAmount, this.leftFrontLeg.xRot, -1.0F);
+            this.rightFrontLeg.xRot = Mth.lerp(this.restAmount, this.rightFrontLeg.xRot, -1.0F);
+            this.leftBackLeg.xRot = Mth.lerp(this.restAmount, this.leftBackLeg.xRot, -0.7F);
+            this.rightBackLeg.xRot = Mth.lerp(this.restAmount, this.rightBackLeg.xRot, -0.7F);
+
+            this.leftFrontLeg.zRot = Mth.lerp(this.restAmount, this.leftFrontLeg.yRot, -1.45F);
+            this.rightFrontLeg.zRot = Mth.lerp(this.restAmount, this.rightFrontLeg.yRot, 1.45F);
+            this.leftBackLeg.zRot = Mth.lerp(this.restAmount, this.leftBackLeg.yRot, -1.45F);
+            this.rightBackLeg.zRot = Mth.lerp(this.restAmount, this.rightBackLeg.yRot, 1.45F);
+
+            this.leftBackLeg.yRot = Mth.lerp(this.restAmount, this.leftBackLeg.yRot, 0.45F);
+            this.rightBackLeg.yRot = Mth.lerp(this.restAmount, this.rightBackLeg.yRot, -0.45F);
         }
     }
 
