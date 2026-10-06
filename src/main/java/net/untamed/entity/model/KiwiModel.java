@@ -20,6 +20,9 @@ public class KiwiModel<T extends KiwiEntity> extends HierarchicalModel<T> {
     private final ModelPart head;
     private final ModelPart leftLeg;
     private final ModelPart rightLeg;
+    private float sleepAmount;
+    private float probeAmount;
+    private float defendAmount;
 
     public KiwiModel(ModelPart modelPart) {
         super();
@@ -54,11 +57,42 @@ public class KiwiModel<T extends KiwiEntity> extends HierarchicalModel<T> {
     }
 
     @Override
+    public void prepareMobModel(T entity, float f, float g, float partialTick) {
+        this.sleepAmount = entity.getSleepAmount(partialTick);
+        this.probeAmount = entity.getProbeAmount(partialTick);
+        this.defendAmount = entity.getDefendAmount(partialTick);
+    }
+
+    @Override
     public void setupAnim(T entity, float f, float g, float h, float i, float j) {
+        this.root().getAllParts().forEach(ModelPart::resetPose);
         this.head.xRot = j * (float) (Math.PI / 180.0);
         this.head.yRot = i * (float) (Math.PI / 180.0);
-        this.leftLeg.zRot = Mth.cos(f * 0.6662F) * 1.4F * g;
-        this.rightLeg.zRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
+        this.leftLeg.xRot = Mth.cos(f * 0.6662F * 1.5F) * 1.2F * g;
+        this.rightLeg.xRot = Mth.cos(f * 0.6662F * 1.5F + (float) Math.PI) * 1.2F * g;
+        this.body.y -= Math.abs(Mth.cos(f * 0.6662F * 1.5F)) * 0.6F * g;
+
+        if (this.probeAmount > 0.0F) {
+            this.body.xRot += 0.25F * this.probeAmount;
+            this.head.y += 1.0F * this.probeAmount;
+            this.head.xRot = Mth.lerp(this.probeAmount, this.head.xRot, 1.3F + Mth.sin(h * 1.6F) * 0.1F);
+        }
+        if (this.defendAmount > 0.0F) {
+            this.waist.y -= 1.0F * this.defendAmount;
+            this.head.xRot = Mth.lerp(this.defendAmount, this.head.xRot, -0.4F);
+            this.rightLeg.xRot = Mth.lerp(this.defendAmount, this.rightLeg.xRot, -0.9F + Mth.sin(h * 0.8F) * 0.4F);
+        }
+        float fluff = 1.0F + 0.1F * this.sleepAmount;
+        this.body.xScale = fluff;
+        this.body.yScale = fluff;
+        this.body.zScale = fluff;
+        if (this.sleepAmount > 0.0F) {
+            this.waist.y += 3.5F * this.sleepAmount;
+            this.head.xRot = Mth.lerp(this.sleepAmount, this.head.xRot, 0.4F);
+            this.head.yRot = Mth.lerp(this.sleepAmount, this.head.yRot, 2.3F);
+            this.leftLeg.xRot = Mth.lerp(this.sleepAmount, this.leftLeg.xRot, 1.5F);
+            this.rightLeg.xRot = Mth.lerp(this.sleepAmount, this.rightLeg.xRot, 1.5F);
+        }
     }
 
     @Override

@@ -86,6 +86,9 @@
   "tag.entity_type.untamed.hyena_large_prey": "Hyena Large Prey",
   "tag.entity_type.untamed.hyena_livestock_prey": "Hyena Livestock Prey",
   "tag.block.untamed.hyena_cooling_spots": "Hyena Cooling Spots",
+  "tag.block.untamed.kiwi_probe_blocks": "Kiwi Probe Blocks",
+  "tag.block.untamed.kiwi_cover": "Kiwi Cover",
+  "tag.entity_type.untamed.kiwi_predators": "Kiwi Predators",
 
   "text.autoconfig.untamed.title": "Untamed",
   "text.autoconfig.untamed.option.lionSpawnweight": "Lion Spawn Weight",
