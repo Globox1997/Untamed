@@ -1,5 +1,6 @@
 package net.untamed.entity.render;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 @Environment(EnvType.CLIENT)
 public class BuffaloRenderer extends MobRenderer<BuffaloEntity, BuffaloModel<BuffaloEntity>> {
 
+    private static final float BULL_SCALE = 1.1F;
     private static final ResourceLocation BUFFALO_LOCATION = UntamedMain.identifierOf("textures/entity/buffalo.png");
 
     public BuffaloRenderer(EntityRendererProvider.Context context) {
@@ -23,6 +25,13 @@ public class BuffaloRenderer extends MobRenderer<BuffaloEntity, BuffaloModel<Buf
     @Override
     public @NotNull ResourceLocation getTextureLocation(BuffaloEntity buffaloEntity) {
         return BUFFALO_LOCATION;
+    }
+
+    @Override
+    protected void scale(BuffaloEntity buffaloEntity, PoseStack poseStack, float partialTick) {
+        if (buffaloEntity.isMale()) {
+            poseStack.scale(BULL_SCALE, BULL_SCALE, BULL_SCALE);
+        }
     }
 
 }

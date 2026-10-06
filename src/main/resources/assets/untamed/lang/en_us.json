@@ -75,7 +75,10 @@
   "tag.block.untamed.black_panthers_spawnable_on": "Black Panthers Spawnable On",
   "tag.block.untamed.hyenas_spawnable_on": "Hyenas Spawnable On",
 
+  "tag.block.untamed.herd_grazeable": "Herd Grazeable",
+
   "tag.entity_type.untamed.capybara_predators": "Capybara Predators",
+  "tag.entity_type.untamed.buffalo_threats": "Buffalo Threats",
 
   "text.autoconfig.untamed.title": "Untamed",
   "text.autoconfig.untamed.option.lionSpawnweight": "Lion Spawn Weight",

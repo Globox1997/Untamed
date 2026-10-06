@@ -3,53 +3,37 @@ package net.untamed.entity;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
-import net.minecraft.util.TimeUtil;
-import net.minecraft.util.valueproviders.UniformInt;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.ai.goal.*;
-import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
-import net.minecraft.world.entity.ai.goal.target.ResetUniversalAngerTargetGoal;
-import net.minecraft.world.entity.animal.Animal;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.GameRules;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
-import net.untamed.init.EntityInit;
+import net.untamed.entity.ai.herd.BisonChargeGoal;
+import net.untamed.entity.ai.herd.FollowLeaderGoal;
 import net.untamed.init.SoundInit;
 import net.untamed.init.TagInit;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.UUID;
+/**
+ * Bison: herds led by the oldest cow, active by day, charges in a straight line, sweeps snow aside to graze.
+ */
+public class BisonEntity extends HerdBovineEntity {
 
-public class BisonEntity extends Animal implements NeutralMob {
-    private int warningSoundTicks;
-    private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
-    private int remainingPersistentAngerTime;
+    private static final ThreatProfile THREAT_PROFILE = new ThreatProfile(12.0D, 8.0D, 5.0D, 60);
+
     @Nullable
-    private UUID persistentAngerTarget;
+    private HerdBovineEntity leader;
 
     public BisonEntity(EntityType<? extends BisonEntity> entityType, Level level) {
         super(entityType, level);
-    }
-
-    @Nullable
-    @Override
-    public AgeableMob getBreedOffspring(ServerLevel serverLevel, AgeableMob ageableMob) {
-        return EntityInit.BISON.create(serverLevel);
     }
 
     @Override
@@ -58,28 +42,9 @@ public class BisonEntity extends Animal implements NeutralMob {
     }
 
     @Override
-    public boolean canMate(Animal animal) {
-        if (!(animal instanceof BisonEntity bisonEntity)) {
-            return false;
-        }
-        return this.isInLove() && bisonEntity.isInLove();
-    }
-
-    @Override
-    protected void registerGoals() {
-        super.registerGoals();
-        this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new BisonEntity.BisonEntityMeleeAttackGoal());
-        this.goalSelector.addGoal(1, new PanicGoal(this, 2.0, pathfinderMob -> pathfinderMob.isBaby() ? DamageTypeTags.PANIC_CAUSES : DamageTypeTags.PANIC_ENVIRONMENTAL_CAUSES));
-        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0));
-        this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.25));
-        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 0.8));
-        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 6.0F));
-        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, new BisonEntity.BisonEntityHurtByTargetGoal());
-        this.targetSelector.addGoal(2, new BisonEntity.BisonEntityAttackPlayersGoal());
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, 14, true, false, this::isAngryAt));
-        this.targetSelector.addGoal(5, new ResetUniversalAngerTargetGoal<>(this, false));
+    protected void registerSpeciesGoals() {
+        this.goalSelector.addGoal(1, new BisonChargeGoal(this));
+        this.goalSelector.addGoal(6, new FollowLeaderGoal(this));
     }
 
     public static AttributeSupplier.Builder createAttributes() {
@@ -94,41 +59,50 @@ public class BisonEntity extends Animal implements NeutralMob {
     }
 
     @Override
-    public void readAdditionalSaveData(CompoundTag compoundTag) {
-        super.readAdditionalSaveData(compoundTag);
-        this.readPersistentAngerSaveData(this.level(), compoundTag);
+    public ThreatProfile getThreatProfile() {
+        return THREAT_PROFILE;
     }
 
     @Override
-    public void addAdditionalSaveData(CompoundTag compoundTag) {
-        super.addAdditionalSaveData(compoundTag);
-        this.addPersistentAngerSaveData(compoundTag);
+    public boolean isRestTime() {
+        return this.level().isNight();
     }
 
+    // The oldest cow leads; if the herd has no cows the oldest adult leads
     @Override
-    public void startPersistentAngerTimer() {
-        this.setRemainingPersistentAngerTime(PERSISTENT_ANGER_TIME.sample(this.random));
+    protected void onHerdRefreshed() {
+        HerdBovineEntity best = this.isBaby() ? null : this;
+        for (HerdBovineEntity member : this.getHerd()) {
+            if (member.isAlive() && !member.isBaby() && (best == null || isBetterLeader(member, best))) {
+                best = member;
+            }
+        }
+        this.leader = best;
     }
 
-    @Override
-    public void setRemainingPersistentAngerTime(int i) {
-        this.remainingPersistentAngerTime = i;
-    }
-
-    @Override
-    public int getRemainingPersistentAngerTime() {
-        return this.remainingPersistentAngerTime;
-    }
-
-    @Override
-    public void setPersistentAngerTarget(@Nullable UUID uUID) {
-        this.persistentAngerTarget = uUID;
+    private static boolean isBetterLeader(HerdBovineEntity candidate, HerdBovineEntity current) {
+        if (candidate.isMale() != current.isMale()) {
+            return !candidate.isMale();
+        }
+        if (candidate.getSeniority() != current.getSeniority()) {
+            return candidate.getSeniority() > current.getSeniority();
+        }
+        return candidate.getUUID().compareTo(current.getUUID()) > 0;
     }
 
     @Nullable
     @Override
-    public UUID getPersistentAngerTarget() {
-        return this.persistentAngerTarget;
+    public HerdBovineEntity getHerdLeader() {
+        return this.leader != null && this.leader.isAlive() ? this.leader : null;
+    }
+
+    // Bison sweep snow aside with their heads to reach the grass underneath
+    @Override
+    public void grazeAt(BlockPos pos) {
+        super.grazeAt(pos);
+        if (this.level().getGameRules().getBoolean(GameRules.RULE_MOBGRIEFING) && this.level().getBlockState(pos).is(Blocks.SNOW)) {
+            this.level().destroyBlock(pos, false);
+        }
     }
 
     @Override
@@ -147,130 +121,12 @@ public class BisonEntity extends Animal implements NeutralMob {
     }
 
     @Override
+    protected SoundEvent getWarningSound() {
+        return SoundInit.BISON_WARNING_EVENT;
+    }
+
+    @Override
     protected void playStepSound(BlockPos blockPos, BlockState blockState) {
         this.playSound(SoundInit.BISON_STEP_EVENT, 0.15F, 1.0F);
     }
-
-    @Override
-    public float getVoicePitch() {
-        return this.isBaby() ? (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.7F : (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F;
-    }
-
-    protected void playWarningSound() {
-        if (this.warningSoundTicks <= 0) {
-            this.makeSound(SoundInit.BISON_WARNING_EVENT);
-            this.warningSoundTicks = 40;
-        }
-    }
-
-    @Override
-    protected void defineSynchedData(SynchedEntityData.Builder builder) {
-        super.defineSynchedData(builder);
-    }
-
-    @Override
-    public void tick() {
-        super.tick();
-
-        if (this.warningSoundTicks > 0) {
-            this.warningSoundTicks--;
-        }
-
-        if (!this.level().isClientSide()) {
-            this.updatePersistentAnger((ServerLevel) this.level(), true);
-        }
-    }
-
-
-    @Override
-    protected float getWaterSlowDown() {
-        return 0.98F;
-    }
-
-    @Override
-    public SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData) {
-        if (spawnGroupData == null) {
-            spawnGroupData = new AgeableMobGroupData(1.0F);
-        }
-
-        return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData);
-    }
-
-    private class BisonEntityAttackPlayersGoal extends NearestAttackableTargetGoal<Player> {
-
-        public BisonEntityAttackPlayersGoal() {
-            super(BisonEntity.this, Player.class, 20, true, true, null);
-        }
-
-        @Override
-        public boolean canUse() {
-            if (BisonEntity.this.isBaby()) {
-                return false;
-            }
-
-            if (super.canUse()) {
-                for (BisonEntity bisonEntity : BisonEntity.this.level().getEntitiesOfClass(BisonEntity.class, BisonEntity.this.getBoundingBox().inflate(8.0, 4.0, 8.0))) {
-                    if (bisonEntity.isBaby()) {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        @Override
-        protected double getFollowDistance() {
-            return super.getFollowDistance() * 0.5;
-        }
-    }
-
-    private class BisonEntityHurtByTargetGoal extends HurtByTargetGoal {
-
-        public BisonEntityHurtByTargetGoal() {
-            super(BisonEntity.this);
-        }
-
-        @Override
-        public void start() {
-            super.start();
-            if (BisonEntity.this.isBaby()) {
-                this.alertOthers();
-                this.stop();
-            }
-        }
-
-        @Override
-        protected void alertOther(Mob mob, LivingEntity livingEntity) {
-            if (mob instanceof BisonEntity && !mob.isBaby()) {
-                super.alertOther(mob, livingEntity);
-            }
-        }
-    }
-
-    private class BisonEntityMeleeAttackGoal extends MeleeAttackGoal {
-
-        public BisonEntityMeleeAttackGoal() {
-            super(BisonEntity.this, 1.25, true);
-        }
-
-        @Override
-        protected void checkAndPerformAttack(LivingEntity livingEntity) {
-            if (this.canPerformAttack(livingEntity)) {
-                this.resetAttackCooldown();
-                this.mob.doHurtTarget(livingEntity);
-            } else if (this.mob.distanceToSqr(livingEntity) < (livingEntity.getBbWidth() + 3.0F) * (livingEntity.getBbWidth() + 3.0F)) {
-                if (this.isTimeToAttack()) {
-                    this.resetAttackCooldown();
-                }
-
-                if (this.getTicksUntilNextAttack() <= 10) {
-                    BisonEntity.this.playWarningSound();
-                }
-            } else {
-                this.resetAttackCooldown();
-            }
-        }
-    }
-
 }

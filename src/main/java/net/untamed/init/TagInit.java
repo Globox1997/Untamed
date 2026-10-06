@@ -21,6 +21,8 @@ public class TagInit {
     public static final TagKey<Block> BLACK_PANTHERS_SPAWNABLE_ON = TagKey.create(Registries.BLOCK, UntamedMain.identifierOf("black_panthers_spawnable_on"));
     public static final TagKey<Block> HYENAS_SPAWNABLE_ON = TagKey.create(Registries.BLOCK, UntamedMain.identifierOf("hyenas_spawnable_on"));
 
+    public static final TagKey<Block> HERD_GRAZEABLE = TagKey.create(Registries.BLOCK, UntamedMain.identifierOf("herd_grazeable"));
+
     public static final TagKey<Item> LION_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("lion_food"));
     public static final TagKey<Item> LIONESS_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("lioness_food"));
     public static final TagKey<Item> RHINO_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("rhino_food"));
@@ -35,6 +37,7 @@ public class TagInit {
     public static final TagKey<Item> HYENA_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("hyena_food"));
 
     public static final TagKey<EntityType<?>> CAPYBARA_PREDATORS = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("capybara_predators"));
+    public static final TagKey<EntityType<?>> BUFFALO_THREATS = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("buffalo_threats"));
 
     public static void init(){
     }

@@ -1,5 +1,6 @@
 package net.untamed.entity.render;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -14,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 @Environment(EnvType.CLIENT)
 public class BisonRenderer extends MobRenderer<BisonEntity, BisonModel<BisonEntity>> {
 
+    private static final float BULL_SCALE = 1.1F;
     private static final ResourceLocation BISON_LOCATION = UntamedMain.identifierOf("textures/entity/bison.png");
 
     public BisonRenderer(EntityRendererProvider.Context context) {
@@ -23,6 +25,13 @@ public class BisonRenderer extends MobRenderer<BisonEntity, BisonModel<BisonEnti
     @Override
     public @NotNull ResourceLocation getTextureLocation(BisonEntity bisonEntity) {
         return BISON_LOCATION;
+    }
+
+    @Override
+    protected void scale(BisonEntity bisonEntity, PoseStack poseStack, float partialTick) {
+        if (bisonEntity.isMale()) {
+            poseStack.scale(BULL_SCALE, BULL_SCALE, BULL_SCALE);
+        }
     }
 
 }

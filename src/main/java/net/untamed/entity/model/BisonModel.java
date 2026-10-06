@@ -24,6 +24,10 @@ public class BisonModel<T extends BisonEntity> extends HierarchicalModel<T> {
     private final ModelPart rightFrontLeg;
     private final ModelPart leftBackLeg;
     private final ModelPart rightBackLeg;
+    private float grazeAmount;
+    private float restAmount;
+    private float warnAmount;
+    private float chargeAmount;
 
     public BisonModel(ModelPart modelPart) {
         super();
@@ -77,7 +81,16 @@ public class BisonModel<T extends BisonEntity> extends HierarchicalModel<T> {
     }
 
     @Override
+    public void prepareMobModel(T entity, float f, float g, float partialTick) {
+        this.grazeAmount = entity.getGrazeAmount(partialTick);
+        this.restAmount = entity.getRestAmount(partialTick);
+        this.warnAmount = entity.getWarnAmount(partialTick);
+        this.chargeAmount = entity.getChargeAmount(partialTick);
+    }
+
+    @Override
     public void setupAnim(T entity, float f, float g, float h, float i, float j) {
+        this.root().getAllParts().forEach(ModelPart::resetPose);
         this.head.xRot = j * (float) (Math.PI / 180.0);
         this.head.yRot = i * (float) (Math.PI / 180.0);
         this.tail.yRot = Mth.cos(f * 0.6662F) * 0.3F * g;
@@ -85,6 +98,36 @@ public class BisonModel<T extends BisonEntity> extends HierarchicalModel<T> {
         this.leftBackLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
         this.rightFrontLeg.xRot = Mth.cos(f * 0.6662F + (float) Math.PI) * 1.4F * g;
         this.leftFrontLeg.xRot = Mth.cos(f * 0.6662F) * 1.4F * g;
+
+        if (this.grazeAmount > 0.0F) {
+            this.head.y += 4.5F * this.grazeAmount;
+            this.head.xRot = Mth.lerp(this.grazeAmount, this.head.xRot, 0.15F + Mth.sin(h * 0.3F) * 0.05F);
+        }
+        if (this.warnAmount > 0.0F) {
+            this.head.y += 2.0F * this.warnAmount;
+            this.head.xRot = Mth.lerp(this.warnAmount, this.head.xRot, 0.3F);
+            this.head.yRot += Mth.sin(h * 0.8F) * 0.12F * this.warnAmount;
+            this.tail.xRot += 2.0F * this.warnAmount;
+            this.rightFrontLeg.xRot = Mth.lerp(this.warnAmount, this.rightFrontLeg.xRot, -0.4F + Mth.sin(h * 0.6F) * 0.4F);
+        }
+        if (this.chargeAmount > 0.0F) {
+            this.head.y += 2.5F * this.chargeAmount;
+            this.head.xRot = Mth.lerp(this.chargeAmount, this.head.xRot, 0.5F);
+            this.tail.xRot += 2.2F * this.chargeAmount;
+        }
+        if (this.restAmount > 0.0F) {
+            float drop = 7.0F * this.restAmount;
+            this.body.y += drop;
+            this.back.y += drop;
+            this.leftFrontLeg.y += drop;
+            this.rightFrontLeg.y += drop;
+            this.leftBackLeg.y += drop;
+            this.rightBackLeg.y += drop;
+            this.leftFrontLeg.xRot = Mth.lerp(this.restAmount, this.leftFrontLeg.xRot, 1.45F);
+            this.rightFrontLeg.xRot = Mth.lerp(this.restAmount, this.rightFrontLeg.xRot, 1.45F);
+            this.leftBackLeg.xRot = Mth.lerp(this.restAmount, this.leftBackLeg.xRot, -1.45F);
+            this.rightBackLeg.xRot = Mth.lerp(this.restAmount, this.rightBackLeg.xRot, -1.45F);
+        }
     }
 
     @Override
