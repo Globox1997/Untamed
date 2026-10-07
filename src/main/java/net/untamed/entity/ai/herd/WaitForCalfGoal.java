@@ -23,7 +23,7 @@ public class WaitForCalfGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        if (this.mother.isBaby() || this.mother.isMale() || this.mother.getRandom().nextInt(reducedTickDelay(10)) != 0) {
+        if (this.mother.isBaby() || this.mother.isRoamer() || this.mother.getRandom().nextInt(reducedTickDelay(10)) != 0) {
             return false;
         }
         this.calf = this.mother.getStrayingCalf(START_DISTANCE);

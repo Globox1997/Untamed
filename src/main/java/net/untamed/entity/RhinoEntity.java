@@ -102,7 +102,7 @@ public class RhinoEntity extends HerdBovineEntity {
 
     @Override
     public boolean followsHerd() {
-        return !this.isMale() || this.isBaby();
+        return !this.isRoamer() || this.isBaby();
     }
 
     @Override

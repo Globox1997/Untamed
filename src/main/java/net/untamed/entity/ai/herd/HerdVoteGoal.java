@@ -18,7 +18,7 @@ public class HerdVoteGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        return !this.mob.isBaby() && !this.mob.isMale() && !this.mob.isAlarmed() && this.mob.getTarget() == null
+        return !this.mob.isBaby() && !this.mob.isRoamer() && !this.mob.isAlarmed() && this.mob.getTarget() == null
                 && this.mob.wantsToVote() && this.mob.onGround();
     }
 

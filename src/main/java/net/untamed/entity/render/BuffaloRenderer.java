@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 @Environment(EnvType.CLIENT)
 public class BuffaloRenderer extends MobRenderer<BuffaloEntity, BuffaloModel<BuffaloEntity>> {
 
-    private static final float BULL_SCALE = 1.1F;
+    private static final float ROAMER_SCALE = 1.1F;
     private static final ResourceLocation BUFFALO_LOCATION = UntamedMain.identifierOf("textures/entity/buffalo.png");
 
     public BuffaloRenderer(EntityRendererProvider.Context context) {
@@ -29,8 +29,8 @@ public class BuffaloRenderer extends MobRenderer<BuffaloEntity, BuffaloModel<Buf
 
     @Override
     protected void scale(BuffaloEntity buffaloEntity, PoseStack poseStack, float partialTick) {
-        if (buffaloEntity.isMale()) {
-            poseStack.scale(BULL_SCALE, BULL_SCALE, BULL_SCALE);
+        if (buffaloEntity.isRoamer()) {
+            poseStack.scale(ROAMER_SCALE, ROAMER_SCALE, ROAMER_SCALE);
         }
     }
 

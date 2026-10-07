@@ -31,7 +31,7 @@ import java.util.*;
 
 public abstract class HerdBovineEntity extends Animal implements NeutralMob {
 
-    private static final EntityDataAccessor<Boolean> DATA_MALE = SynchedEntityData.defineId(HerdBovineEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Byte> DATA_HERD_ROLE = SynchedEntityData.defineId(HerdBovineEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> DATA_HERD_POSE = SynchedEntityData.defineId(HerdBovineEntity.class, EntityDataSerializers.BYTE);
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 
@@ -39,7 +39,7 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
     private static final double HERD_RANGE = 32.0D;
     private static final int MAX_HERD_SIZE = 24;
     private static final int MOTHER_MISSING_REFRESHES = 5;
-    private static final float MALE_CHANCE = 0.3F;
+    private static final float ROAMER_CHANCE = 0.3F;
     private static final float BABY_SPAWN_CHANCE = 0.25F;
     private static final int MAX_TOLERANCE_ENTRIES = 8;
 
@@ -81,6 +81,30 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
         }
     }
 
+    // HERD animals form the core of the group: they lead, vote and raise calves. ROAMERs are larger and more independent.
+    public enum HerdRole {
+        HERD, ROAMER;
+
+        private static final HerdRole[] VALUES = values();
+
+        public static HerdRole byId(int id) {
+            return id >= 0 && id < VALUES.length ? VALUES[id] : HERD;
+        }
+
+        public static HerdRole byName(String name) {
+            for (HerdRole role : VALUES) {
+                if (role.getSerializedName().equals(name)) {
+                    return role;
+                }
+            }
+            return HERD;
+        }
+
+        public String getSerializedName() {
+            return this.name().toLowerCase(Locale.ROOT);
+        }
+    }
+
     public record ThreatProfile(double watchDistance, double fleeDistance, double warnDistance, int warnTicksBeforeCharge) {
     }
 
@@ -117,7 +141,7 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
     @Override
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
-        builder.define(DATA_MALE, false);
+        builder.define(DATA_HERD_ROLE, (byte) HerdRole.HERD.ordinal());
         builder.define(DATA_HERD_POSE, (byte) HerdPose.NONE.ordinal());
     }
 
@@ -126,7 +150,7 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
         if (animal == this || animal.getClass() != this.getClass()) {
             return false;
         }
-        return this.isMale() != ((HerdBovineEntity) animal).isMale() && this.isInLove() && animal.isInLove();
+        return this.isInLove() && animal.isInLove();
     }
 
     @Nullable
@@ -135,8 +159,8 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
         if (!(this.getType().create(serverLevel) instanceof HerdBovineEntity calf)) {
             return null;
         }
-        calf.setMale(this.random.nextFloat() < 0.5F);
-        HerdBovineEntity calfMother = !this.isMale() || !(partner instanceof HerdBovineEntity other) ? this : other;
+        calf.setHerdRole(this.randomHerdRole());
+        HerdBovineEntity calfMother = this.isRoamer() && partner instanceof HerdBovineEntity other && !other.isRoamer() ? other : this;
         calf.setMotherUUID(calfMother.getUUID());
         return calf;
     }
@@ -146,7 +170,7 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
         if (spawnGroupData == null) {
             spawnGroupData = new AgeableMobGroupData(BABY_SPAWN_CHANCE);
         }
-        this.setMale(this.random.nextFloat() < MALE_CHANCE);
+        this.setHerdRole(this.randomHerdRole());
         this.seniority = this.random.nextInt(120000);
         return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData);
     }
@@ -220,7 +244,7 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
             if (member.isBaby()) {
                 continue;
             }
-            int score = (member.isMale() ? 0 : 2) + (member.hasOwnCalf() ? 0 : 1);
+            int score = (member.isRoamer() ? 0 : 2) + (member.hasOwnCalf() ? 0 : 1);
             if (score > adoptedScore) {
                 adopted = member;
                 adoptedScore = score;
@@ -413,12 +437,20 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
         }
     }
 
-    public boolean isMale() {
-        return this.entityData.get(DATA_MALE);
+    public HerdRole getHerdRole() {
+        return HerdRole.byId(this.entityData.get(DATA_HERD_ROLE));
     }
 
-    public void setMale(boolean male) {
-        this.entityData.set(DATA_MALE, male);
+    public void setHerdRole(HerdRole role) {
+        this.entityData.set(DATA_HERD_ROLE, (byte) role.ordinal());
+    }
+
+    public boolean isRoamer() {
+        return this.getHerdRole() == HerdRole.ROAMER;
+    }
+
+    private HerdRole randomHerdRole() {
+        return this.random.nextFloat() < ROAMER_CHANCE ? HerdRole.ROAMER : HerdRole.HERD;
     }
 
     public HerdPose getHerdPose() {
@@ -521,7 +553,7 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
     public void addAdditionalSaveData(CompoundTag compoundTag) {
         super.addAdditionalSaveData(compoundTag);
         this.addPersistentAngerSaveData(compoundTag);
-        compoundTag.putBoolean("IsMale", this.isMale());
+        compoundTag.putString("HerdRole", this.getHerdRole().getSerializedName());
         compoundTag.putLong("Seniority", this.seniority);
         if (this.motherUUID != null) {
             compoundTag.putUUID("Mother", this.motherUUID);
@@ -532,7 +564,7 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
     public void readAdditionalSaveData(CompoundTag compoundTag) {
         super.readAdditionalSaveData(compoundTag);
         this.readPersistentAngerSaveData(this.level(), compoundTag);
-        this.setMale(compoundTag.getBoolean("IsMale"));
+        this.setHerdRole(HerdRole.byName(compoundTag.getString("HerdRole")));
         this.seniority = compoundTag.getLong("Seniority");
         this.motherUUID = compoundTag.hasUUID("Mother") ? compoundTag.getUUID("Mother") : null;
     }

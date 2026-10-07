@@ -23,7 +23,7 @@ import net.untamed.init.TagInit;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Bison: herds led by the oldest cow, active by day, charges in a straight line, sweeps snow aside to graze.
+ * Bison: herds led by the oldest herd animal, active by day, charges in a straight line, sweeps snow aside to graze.
  */
 public class BisonEntity extends HerdBovineEntity {
 
@@ -68,7 +68,7 @@ public class BisonEntity extends HerdBovineEntity {
         return this.level().isNight();
     }
 
-    // The oldest cow leads; if the herd has no cows the oldest adult leads
+    // The oldest HERD animal leads; if there are only roamers the oldest adult leads
     @Override
     protected void onHerdRefreshed() {
         HerdBovineEntity best = this.isBaby() ? null : this;
@@ -81,8 +81,8 @@ public class BisonEntity extends HerdBovineEntity {
     }
 
     private static boolean isBetterLeader(HerdBovineEntity candidate, HerdBovineEntity current) {
-        if (candidate.isMale() != current.isMale()) {
-            return !candidate.isMale();
+        if (candidate.isRoamer() != current.isRoamer()) {
+            return !candidate.isRoamer();
         }
         if (candidate.getSeniority() != current.getSeniority()) {
             return candidate.getSeniority() > current.getSeniority();

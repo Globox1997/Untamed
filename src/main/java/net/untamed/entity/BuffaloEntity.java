@@ -89,7 +89,7 @@ public class BuffaloEntity extends HerdBovineEntity {
 
     @Override
     public void onRestEnded() {
-        if (!this.isBaby() && !this.isMale()) {
+        if (!this.isBaby() && !this.isRoamer()) {
             this.wantsToVote = true;
         }
     }
@@ -117,7 +117,7 @@ public class BuffaloEntity extends HerdBovineEntity {
         if (this.travelTicks > 0 && --this.travelTicks == 0) {
             this.travelDirection = null;
         }
-        if (this.travelDirection == null && !this.isBaby() && !this.isMale() && this.random.nextInt(SPONTANEOUS_VOTE_CHANCE) == 0) {
+        if (this.travelDirection == null && !this.isBaby() && !this.isRoamer() && this.random.nextInt(SPONTANEOUS_VOTE_CHANCE) == 0) {
             this.wantsToVote = true;
         }
     }
@@ -127,13 +127,13 @@ public class BuffaloEntity extends HerdBovineEntity {
         if (this.travelDirection != null) {
             return;
         }
-        int cows = 0;
+        int voters = 0;
         int votes = 0;
         double x = 0.0D;
         double z = 0.0D;
         for (HerdBovineEntity member : this.getHerdIncludingSelf()) {
-            if (member instanceof BuffaloEntity buffalo && buffalo.isAlive() && !buffalo.isBaby() && !buffalo.isMale()) {
-                cows++;
+            if (member instanceof BuffaloEntity buffalo && buffalo.isAlive() && !buffalo.isBaby() && !buffalo.isRoamer()) {
+                voters++;
                 if (buffalo.voteTicks > 0) {
                     votes++;
                     float yaw = buffalo.voteYaw * Mth.DEG_TO_RAD;
@@ -142,7 +142,7 @@ public class BuffaloEntity extends HerdBovineEntity {
                 }
             }
         }
-        if (votes == 0 || votes * 2 < cows) {
+        if (votes == 0 || votes * 2 < voters) {
             return;
         }
         Vec3 sum = new Vec3(x, 0.0D, z);

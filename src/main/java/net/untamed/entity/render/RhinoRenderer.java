@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 @Environment(EnvType.CLIENT)
 public class RhinoRenderer extends MobRenderer<RhinoEntity, RhinoModel<RhinoEntity>> {
 
-    private static final float BULL_SCALE = 1.15F;
+    private static final float ROAMER_SCALE = 1.15F;
     private static final ResourceLocation RHINO_LOCATION = UntamedMain.identifierOf("textures/entity/rhino.png");
 
     public RhinoRenderer(EntityRendererProvider.Context context) {
@@ -29,8 +29,8 @@ public class RhinoRenderer extends MobRenderer<RhinoEntity, RhinoModel<RhinoEnti
 
     @Override
     protected void scale(RhinoEntity rhinoEntity, PoseStack poseStack, float partialTick) {
-        if (rhinoEntity.isMale()) {
-            poseStack.scale(BULL_SCALE, BULL_SCALE, BULL_SCALE);
+        if (rhinoEntity.isRoamer()) {
+            poseStack.scale(ROAMER_SCALE, ROAMER_SCALE, ROAMER_SCALE);
         }
     }
 
