@@ -22,9 +22,6 @@ import net.untamed.init.SoundInit;
 import net.untamed.init.TagInit;
 import org.jetbrains.annotations.Nullable;
 
-/**
- * Bison: herds led by the oldest herd animal, active by day, charges in a straight line, sweeps snow aside to graze.
- */
 public class BisonEntity extends HerdBovineEntity {
 
     private static final ThreatProfile THREAT_PROFILE = new ThreatProfile(12.0D, 8.0D, 5.0D, 60);
@@ -68,7 +65,6 @@ public class BisonEntity extends HerdBovineEntity {
         return this.level().isNight();
     }
 
-    // The oldest HERD animal leads; if there are only roamers the oldest adult leads
     @Override
     protected void onHerdRefreshed() {
         HerdBovineEntity best = this.isBaby() ? null : this;
@@ -96,7 +92,6 @@ public class BisonEntity extends HerdBovineEntity {
         return this.leader != null && this.leader.isAlive() ? this.leader : null;
     }
 
-    // Bison sweep snow aside with their heads to reach the grass underneath
     @Override
     public void grazeAt(BlockPos pos) {
         super.grazeAt(pos);
