@@ -35,6 +35,7 @@ public class TagInit {
     public static final TagKey<Item> KIWI_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("kiwi_food"));
     public static final TagKey<Item> BLACK_BEAR_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("black_bear_food"));
     public static final TagKey<Item> BLACK_BEAR_SCAVENGE = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("black_bear_scavenge"));
+    public static final TagKey<Item> OCTOPUS_COLLECTIBLES = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("octopus_collectibles"));
     public static final TagKey<Item> BUFFALO_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("buffalo_food"));
     public static final TagKey<Item> BISON_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("bison_food"));
     public static final TagKey<Item> VULTURE_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("vulture_food"));
@@ -50,6 +51,7 @@ public class TagInit {
     public static final TagKey<EntityType<?>> HYENA_LARGE_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("hyena_large_prey"));
     public static final TagKey<EntityType<?>> HYENA_LIVESTOCK_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("hyena_livestock_prey"));
     public static final TagKey<EntityType<?>> KIWI_PREDATORS = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("kiwi_predators"));
+    public static final TagKey<EntityType<?>> OCTOPUS_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("octopus_prey"));
 
     public static void init(){
     }

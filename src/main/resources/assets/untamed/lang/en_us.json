@@ -58,6 +58,7 @@
   "tag.item.untamed.kiwi_food": "Kiwi Food",
   "tag.item.untamed.black_bear_food": "Black Bear Food",
   "tag.item.untamed.black_bear_scavenge": "Black Bear Scavenge",
+  "tag.item.untamed.octopus_collectibles": "Octopus Collectibles",
   "tag.item.untamed.buffalo_food": "Buffalo Food",
   "tag.item.untamed.bison_food": "Bison Food",
   "tag.item.untamed.vulture_food": "Vulture Food",
@@ -91,6 +92,7 @@
   "tag.block.untamed.kiwi_cover": "Kiwi Cover",
   "tag.block.untamed.rhino_wallow_blocks": "Rhino Wallow Blocks",
   "tag.entity_type.untamed.kiwi_predators": "Kiwi Predators",
+  "tag.entity_type.untamed.octopus_prey": "Octopus Prey",
 
   "text.autoconfig.untamed.title": "Untamed",
   "text.autoconfig.untamed.option.lionSpawnweight": "Lion Spawn Weight",

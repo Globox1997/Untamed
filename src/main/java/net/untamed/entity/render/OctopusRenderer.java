@@ -17,7 +17,7 @@ public class OctopusRenderer extends MobRenderer<OctopusEntity, OctopusModel<Oct
     private static final ResourceLocation OCTOPUS_LOCATION = UntamedMain.identifierOf("textures/entity/octopus.png");
 
     public OctopusRenderer(EntityRendererProvider.Context context) {
-        super(context, new OctopusModel<>(context.bakeLayer(RenderInit.OCTOPUS_LAYER)), 0.9F);
+        super(context, new OctopusModel<>(context.bakeLayer(RenderInit.OCTOPUS_LAYER)), 0.5F);
     }
 
     @Override

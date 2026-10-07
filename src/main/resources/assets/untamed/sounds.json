@@ -158,7 +158,10 @@
   "octopus_step": {
     "sounds": [
       "untamed:octopus_step_1",
-      "untamed:octopus_step_2"
+      "untamed:octopus_step_2",
+      "untamed:octopus_step_3",
+      "untamed:octopus_step_4",
+      "untamed:octopus_step_5"
     ]
   },
   "black_bear_idle": {

@@ -8,30 +8,37 @@ import net.minecraft.client.model.HierarchicalModel;
 import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.model.geom.PartPose;
 import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.untamed.entity.OctopusEntity;
 
 @Environment(EnvType.CLIENT)
 public class OctopusModel<T extends OctopusEntity> extends HierarchicalModel<T> {
 
+    private static final float RING_RADIUS = 2.5F;
+    // Arms in order around the body, starting front-left. Each arm hangs from a slot part turned towards its own direction,
+    // so lifting the arm never swings it sideways into its neighbours.
+    private static final String[] ARM_NAMES = {"arm0", "arm2", "arm3", "arm1", "arm5", "arm7", "arm6", "arm4"};
+    // Direction the arm box points in when unrotated, in degrees from the front (positive towards +x)
+    private static final float[] NATIVE_DIRECTIONS = {0.0F, 90.0F, 90.0F, 180.0F, 180.0F, -90.0F, -90.0F, 0.0F};
+    // Direction of each arm around the body, 45 degrees apart
+    private static final float[] DIRECTIONS = {22.5F, 67.5F, 112.5F, 157.5F, -157.5F, -112.5F, -67.5F, -22.5F};
+
     private final ModelPart root;
     private final ModelPart base;
     private final ModelPart head;
     private final ModelPart leftEye;
     private final ModelPart rightEye;
-    private final ModelPart leftArms;
-    private final ModelPart arm0;
-    private final ModelPart arm1;
-    private final ModelPart arm2;
-    private final ModelPart arm3;
-    private final ModelPart rightArms;
-    private final ModelPart arm4;
-    private final ModelPart arm5;
-    private final ModelPart arm6;
-    private final ModelPart arm7;
+    private final ModelPart[] slots = new ModelPart[ARM_NAMES.length];
+    private final ModelPart[] arms = new ModelPart[ARM_NAMES.length];
 
-    private ModelPart[] leftArmParts;
-    private ModelPart[] rightArmParts;
+    private float restAmount;
+    private float jetAmount;
+    private float threatAmount;
+    private float pounceAmount;
+    private float reachAmount;
+    private float stalkAmount;
+    private int tint = -1;
 
     public OctopusModel(ModelPart modelPart) {
         super();
@@ -40,19 +47,10 @@ public class OctopusModel<T extends OctopusEntity> extends HierarchicalModel<T> 
         this.head = this.base.getChild("head");
         this.leftEye = this.head.getChild("leftEye");
         this.rightEye = this.head.getChild("rightEye");
-        this.leftArms = this.root.getChild("leftArms");
-        this.arm0 = this.leftArms.getChild("arm0");
-        this.arm1 = this.leftArms.getChild("arm1");
-        this.arm2 = this.leftArms.getChild("arm2");
-        this.arm3 = this.leftArms.getChild("arm3");
-        this.rightArms = this.root.getChild("rightArms");
-        this.arm4 = this.rightArms.getChild("arm4");
-        this.arm5 = this.rightArms.getChild("arm5");
-        this.arm6 = this.rightArms.getChild("arm6");
-        this.arm7 = this.rightArms.getChild("arm7");
-
-        this.leftArmParts = new ModelPart[]{this.arm0, this.arm1, this.arm2, this.arm3};
-        this.rightArmParts = new ModelPart[]{this.arm4, this.arm5, this.arm6, this.arm7};
+        for (int i = 0; i < ARM_NAMES.length; i++) {
+            this.slots[i] = this.root.getChild(ARM_NAMES[i]);
+            this.arms[i] = this.slots[i].getChild("segment");
+        }
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -66,98 +64,139 @@ public class OctopusModel<T extends OctopusEntity> extends HierarchicalModel<T> 
 
         PartDefinition head = base.addOrReplaceChild("head", CubeListBuilder.create(), PartPose.offset(0.0F, -3.0F, 0.0F));
 
-        PartDefinition cube_r1 = head.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-5.0F, -14.25F, -5.0F, 10.0F, 13.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.48F, 0.0F, 0.0F));
+        head.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(0, 0).addBox(-5.0F, -14.25F, -5.0F, 10.0F, 13.0F, 10.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 0.0F, -0.48F, 0.0F, 0.0F));
 
-        PartDefinition leftEye = head.addOrReplaceChild("leftEye", CubeListBuilder.create().texOffs(59, 57).addBox(-1.0F, -3.0F, -3.0F, 4.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(1.5F, 0.0F, 0.0F));
+        head.addOrReplaceChild("leftEye", CubeListBuilder.create().texOffs(59, 57).addBox(-1.0F, -3.0F, -3.0F, 4.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(1.5F, 0.0F, 0.0F));
 
-        PartDefinition rightEye = head.addOrReplaceChild("rightEye", CubeListBuilder.create().texOffs(57, 36).addBox(-3.0F, -3.0F, -3.0F, 4.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.5F, 0.0F, 0.0F));
+        head.addOrReplaceChild("rightEye", CubeListBuilder.create().texOffs(57, 36).addBox(-3.0F, -3.0F, -3.0F, 4.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.5F, 0.0F, 0.0F));
 
-        PartDefinition leftArms = root.addOrReplaceChild("leftArms", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition arm0 = leftArms.addOrReplaceChild("arm0", CubeListBuilder.create(), PartPose.offset(2.0F, -1.0F, -3.0F));
-
-        PartDefinition cube_r2 = arm0.addOrReplaceChild("cube_r2", CubeListBuilder.create().texOffs(25, 59).addBox(-1.5F, -6.0F, -12.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
-                .texOffs(38, 29).addBox(-1.5F, -3.0F, -12.0F, 3.0F, 3.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
-
-        PartDefinition arm1 = leftArms.addOrReplaceChild("arm1", CubeListBuilder.create(), PartPose.offset(2.0F, -1.0F, 3.0F));
-
-        PartDefinition cube_r3 = arm1.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(0, 59).addBox(-1.5F, -6.0F, 8.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
-                .texOffs(27, 10).addBox(-1.5F, -3.0F, -1.0F, 3.0F, 3.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
-
-        PartDefinition arm2 = leftArms.addOrReplaceChild("arm2", CubeListBuilder.create().texOffs(46, 12).addBox(2.0F, -2.0F, -3.0F, 12.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
-                .texOffs(56, 23).addBox(9.0F, -5.0F, -3.0F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -1.0F, 0.5F, 0.0F, 0.2182F, 0.0F));
-
-        PartDefinition arm3 = leftArms.addOrReplaceChild("arm3", CubeListBuilder.create().texOffs(46, 6).addBox(2.0F, -2.0F, 0.0F, 12.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
-                .texOffs(13, 56).addBox(9.0F, -5.0F, 0.0F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(2.0F, -1.0F, -0.5F, 0.0F, -0.2182F, 0.0F));
-
-        PartDefinition rightArms = root.addOrReplaceChild("rightArms", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
-
-        PartDefinition arm4 = rightArms.addOrReplaceChild("arm4", CubeListBuilder.create(), PartPose.offset(-2.0F, -1.0F, -3.0F));
-
-        PartDefinition cube_r4 = arm4.addOrReplaceChild("cube_r4", CubeListBuilder.create().texOffs(45, 57).addBox(-1.5F, -6.0F, -12.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
-                .texOffs(19, 26).addBox(-1.5F, -3.0F, -12.0F, 3.0F, 3.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, 0.0F, 0.0F, 0.7854F, 0.0F));
-
-        PartDefinition arm5 = rightArms.addOrReplaceChild("arm5", CubeListBuilder.create(), PartPose.offset(-2.0F, -1.0F, 3.0F));
-
-        PartDefinition cube_r5 = arm5.addOrReplaceChild("cube_r5", CubeListBuilder.create().texOffs(57, 29).addBox(-1.5F, -6.0F, 8.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F))
-                .texOffs(0, 23).addBox(-1.5F, -3.0F, -1.0F, 3.0F, 3.0F, 13.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 1.0F, 0.0F, 0.0F, -0.7854F, 0.0F));
-
-        PartDefinition arm6 = rightArms.addOrReplaceChild("arm6", CubeListBuilder.create().texOffs(32, 45).addBox(-14.0F, -2.0F, -3.0F, 12.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
-                .texOffs(0, 53).addBox(-14.0F, -5.0F, -3.0F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, -1.0F, 0.5F, 0.0F, -0.2182F, 0.0F));
-
-        PartDefinition arm7 = rightArms.addOrReplaceChild("arm7", CubeListBuilder.create().texOffs(30, 0).addBox(-14.0F, -2.0F, 0.0F, 12.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
-                .texOffs(49, 51).addBox(-14.0F, -5.0F, 0.0F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(-2.0F, -1.0F, -0.5F, 0.0F, 0.2182F, 0.0F));
+        // Arms keep the original box sizes and texture offsets, only the hierarchy and direction changed
+        addArm(root, 0, CubeListBuilder.create().texOffs(38, 29).addBox(-1.5F, -2.0F, -12.0F, 3.0F, 3.0F, 13.0F, new CubeDeformation(0.0F))
+                .texOffs(25, 59).addBox(-1.5F, -5.0F, -12.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)));
+        addArm(root, 1, CubeListBuilder.create().texOffs(46, 12).addBox(-1.0F, -2.0F, -1.5F, 12.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+                .texOffs(56, 23).addBox(6.0F, -5.0F, -1.5F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)));
+        addArm(root, 2, CubeListBuilder.create().texOffs(46, 6).addBox(-1.0F, -2.0F, -1.5F, 12.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+                .texOffs(13, 56).addBox(6.0F, -5.0F, -1.5F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)));
+        addArm(root, 3, CubeListBuilder.create().texOffs(27, 10).addBox(-1.5F, -2.0F, -1.0F, 3.0F, 3.0F, 13.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 59).addBox(-1.5F, -5.0F, 8.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)));
+        addArm(root, 4, CubeListBuilder.create().texOffs(0, 23).addBox(-1.5F, -2.0F, -1.0F, 3.0F, 3.0F, 13.0F, new CubeDeformation(0.0F))
+                .texOffs(57, 29).addBox(-1.5F, -5.0F, 8.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)));
+        addArm(root, 5, CubeListBuilder.create().texOffs(30, 0).addBox(-11.0F, -2.0F, -1.5F, 12.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+                .texOffs(49, 51).addBox(-11.0F, -5.0F, -1.5F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)));
+        addArm(root, 6, CubeListBuilder.create().texOffs(32, 45).addBox(-11.0F, -2.0F, -1.5F, 12.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
+                .texOffs(0, 53).addBox(-11.0F, -5.0F, -1.5F, 5.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)));
+        addArm(root, 7, CubeListBuilder.create().texOffs(19, 26).addBox(-1.5F, -2.0F, -12.0F, 3.0F, 3.0F, 13.0F, new CubeDeformation(0.0F))
+                .texOffs(45, 57).addBox(-1.5F, -5.0F, -12.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)));
 
         return LayerDefinition.create(meshdefinition, 128, 128);
     }
 
-    @Override
-    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        final float idleFrequency = 0.045F;
-        final float idleAmplitude = 0.20F;
+    private static void addArm(PartDefinition root, int index, CubeListBuilder geometry) {
+        float direction = DIRECTIONS[index] * Mth.DEG_TO_RAD;
+        PartDefinition slot = root.addOrReplaceChild(ARM_NAMES[index], CubeListBuilder.create(),
+                PartPose.offsetAndRotation(Mth.sin(direction) * RING_RADIUS, -1.0F, -Mth.cos(direction) * RING_RADIUS, 0.0F, yawFor(index, DIRECTIONS[index]), 0.0F));
+        slot.addOrReplaceChild("segment", geometry, PartPose.ZERO);
+    }
 
-        final float swimFrequency = 0.6F;
-        boolean crawling = entity.isCrawling();
-        float swimStrength = crawling ? 0.0F : Mth.clamp(limbSwingAmount, 0.0F, 1.0F);
-        float crawlStrength = crawling ? Mth.clamp(limbSwingAmount, 0.0F, 1.0F) : 0.0F;
-
-        for (int idx = 0; idx < this.leftArmParts.length; idx++) {
-            float phase = idx * ((float) Math.PI / 3.5F);
-
-            float idleWave = Mth.sin(ageInTicks * idleFrequency + phase) * idleAmplitude;
-            float swimWave = Mth.sin(limbSwing * swimFrequency + phase) * swimStrength * 0.5F;
-            float crawlWave = Mth.sin(limbSwing * 0.5F + phase) * crawlStrength * 0.35F * (idx % 2 == 0 ? 1.0F : -1.0F);
-            float totalZRot = idleWave + swimWave + crawlWave;
-
-            float sway = Mth.cos(ageInTicks * idleFrequency * 0.6F + phase) * 0.1F;
-
-            ModelPart left = this.leftArmParts[idx];
-            ModelPart right = this.rightArmParts[idx];
-
-            left.zRot = totalZRot;
-            left.yRot = sway;
-
-            right.zRot = -totalZRot;
-            right.yRot = -sway;
-        }
-
-        float jetPulse = Mth.sin(limbSwing * swimFrequency) * swimStrength;
-        this.base.y = -jetPulse * 0.6F;
-
-        this.head.yRot = netHeadYaw * ((float) Math.PI / 180F) * 0.25F;
-        this.head.xRot = headPitch * ((float) Math.PI / 180F) * 0.2F;
+    private static float yawFor(int index, float direction) {
+        return (NATIVE_DIRECTIONS[index] - direction) * Mth.DEG_TO_RAD;
     }
 
     @Override
+    public void prepareMobModel(T entity, float f, float g, float partialTick) {
+        this.restAmount = entity.getRestAmount(partialTick);
+        this.jetAmount = entity.getJetAmount(partialTick);
+        this.threatAmount = entity.getThreatAmount(partialTick);
+        this.pounceAmount = entity.getPounceAmount(partialTick);
+        this.reachAmount = entity.getReachAmount(partialTick);
+        this.stalkAmount = entity.getStalkAmount(partialTick);
+        this.tint = FastColor.ARGB32.colorFromFloat(1.0F, entity.getCamoRed(partialTick), entity.getCamoGreen(partialTick), entity.getCamoBlue(partialTick));
+    }
+
+    @Override
+    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.root().getAllParts().forEach(ModelPart::resetPose);
+
+        boolean crawling = entity.isCrawling();
+        float swimStrength = crawling ? 0.0F : Mth.clamp(limbSwingAmount, 0.0F, 1.0F);
+        float crawlStrength = crawling ? Mth.clamp(limbSwingAmount, 0.0F, 1.0F) : 0.0F;
+        float calm = 1.0F - Math.max(this.restAmount, this.stalkAmount * 0.7F);
+
+        for (int i = 0; i < this.arms.length; i++) {
+            // Phases run evenly around the body, so neighbouring arms move almost together
+            float phase = i * Mth.TWO_PI / this.arms.length;
+            float lift = Mth.sin(ageInTicks * 0.045F + phase) * 0.15F * calm
+                    + Mth.sin(limbSwing * 0.6F + phase) * swimStrength * 0.45F
+                    + Math.max(0.0F, Mth.sin(limbSwing * 0.5F + phase)) * crawlStrength * 0.35F;
+            float sway = Mth.cos(ageInTicks * 0.03F + phase) * 0.08F * calm;
+            float direction = DIRECTIONS[i];
+
+            lift = Mth.lerp(this.restAmount, lift, -0.05F);
+            lift = Mth.lerp(this.stalkAmount, lift, 0.0F);
+            lift = Mth.lerp(this.threatAmount, lift, -0.1F);
+            sway = Mth.lerp(this.threatAmount, sway, 0.0F);
+            // Jetting: arms trail behind the mantle
+            float trailing = Math.signum(direction) * (180.0F - (180.0F - Math.abs(direction)) * 0.15F);
+            direction = Mth.lerp(this.jetAmount, direction, trailing);
+            lift = Mth.lerp(this.jetAmount, lift, 0.1F + Mth.sin(ageInTicks * 0.8F + phase) * 0.05F);
+            // Pounce: arms swing forward and up to throw the web over the prey
+            direction = Mth.lerp(this.pounceAmount, direction, direction * 0.5F);
+            lift = Mth.lerp(this.pounceAmount, lift, 0.6F);
+            // Reach: the front-left arm stretches forward to touch
+            if (i == 0) {
+                direction = Mth.lerp(this.reachAmount, direction, 0.0F);
+                lift = Mth.lerp(this.reachAmount, lift, 0.35F + Mth.sin(ageInTicks * 0.5F) * 0.15F);
+            }
+
+            this.slots[i].yRot = yawFor(i, direction);
+            this.applyLift(i, lift);
+            this.arms[i].yRot = sway;
+        }
+
+        // The mantle breathes, puffs up in a threat display and squeezes with each jet pulse
+        float breath = 1.0F + Mth.sin(ageInTicks * 0.1F) * 0.03F;
+        float puff = 1.0F + 0.12F * this.threatAmount;
+        float squeeze = 1.0F - 0.08F * Math.max(0.0F, Mth.sin(ageInTicks * 0.8F)) * this.jetAmount;
+        this.head.xScale = breath * puff * squeeze;
+        this.head.zScale = breath * puff * squeeze;
+        this.head.yScale = breath * puff;
+
+        float jetPulse = Mth.sin(limbSwing * 0.6F) * swimStrength;
+        this.base.y = -jetPulse * 0.6F;
+
+        this.head.yRot = netHeadYaw * ((float) Math.PI / 180F) * 0.25F;
+        this.head.xRot = headPitch * ((float) Math.PI / 180F) * 0.2F + 0.3F * this.restAmount;
+        this.leftEye.yRot = netHeadYaw * ((float) Math.PI / 180F) * 0.3F;
+        this.rightEye.yRot = netHeadYaw * ((float) Math.PI / 180F) * 0.3F;
+    }
+
+    // Lifts an arm around the axis perpendicular to its own length; positive lift raises the tip
+    private void applyLift(int index, float lift) {
+        float nativeDirection = NATIVE_DIRECTIONS[index];
+        ModelPart arm = this.arms[index];
+        if (nativeDirection == 0.0F) {
+            arm.xRot = -lift;
+        } else if (nativeDirection == 180.0F) {
+            arm.xRot = lift;
+        } else if (nativeDirection == 90.0F) {
+            arm.zRot = -lift;
+        } else {
+            arm.zRot = lift;
+        }
+    }
+
+    // Camouflage: the colour from the entity is multiplied into the texture
+    @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int j, int k) {
+        int color = FastColor.ARGB32.multiply(k, this.tint);
         if (this.young) {
             poseStack.pushPose();
             poseStack.scale(0.5f, 0.5f, 0.5f);
             poseStack.translate(0.0F, 1.5F, 0.0F);
-            super.renderToBuffer(poseStack, vertexConsumer, i, j, k);
+            super.renderToBuffer(poseStack, vertexConsumer, i, j, color);
             poseStack.popPose();
         } else {
-            super.renderToBuffer(poseStack, vertexConsumer, i, j, k);
+            super.renderToBuffer(poseStack, vertexConsumer, i, j, color);
         }
     }
 

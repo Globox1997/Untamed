@@ -23,7 +23,7 @@ public class SpawnInit {
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.LIONESS, ConfigInit.CONFIG.lionessSpawnWeight, 2, 4);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.RHINO, ConfigInit.CONFIG.rhinoSpawnWeight, 2, 4);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_RIVER), MobCategory.CREATURE, EntityInit.CAPYBARA, ConfigInit.CONFIG.capybaraSpawnWeight, 2, 3);
-        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_OCEAN), MobCategory.CREATURE, EntityInit.OCTOPUS, ConfigInit.CONFIG.octopusSpawnWeight, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_OCEAN), MobCategory.WATER_CREATURE, EntityInit.OCTOPUS, ConfigInit.CONFIG.octopusSpawnWeight, 1, 1);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_TAIGA), MobCategory.CREATURE, EntityInit.KIWI, ConfigInit.CONFIG.kiwiSpawnWeight, 2, 2);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_FOREST), MobCategory.CREATURE, EntityInit.BLACK_BEAR, ConfigInit.CONFIG.blackBearSpawnWeight, 1, 2);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.BUFFALO, ConfigInit.CONFIG.buffaloSpawnWeight, 2, 4);
