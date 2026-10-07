@@ -15,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 @Environment(EnvType.CLIENT)
 public class CapybaraModel<T extends CapybaraEntity> extends HierarchicalModel<T> {
 
-    private static final float WALK_CYCLE_FREQ = 0.6662F; // vanilla quadruped cycle
+    private static final float WALK_CYCLE_FREQ = 0.6662F;
     private static final float WALK_CYCLE_AMP = 1.4F;
     private static final float TAU = (float) (Math.PI * 2);
     private static final float SLOW_SHARE = 0.7F;
@@ -95,11 +95,19 @@ public class CapybaraModel<T extends CapybaraEntity> extends HierarchicalModel<T
         this.ear_left.yRot = 0.3927F + ear;
         this.ear_right.yRot = -0.3927F - ear;
 
-        if (entity.isDiving() && !entity.isRiverbed()) this.poseDiveDescent(ageInTicks, headPitchRad);
-        else if (entity.isDiving()) this.poseRiverbed(limbSwing, limbSwingAmount, ageInTicks, headPitchRad);
-        else if (entity.isResting() && !entity.isInWater() && entity.onGround()) this.poseSitting(entityId, ageInTicks, headYaw, headPitchRad);
-        else if (entity.isInWater() && limbSwingAmount < 0.05F) this.poseFloating(ageInTicks, headPitchRad);
-        else this.poseWalking(limbSwing, limbSwingAmount, headPitchRad);
+        if (entity.isDiving() && !entity.isRiverbed()) {
+            this.poseDiveDescent(ageInTicks, headPitchRad);
+        } else if (entity.isDiving()) {
+            this.poseRiverbed(limbSwing, limbSwingAmount, ageInTicks, headPitchRad);
+        } else if (entity.isResting() && !entity.isInWater() && entity.onGround()) {
+            this.poseSitting(entityId, ageInTicks, headYaw, headPitchRad);
+        } else if (entity.isGrazing() && !entity.isInWater()) {
+            this.poseGrazing(limbSwing, limbSwingAmount, ageInTicks);
+        } else if (entity.isInWater() && limbSwingAmount < 0.05F) {
+            this.poseFloating(ageInTicks, headPitchRad);
+        } else {
+            this.poseWalking(limbSwing, limbSwingAmount, headPitchRad);
+        }
     }
 
     private void resetPose() {
@@ -108,11 +116,21 @@ public class CapybaraModel<T extends CapybaraEntity> extends HierarchicalModel<T
         this.body.y = -4.0F;
         this.ear_left.yRot = 0.3927F;
         this.ear_right.yRot = -0.3927F;
-        this.rightFrontLeg.x = -3.0F; this.rightFrontLeg.y = -4.0F; this.rightFrontLeg.z = -5.0F;
-        this.leftFrontLeg.x = 3.0F; this.leftFrontLeg.y = -4.0F; this.leftFrontLeg.z = -5.0F;
-        this.rightBackLeg.x = -3.75F; this.rightBackLeg.y = -9.0F; this.rightBackLeg.z = 5F;
-        this.leftBackLeg.x = 4F; this.leftBackLeg.y = -9.0F; this.leftBackLeg.z = 5F;
-        this.body.yScale = 1; this.body.xScale = 1; this.body.zScale = 1;
+        this.rightFrontLeg.x = -3.0F;
+        this.rightFrontLeg.y = -4.0F;
+        this.rightFrontLeg.z = -5.0F;
+        this.leftFrontLeg.x = 3.0F;
+        this.leftFrontLeg.y = -4.0F;
+        this.leftFrontLeg.z = -5.0F;
+        this.rightBackLeg.x = -3.75F;
+        this.rightBackLeg.y = -9.0F;
+        this.rightBackLeg.z = 5F;
+        this.leftBackLeg.x = 4F;
+        this.leftBackLeg.y = -9.0F;
+        this.leftBackLeg.z = 5F;
+        this.body.yScale = 1;
+        this.body.xScale = 1;
+        this.body.zScale = 1;
         this.head.zScale = 1;
     }
 
@@ -120,12 +138,16 @@ public class CapybaraModel<T extends CapybaraEntity> extends HierarchicalModel<T
         this.body.xRot = 0.3F;
         this.head.xRot = headPitchRad + 0.6F;
         float kick = Mth.cos(ageInTicks * 0.08F) * 0.25F;
-        this.rightFrontLeg.y = -3F; this.rightFrontLeg.z = -4F;
-        this.leftFrontLeg.y = -3F; this.leftFrontLeg.z = -4F;
+        this.rightFrontLeg.y = -3F;
+        this.rightFrontLeg.z = -4F;
+        this.leftFrontLeg.y = -3F;
+        this.leftFrontLeg.z = -4F;
         this.rightFrontLeg.xRot = 0.8F + kick;
         this.leftFrontLeg.xRot = 0.8F - kick;
-        this.rightBackLeg.z = 3F; this.rightBackLeg.y = -10F;
-        this.leftBackLeg.z = 3F; this.leftBackLeg.y = -10F;
+        this.rightBackLeg.z = 3F;
+        this.rightBackLeg.y = -10F;
+        this.leftBackLeg.z = 3F;
+        this.leftBackLeg.y = -10F;
         this.rightBackLeg.xRot = 0.8F - kick;
         this.leftBackLeg.xRot = 0.8F + kick;
     }
@@ -133,7 +155,7 @@ public class CapybaraModel<T extends CapybaraEntity> extends HierarchicalModel<T
     private void poseRiverbed(float limbSwing, float limbSwingAmount, float ageInTicks, float headPitchRad) {
         this.body.xRot = 0.0F;
         this.head.xRot = headPitchRad;
-        float blend = Mth.clamp(limbSwingAmount / 0.3F, 0.0F, 1.0F); // 0 = still, 1 = moving
+        float blend = Mth.clamp(limbSwingAmount / 0.3F, 0.0F, 1.0F);
         float sway = Mth.cos(ageInTicks * 0.05F) * 0.05F;
         float amp = 0.45F * Math.max(0.7F, limbSwingAmount);
         float base = limbSwing * 0.75F;
@@ -157,23 +179,35 @@ public class CapybaraModel<T extends CapybaraEntity> extends HierarchicalModel<T
         this.body.y = -3F;
         this.rightFrontLeg.xRot = 0F;
         this.leftFrontLeg.xRot = 0F;
-        this.rightBackLeg.y = -4F; this.rightBackLeg.z = 7F; this.rightBackLeg.xRot = -1.2F;
-        this.leftBackLeg.y = -4F; this.leftBackLeg.z = 7F; this.leftBackLeg.xRot = -1.2F;
+        this.rightBackLeg.y = -4F;
+        this.rightBackLeg.z = 7F;
+        this.rightBackLeg.xRot = -1.2F;
+        this.leftBackLeg.y = -4F;
+        this.leftBackLeg.z = 7F;
+        this.leftBackLeg.xRot = -1.2F;
 
-        this.head.zScale = 1 - 0.1F * sniffPulse(entityId, ageInTicks); // olisqueo
-        // this.body.xScale = 1 + Mth.cos(ageInTicks * 0.05F) * 0.05F; // respiración
+        this.head.zScale = 1 - 0.1F * sniffPulse(entityId, ageInTicks);
     }
 
     private void poseFloating(float ageInTicks, float headPitchRad) {
         this.body.xRot = -0.1F;
         this.head.xRot = headPitchRad - 0.15F;
         float paddle = Mth.cos(ageInTicks * 0.25F) * 0.35F;
-        this.leftBackLeg.y = -8.5F; this.leftBackLeg.z = 6F;
-        this.rightBackLeg.y = -8.5F; this.rightBackLeg.z = 6F;
+        this.leftBackLeg.y = -8.5F;
+        this.leftBackLeg.z = 6F;
+        this.rightBackLeg.y = -8.5F;
+        this.rightBackLeg.z = 6F;
         this.rightFrontLeg.xRot = -0.6F + paddle;
         this.leftFrontLeg.xRot = -0.6F - paddle;
         this.rightBackLeg.xRot = -paddle;
         this.leftBackLeg.xRot = paddle;
+    }
+
+    private void poseGrazing(float limbSwing, float limbSwingAmount, float ageInTicks) {
+        this.poseWalking(limbSwing, limbSwingAmount, 0.0F);
+        this.body.xRot = 0.1F;
+        this.head.y = -4.0F;
+        this.head.xRot = 0.9F + Mth.sin(ageInTicks * 0.4F) * 0.05F;
     }
 
     private void poseWalking(float limbSwing, float limbSwingAmount, float headPitchRad) {
@@ -186,7 +220,7 @@ public class CapybaraModel<T extends CapybaraEntity> extends HierarchicalModel<T
     }
 
     private static float earFlap(int entityId, float ageInTicks) {
-        float t = ageInTicks + entityId * 13F; // use number prime and that it does not divide EAR_PERIOD
+        float t = ageInTicks + entityId * 13F;
         float s = t % EAR_PERIOD;
         if (s >= EAR_FLAP_TOTAL) return 0F;
         if (skipThisEvent(t)) return 0F;
@@ -200,7 +234,7 @@ public class CapybaraModel<T extends CapybaraEntity> extends HierarchicalModel<T
     }
 
     private static float sniffPulse(int entityId, float ageInTicks) {
-        float t = ageInTicks + entityId * 13F; // idem but SNIFF_PERIOD
+        float t = ageInTicks + entityId * 13F;
         float s = t % SNIFF_PERIOD;
         if (s >= SNIFF_BURST_TICKS) return 0F;
         if (skipThisBurst(ageInTicks)) return 0F;
@@ -212,7 +246,9 @@ public class CapybaraModel<T extends CapybaraEntity> extends HierarchicalModel<T
         return burst * 7919 % SNIFF_SKIP_ONE_IN == 0;
     }
 
-    private static float triangle(float t) { return t < 5 ? t / 5F : (10 - t) / 5F; }
+    private static float triangle(float t) {
+        return t < 5 ? t / 5F : (10 - t) / 5F;
+    }
 
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int j, int k) {
@@ -228,5 +264,7 @@ public class CapybaraModel<T extends CapybaraEntity> extends HierarchicalModel<T
     }
 
     @Override
-    public @NotNull ModelPart root() { return this.root; }
+    public @NotNull ModelPart root() {
+        return this.root;
+    }
 }

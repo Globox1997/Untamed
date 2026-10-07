@@ -31,6 +31,7 @@ public class CapybaraPredatorsSensor extends Sensor<CapybaraEntity> {
         if (predator.isPresent()) {
             brain.setMemoryWithExpiry(BrainInit.NEAREST_VISIBLE_PREDATOR, predator.get(), PREDATOR_MEMORY_EXPIRY);
             brain.setMemoryWithExpiry(MemoryModuleType.IS_PANICKING, true, PANIC_MEMORY_EXPIRY);
+            livingEntity.raiseAlarm(predator.get());
         } else {
             brain.eraseMemory(BrainInit.NEAREST_VISIBLE_PREDATOR);
         }

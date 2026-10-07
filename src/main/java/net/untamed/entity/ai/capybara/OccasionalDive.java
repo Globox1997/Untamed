@@ -70,24 +70,6 @@ public class OccasionalDive extends Behavior<CapybaraEntity> {
         }
     }
 
-    // Sin uso. Still commented if another mobs requires. Maybe Octopus?
-    //    private void retargetBottom(ServerLevel level, CapybaraEntity capybara) {
-    //        float yRotRad = capybara.getYRot() * ((float) Math.PI / 180F);
-    //        Vec3 ahead = capybara.position().add(-Mth.sin(yRotRad) * 6.0, 0.0, Mth.cos(yRotRad) * 6.0);
-    //        for (int attempt = 0; attempt < 4; attempt++) {
-    //            Vec3 candidate = attempt == 0
-    //                    ? LandRandomPos.getPosTowards(capybara, 8, 4, ahead)
-    //                    : LandRandomPos.getPos(capybara, 8, 4);
-    //            if (candidate == null) return;
-    //            BlockPos bottom = WaterUtils.findBottomAt(level,
-    //                    BlockPos.containing(candidate.x, capybara.blockPosition().getY(), candidate.z));
-    //            if (bottom != null && capybara.distanceToSqr(Vec3.atBottomCenterOf(bottom)) > 2.0) {
-    //                capybara.getNavigation().moveTo(bottom.getX() + 0.5, bottom.getY(), bottom.getZ() + 0.5, this.speedModifier);
-    //                return;
-    //            }
-    //        }
-    //    }
-
     @Override
     protected boolean canStillUse(ServerLevel level, CapybaraEntity capybara, long time) {
         return capybara.isDiving() && !capybara.isPanicking();

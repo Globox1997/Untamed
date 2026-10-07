@@ -125,8 +125,7 @@ public class CapybaraAi {
                                                 e -> !e.isDiving()
                                                         && !e.getBrain().hasMemoryValue(BrainInit.IDLE_REST)
                                                         && e.getRandom().nextInt(80) == 0,
-                                                (OneShot<? super CapybaraEntity>) RandomStroll.swim(SPEED_MULTIPLIER_SWIM)), 1),
-                                        Pair.of(RandomStroll.stroll(SPEED_MULTIPLIER_STROLL, false), 1))))),
+                                                (OneShot<? super CapybaraEntity>) RandomStroll.swim(SPEED_MULTIPLIER_SWIM)), 1))))),
                 ImmutableSet.of(Pair.of(MemoryModuleType.IS_IN_WATER, MemoryStatus.VALUE_PRESENT)));
     }
 
@@ -142,6 +141,7 @@ public class CapybaraAi {
                                 livingEntity -> SPEED_MULTIPLIER_WHEN_FOLLOWING_ADULT), 1)))),
                 Pair.of(3, new HerdTogether(SPEED_MULTIPLIER_STROLL)),
                 Pair.of(4, new SeekWater(SPEED_MULTIPLIER_STROLL)),
+                Pair.of(5, new GrazeGrass()),
                 Pair.of(5, new RestIdle<>(REST_MIN_DURATION, REST_MAX_DURATION,
                         c -> !c.isInWater() || c.hasSurfaceAccess(),
                         CapybaraAi::herdLookTarget)),

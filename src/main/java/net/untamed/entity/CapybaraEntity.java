@@ -1,9 +1,12 @@
 package net.untamed.entity;
 
 import com.mojang.serialization.Dynamic;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Vec3i;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.protocol.game.DebugPackets;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
@@ -72,12 +75,22 @@ public class CapybaraEntity extends Animal {
     private static final int HOP_COOLDOWN_TICKS = 12;
     private static final float JAMMED_VELOCITY_SQR = 0.004F;
     private static final float FORWARD_INPUT_EPSILON = 0.02F;
+    private static final float BABY_SPAWN_CHANCE = 0.25F;
+    private static final int MAX_SPAWN_GROUP = 6;
+    private static final double ALARM_RANGE = 16.0D;
+    private static final long ALARM_COOLDOWN = 60L;
+    private static final long ALARM_PANIC_TICKS = 120L;
+    private static final long ALARM_PREDATOR_TICKS = 200L;
+
+    private long lastAlarmTime = -ALARM_COOLDOWN;
 
     private static final EntityDataAccessor<Boolean> DATA_DIVING = SynchedEntityData.defineId(CapybaraEntity.class, EntityDataSerializers.BOOLEAN);
 
     private static final EntityDataAccessor<Boolean> DATA_RESTING = SynchedEntityData.defineId(CapybaraEntity.class, EntityDataSerializers.BOOLEAN);
 
     private static final EntityDataAccessor<Boolean> DATA_RIVERBED = SynchedEntityData.defineId(CapybaraEntity.class, EntityDataSerializers.BOOLEAN);
+
+    private static final EntityDataAccessor<Boolean> DATA_GRAZING = SynchedEntityData.defineId(CapybaraEntity.class, EntityDataSerializers.BOOLEAN);
 
     public CapybaraEntity(EntityType<? extends CapybaraEntity> entityType, Level level) {
         super(entityType, level);
@@ -139,10 +152,44 @@ public class CapybaraEntity extends Animal {
     @Override
     @SuppressWarnings("resource")
     public boolean hurt(DamageSource damageSource, float amount) {
-        if (!this.level().isClientSide() && !this.isNoAi() && damageSource.getEntity() != null) {
+        boolean hurt = super.hurt(damageSource, amount);
+        if (hurt && !this.level().isClientSide() && !this.isNoAi() && damageSource.getEntity() != null) {
             this.brain.setMemoryWithExpiry(MemoryModuleType.IS_PANICKING, true, 200L);
+            this.raiseAlarm(damageSource.getEntity() instanceof LivingEntity attacker ? attacker : null);
         }
-        return super.hurt(damageSource, amount);
+        return hurt;
+    }
+
+    public void raiseAlarm(@Nullable LivingEntity threat) {
+        long time = this.level().getGameTime();
+        if (time - this.lastAlarmTime < ALARM_COOLDOWN) {
+            return;
+        }
+        this.lastAlarmTime = time;
+        this.playSound(SoundInit.CAPYBARA_IDLE_EVENT, 1.5F, 1.6F);
+        this.brain.getMemory(BrainInit.NEAREST_HERD_MEMBERS).ifPresent(members -> {
+            for (LivingEntity member : members) {
+                if (member instanceof CapybaraEntity capybara && capybara.isAlive() && this.distanceToSqr(capybara) < ALARM_RANGE * ALARM_RANGE) {
+                    capybara.receiveAlarm(threat, time);
+                }
+            }
+        });
+    }
+
+    private void receiveAlarm(@Nullable LivingEntity threat, long time) {
+        this.lastAlarmTime = time;
+        this.brain.setMemoryWithExpiry(MemoryModuleType.IS_PANICKING, true, ALARM_PANIC_TICKS);
+        if (threat != null && threat.isAlive()) {
+            this.brain.setMemoryWithExpiry(BrainInit.NEAREST_VISIBLE_PREDATOR, threat, ALARM_PREDATOR_TICKS);
+        }
+    }
+
+    public boolean isGrazing() {
+        return this.entityData.get(DATA_GRAZING);
+    }
+
+    public void setGrazing(boolean grazing) {
+        this.entityData.set(DATA_GRAZING, grazing);
     }
 
     public void startSoak() {
@@ -185,6 +232,7 @@ public class CapybaraEntity extends Animal {
         builder.define(DATA_DIVING, false);
         builder.define(DATA_RESTING, false);
         builder.define(DATA_RIVERBED, false);
+        builder.define(DATA_GRAZING, false);
     }
 
     @SuppressWarnings("resource")
@@ -319,25 +367,6 @@ public class CapybaraEntity extends Animal {
     }
 
     @Override
-    public void baseTick() {
-        int currentAir = this.getAirSupply();
-        super.baseTick();
-        if (!this.isNoAi()) {
-            this.handleAirSupply(currentAir);
-        }
-    }
-
-    private void handleAirSupply(int currentAir) {
-        if (this.isAlive() && this.isEyesUnderwater()) {
-            this.setAirSupply(currentAir - 1);
-            if (this.getAirSupply() == -20) {
-                this.setAirSupply(0);
-                this.hurt(this.damageSources().drown(), 2.0F);
-            }
-        } else this.setAirSupply(this.getMaxAirSupply());
-    }
-
-    @Override
     public int getMaxHeadXRot() {
         return 30;
     }
@@ -387,7 +416,7 @@ public class CapybaraEntity extends Animal {
 
     public static boolean checkCapybaraEntitySpawnRules(EntityType<CapybaraEntity> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
         Holder<Biome> holder = levelAccessor.getBiome(blockPos);
-        return !holder.is(BiomeTags.IS_RIVER) ? checkAnimalSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource)
+        return !holder.is(BiomeTags.IS_RIVER) && !holder.is(ConventionalBiomeTags.IS_SWAMP) ? checkAnimalSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource)
                 : isBrightEnoughToSpawn(levelAccessor, blockPos) && levelAccessor.getBlockState(blockPos.below()).is(TagInit.CAPYBARAS_SPAWNABLE_ON);
     }
 
@@ -414,10 +443,29 @@ public class CapybaraEntity extends Animal {
     @Override
     public @NotNull SpawnGroupData finalizeSpawn(ServerLevelAccessor serverLevelAccessor, DifficultyInstance difficultyInstance, MobSpawnType mobSpawnType, @Nullable SpawnGroupData spawnGroupData) {
         if (spawnGroupData == null) {
-            spawnGroupData = new AgeableMob.AgeableMobGroupData(1.0F);
+            spawnGroupData = new AgeableMob.AgeableMobGroupData(BABY_SPAWN_CHANCE);
         }
 
         return super.finalizeSpawn(serverLevelAccessor, difficultyInstance, mobSpawnType, spawnGroupData);
+    }
+
+    @Override
+    public int getMaxSpawnClusterSize() {
+        return MAX_SPAWN_GROUP;
+    }
+
+    @Override
+    public void addAdditionalSaveData(CompoundTag compoundTag) {
+        super.addAdditionalSaveData(compoundTag);
+        if (this.waterAnchor != null) {
+            compoundTag.put("WaterAnchor", NbtUtils.writeBlockPos(this.waterAnchor));
+        }
+    }
+
+    @Override
+    public void readAdditionalSaveData(CompoundTag compoundTag) {
+        super.readAdditionalSaveData(compoundTag);
+        this.waterAnchor = NbtUtils.readBlockPos(compoundTag, "WaterAnchor").orElse(null);
     }
 
     @SuppressWarnings("resource")

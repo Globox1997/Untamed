@@ -17,7 +17,7 @@ public class CapybaraRenderer extends MobRenderer<CapybaraEntity, CapybaraModel<
     private static final ResourceLocation CAPYBARA_LOCATION = UntamedMain.identifierOf("textures/entity/capybara.png");
 
     public CapybaraRenderer(EntityRendererProvider.Context context) {
-        super(context, new CapybaraModel<>(context.bakeLayer(RenderInit.CAPYBARA_LAYER)), 0.9F);
+        super(context, new CapybaraModel<>(context.bakeLayer(RenderInit.CAPYBARA_LAYER)), 0.5F);
     }
 
     @Override
