@@ -93,6 +93,9 @@
   "tag.block.untamed.rhino_wallow_blocks": "Rhino Wallow Blocks",
   "tag.entity_type.untamed.kiwi_predators": "Kiwi Predators",
   "tag.entity_type.untamed.octopus_prey": "Octopus Prey",
+  "tag.entity_type.untamed.black_panther_prey": "Black Panther Prey",
+  "tag.entity_type.untamed.black_panther_livestock_prey": "Black Panther Livestock Prey",
+  "tag.entity_type.untamed.black_panther_fish": "Black Panther Fish",
 
   "text.autoconfig.untamed.title": "Untamed",
   "text.autoconfig.untamed.option.lionSpawnweight": "Lion Spawn Weight",
@@ -109,5 +112,6 @@
   "text.autoconfig.untamed.option.hyenaSpawnWeight": "Hyena Spawn Weight",
   "text.autoconfig.untamed.category.behavior_setting": "Behavior",
   "text.autoconfig.untamed.option.lionsHuntLivestock": "Lions Hunt Livestock",
-  "text.autoconfig.untamed.option.hyenasHuntLivestock": "Hyenas Hunt Livestock"
+  "text.autoconfig.untamed.option.hyenasHuntLivestock": "Hyenas Hunt Livestock",
+  "text.autoconfig.untamed.option.panthersHuntLivestock": "Panthers Hunt Livestock"
 }

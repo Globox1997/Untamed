@@ -61,4 +61,6 @@ public class UntamedConfig implements ConfigData {
     public boolean lionsHuntLivestock = true;
     @ConfigEntry.Category("behavior_setting")
     public boolean hyenasHuntLivestock = true;
+    @ConfigEntry.Category("behavior_setting")
+    public boolean panthersHuntLivestock = true;
 }

@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.untamed.UntamedMain;
 import net.untamed.entity.BlackPantherEntity;
 import net.untamed.entity.model.BlackPantherModel;
+import net.untamed.entity.render.feature.PantherEyesLayer;
 import net.untamed.init.RenderInit;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +19,7 @@ public class BlackPantherRenderer extends MobRenderer<BlackPantherEntity, BlackP
 
     public BlackPantherRenderer(EntityRendererProvider.Context context) {
         super(context, new BlackPantherModel<>(context.bakeLayer(RenderInit.BLACK_PANTHER_LAYER)), 0.9F);
+        this.addLayer(new PantherEyesLayer(this));
     }
 
     @Override
