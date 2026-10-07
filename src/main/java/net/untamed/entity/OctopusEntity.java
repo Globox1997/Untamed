@@ -78,6 +78,7 @@ public class OctopusEntity extends Animal {
 
     private float camoR = 1.0F, camoG = 1.0F, camoB = 1.0F;
     private float camoRO = 1.0F, camoGO = 1.0F, camoBO = 1.0F;
+    private float camoAmount, camoAmountO;
     private float restAmount, restAmountO;
     private float jetAmount, jetAmountO;
     private float threatAmount, threatAmountO;
@@ -87,7 +88,7 @@ public class OctopusEntity extends Animal {
 
     public OctopusEntity(EntityType<? extends OctopusEntity> entityType, Level level) {
         super(entityType, level);
-        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.1F, true);
+        this.moveControl = new SmoothSwimmingMoveControl(this, 85, 10, 0.02F, 0.5F, true);
         this.lookControl = new SmoothSwimmingLookControl(this, 10);
     }
 
@@ -360,25 +361,23 @@ public class OctopusEntity extends Animal {
         this.camoRO = this.camoR;
         this.camoGO = this.camoG;
         this.camoBO = this.camoB;
-        float targetR = 1.0F, targetG = 1.0F, targetB = 1.0F;
-        if (pose == OctopusPose.THREAT) {
-            targetR = 0.55F;
-            targetG = 0.2F;
-            targetB = 0.15F;
-        } else if (this.onGround() || this.isCrawling() || pose == OctopusPose.RESTING || pose == OctopusPose.STALKING) {
+        this.camoAmountO = this.camoAmount;
+        float targetAmount = 0.0F;
+        if (pose != OctopusPose.THREAT && (this.onGround() || this.isCrawling() || pose == OctopusPose.RESTING || pose == OctopusPose.STALKING)) {
             BlockPos below = this.blockPosition().below();
             MapColor mapColor = this.level().getBlockState(below).getMapColor(this.level(), below);
             if (mapColor != MapColor.NONE) {
-                float strength = pose == OctopusPose.RESTING || pose == OctopusPose.STALKING ? 0.85F : 0.5F;
-                targetR = Mth.lerp(strength, 1.0F, ((mapColor.col >> 16) & 0xFF) / 255.0F);
-                targetG = Mth.lerp(strength, 1.0F, ((mapColor.col >> 8) & 0xFF) / 255.0F);
-                targetB = Mth.lerp(strength, 1.0F, (mapColor.col & 0xFF) / 255.0F);
+                targetAmount = pose == OctopusPose.RESTING || pose == OctopusPose.STALKING ? 0.95F : 0.7F;
+                this.camoR = Mth.approach(this.camoR, ((mapColor.col >> 16) & 0xFF) / 255.0F, 0.1F);
+                this.camoG = Mth.approach(this.camoG, ((mapColor.col >> 8) & 0xFF) / 255.0F, 0.1F);
+                this.camoB = Mth.approach(this.camoB, (mapColor.col & 0xFF) / 255.0F, 0.1F);
             }
         }
-        float speed = pose == OctopusPose.THREAT ? 0.3F : 0.06F;
-        this.camoR = Mth.approach(this.camoR, targetR, speed);
-        this.camoG = Mth.approach(this.camoG, targetG, speed);
-        this.camoB = Mth.approach(this.camoB, targetB, speed);
+        this.camoAmount = Mth.approach(this.camoAmount, targetAmount, pose == OctopusPose.THREAT ? 0.3F : 0.04F);
+    }
+
+    public float getCamoAmount(float partialTick) {
+        return Mth.lerp(partialTick, this.camoAmountO, this.camoAmount);
     }
 
     public float getCamoRed(float partialTick) {
@@ -458,7 +457,11 @@ public class OctopusEntity extends Animal {
     }
 
     public static class GoToWaterGoal extends MoveToBlockGoal {
+        private static final double HOP_DISTANCE = 3.0D;
+        private static final int HOP_COOLDOWN = 20;
+
         private final OctopusEntity octopus;
+        private int hopCooldown;
 
         public GoToWaterGoal(OctopusEntity octopus, double speedModifier, int searchRange) {
             super(octopus, speedModifier, searchRange, 4);
@@ -473,6 +476,42 @@ public class OctopusEntity extends Animal {
         @Override
         public boolean canContinueToUse() {
             return !this.octopus.isInWater() && super.canContinueToUse();
+        }
+
+        @Override
+        protected int nextStartTick(PathfinderMob pathfinderMob) {
+            return reducedTickDelay(10);
+        }
+
+        @Override
+        public void start() {
+            super.start();
+            this.hopCooldown = 0;
+        }
+
+        @Override
+        public void tick() {
+            super.tick();
+            if (this.hopCooldown > 0) {
+                this.hopCooldown--;
+                return;
+            }
+            if (!this.octopus.onGround() || this.octopus.isInWater()) {
+                return;
+            }
+            Vec3 target = Vec3.atCenterOf(this.blockPos);
+            Vec3 horizontal = new Vec3(target.x - this.octopus.getX(), 0.0D, target.z - this.octopus.getZ());
+            if (horizontal.lengthSqr() < HOP_DISTANCE * HOP_DISTANCE && horizontal.lengthSqr() > 1.0E-4D) {
+                Vec3 direction = horizontal.normalize();
+                this.octopus.setDeltaMovement(direction.x * 0.35D, 0.42D, direction.z * 0.35D);
+                this.octopus.hasImpulse = true;
+                this.hopCooldown = HOP_COOLDOWN;
+            }
+        }
+
+        @Override
+        public boolean requiresUpdateEveryTick() {
+            return true;
         }
 
         @Override

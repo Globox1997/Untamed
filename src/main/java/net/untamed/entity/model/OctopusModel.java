@@ -16,12 +16,8 @@ import net.untamed.entity.OctopusEntity;
 public class OctopusModel<T extends OctopusEntity> extends HierarchicalModel<T> {
 
     private static final float RING_RADIUS = 2.5F;
-    // Arms in order around the body, starting front-left. Each arm hangs from a slot part turned towards its own direction,
-    // so lifting the arm never swings it sideways into its neighbours.
     private static final String[] ARM_NAMES = {"arm0", "arm2", "arm3", "arm1", "arm5", "arm7", "arm6", "arm4"};
-    // Direction the arm box points in when unrotated, in degrees from the front (positive towards +x)
     private static final float[] NATIVE_DIRECTIONS = {0.0F, 90.0F, 90.0F, 180.0F, 180.0F, -90.0F, -90.0F, 0.0F};
-    // Direction of each arm around the body, 45 degrees apart
     private static final float[] DIRECTIONS = {22.5F, 67.5F, 112.5F, 157.5F, -157.5F, -112.5F, -67.5F, -22.5F};
 
     private final ModelPart root;
@@ -70,7 +66,6 @@ public class OctopusModel<T extends OctopusEntity> extends HierarchicalModel<T> 
 
         head.addOrReplaceChild("rightEye", CubeListBuilder.create().texOffs(57, 36).addBox(-3.0F, -3.0F, -3.0F, 4.0F, 3.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offset(-1.5F, 0.0F, 0.0F));
 
-        // Arms keep the original box sizes and texture offsets, only the hierarchy and direction changed
         addArm(root, 0, CubeListBuilder.create().texOffs(38, 29).addBox(-1.5F, -2.0F, -12.0F, 3.0F, 3.0F, 13.0F, new CubeDeformation(0.0F))
                 .texOffs(25, 59).addBox(-1.5F, -5.0F, -12.0F, 3.0F, 3.0F, 4.0F, new CubeDeformation(0.0F)));
         addArm(root, 1, CubeListBuilder.create().texOffs(46, 12).addBox(-1.0F, -2.0F, -1.5F, 12.0F, 3.0F, 3.0F, new CubeDeformation(0.0F))
@@ -110,7 +105,8 @@ public class OctopusModel<T extends OctopusEntity> extends HierarchicalModel<T> 
         this.pounceAmount = entity.getPounceAmount(partialTick);
         this.reachAmount = entity.getReachAmount(partialTick);
         this.stalkAmount = entity.getStalkAmount(partialTick);
-        this.tint = FastColor.ARGB32.colorFromFloat(1.0F, entity.getCamoRed(partialTick), entity.getCamoGreen(partialTick), entity.getCamoBlue(partialTick));
+        float threat = this.threatAmount;
+        this.tint = FastColor.ARGB32.colorFromFloat(1.0F, Mth.lerp(threat, 1.0F, 0.55F), Mth.lerp(threat, 1.0F, 0.2F), Mth.lerp(threat, 1.0F, 0.15F));
     }
 
     @Override
@@ -123,7 +119,6 @@ public class OctopusModel<T extends OctopusEntity> extends HierarchicalModel<T> 
         float calm = 1.0F - Math.max(this.restAmount, this.stalkAmount * 0.7F);
 
         for (int i = 0; i < this.arms.length; i++) {
-            // Phases run evenly around the body, so neighbouring arms move almost together
             float phase = i * Mth.TWO_PI / this.arms.length;
             float lift = Mth.sin(ageInTicks * 0.045F + phase) * 0.15F * calm
                     + Mth.sin(limbSwing * 0.6F + phase) * swimStrength * 0.45F
@@ -135,14 +130,12 @@ public class OctopusModel<T extends OctopusEntity> extends HierarchicalModel<T> 
             lift = Mth.lerp(this.stalkAmount, lift, 0.0F);
             lift = Mth.lerp(this.threatAmount, lift, -0.1F);
             sway = Mth.lerp(this.threatAmount, sway, 0.0F);
-            // Jetting: arms trail behind the mantle
+
             float trailing = Math.signum(direction) * (180.0F - (180.0F - Math.abs(direction)) * 0.15F);
             direction = Mth.lerp(this.jetAmount, direction, trailing);
             lift = Mth.lerp(this.jetAmount, lift, 0.1F + Mth.sin(ageInTicks * 0.8F + phase) * 0.05F);
-            // Pounce: arms swing forward and up to throw the web over the prey
             direction = Mth.lerp(this.pounceAmount, direction, direction * 0.5F);
             lift = Mth.lerp(this.pounceAmount, lift, 0.6F);
-            // Reach: the front-left arm stretches forward to touch
             if (i == 0) {
                 direction = Mth.lerp(this.reachAmount, direction, 0.0F);
                 lift = Mth.lerp(this.reachAmount, lift, 0.35F + Mth.sin(ageInTicks * 0.5F) * 0.15F);
@@ -153,7 +146,6 @@ public class OctopusModel<T extends OctopusEntity> extends HierarchicalModel<T> 
             this.arms[i].yRot = sway;
         }
 
-        // The mantle breathes, puffs up in a threat display and squeezes with each jet pulse
         float breath = 1.0F + Mth.sin(ageInTicks * 0.1F) * 0.03F;
         float puff = 1.0F + 0.12F * this.threatAmount;
         float squeeze = 1.0F - 0.08F * Math.max(0.0F, Mth.sin(ageInTicks * 0.8F)) * this.jetAmount;
@@ -170,7 +162,6 @@ public class OctopusModel<T extends OctopusEntity> extends HierarchicalModel<T> 
         this.rightEye.yRot = netHeadYaw * ((float) Math.PI / 180F) * 0.3F;
     }
 
-    // Lifts an arm around the axis perpendicular to its own length; positive lift raises the tip
     private void applyLift(int index, float lift) {
         float nativeDirection = NATIVE_DIRECTIONS[index];
         ModelPart arm = this.arms[index];
@@ -185,18 +176,24 @@ public class OctopusModel<T extends OctopusEntity> extends HierarchicalModel<T> 
         }
     }
 
-    // Camouflage: the colour from the entity is multiplied into the texture
     @Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int j, int k) {
-        int color = FastColor.ARGB32.multiply(k, this.tint);
+        this.renderScaled(poseStack, vertexConsumer, i, j, FastColor.ARGB32.multiply(k, this.tint));
+    }
+
+    public void renderOverlay(PoseStack poseStack, VertexConsumer vertexConsumer, int light, int overlay, int color) {
+        this.renderScaled(poseStack, vertexConsumer, light, overlay, color);
+    }
+
+    private void renderScaled(PoseStack poseStack, VertexConsumer vertexConsumer, int light, int overlay, int color) {
         if (this.young) {
             poseStack.pushPose();
             poseStack.scale(0.5f, 0.5f, 0.5f);
             poseStack.translate(0.0F, 1.5F, 0.0F);
-            super.renderToBuffer(poseStack, vertexConsumer, i, j, color);
+            super.renderToBuffer(poseStack, vertexConsumer, light, overlay, color);
             poseStack.popPose();
         } else {
-            super.renderToBuffer(poseStack, vertexConsumer, i, j, color);
+            super.renderToBuffer(poseStack, vertexConsumer, light, overlay, color);
         }
     }
 

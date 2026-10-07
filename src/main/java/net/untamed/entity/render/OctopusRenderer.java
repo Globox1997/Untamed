@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.untamed.UntamedMain;
 import net.untamed.entity.OctopusEntity;
 import net.untamed.entity.model.OctopusModel;
+import net.untamed.entity.render.feature.OctopusCamoLayer;
 import net.untamed.init.RenderInit;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +19,7 @@ public class OctopusRenderer extends MobRenderer<OctopusEntity, OctopusModel<Oct
 
     public OctopusRenderer(EntityRendererProvider.Context context) {
         super(context, new OctopusModel<>(context.bakeLayer(RenderInit.OCTOPUS_LAYER)), 0.5F);
+        this.addLayer(new OctopusCamoLayer(this));
     }
 
     @Override
