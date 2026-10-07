@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.untamed.UntamedMain;
 import net.untamed.entity.BlackBearEntity;
 import net.untamed.entity.model.BlackBearModel;
+import net.untamed.entity.render.feature.SleepingEyesFeatureRenderer;
 import net.untamed.init.RenderInit;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +19,7 @@ public class BlackBearRenderer extends MobRenderer<BlackBearEntity, BlackBearMod
 
     public BlackBearRenderer(EntityRendererProvider.Context context) {
         super(context, new BlackBearModel<>(context.bakeLayer(RenderInit.BLACK_BEAR_LAYER)), 0.9F);
+        this.addLayer(new SleepingEyesFeatureRenderer<>(this, BlackBearEntity::isResting));
     }
 
     @Override

@@ -19,7 +19,7 @@ public class LionessRenderer extends MobRenderer<LionessEntity, LionessModel<Lio
 
     public LionessRenderer(EntityRendererProvider.Context context) {
         super(context, new LionessModel<>(context.bakeLayer(RenderInit.LIONESS_LAYER)), 0.9F);
-        this.addLayer(new SleepingEyesFeatureRenderer(this));
+        this.addLayer(new SleepingEyesFeatureRenderer<>(this, LionessEntity::isSleeping));
     }
 
     @Override

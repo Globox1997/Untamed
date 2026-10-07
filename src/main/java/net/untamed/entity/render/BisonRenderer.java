@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.untamed.UntamedMain;
 import net.untamed.entity.BisonEntity;
 import net.untamed.entity.model.BisonModel;
+import net.untamed.entity.render.feature.SleepingEyesFeatureRenderer;
 import net.untamed.init.RenderInit;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,6 +21,7 @@ public class BisonRenderer extends MobRenderer<BisonEntity, BisonModel<BisonEnti
 
     public BisonRenderer(EntityRendererProvider.Context context) {
         super(context, new BisonModel<>(context.bakeLayer(RenderInit.BISON_LAYER)), 0.9F);
+        this.addLayer(new SleepingEyesFeatureRenderer<>(this, BisonEntity::isResting));
     }
 
     @Override

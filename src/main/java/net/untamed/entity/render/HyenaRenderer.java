@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.untamed.UntamedMain;
 import net.untamed.entity.HyenaEntity;
 import net.untamed.entity.model.HyenaModel;
+import net.untamed.entity.render.feature.SleepingEyesFeatureRenderer;
 import net.untamed.init.RenderInit;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +19,7 @@ public class HyenaRenderer extends MobRenderer<HyenaEntity, HyenaModel<HyenaEnti
 
     public HyenaRenderer(EntityRendererProvider.Context context) {
         super(context, new HyenaModel<>(context.bakeLayer(RenderInit.HYENA_LAYER)), 0.6F);
+        this.addLayer(new SleepingEyesFeatureRenderer<>(this, HyenaEntity::isResting));
     }
 
     @Override

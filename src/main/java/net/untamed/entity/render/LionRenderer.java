@@ -19,7 +19,7 @@ public class LionRenderer extends MobRenderer<LionEntity, LionModel<LionEntity>>
 
     public LionRenderer(EntityRendererProvider.Context context) {
         super(context, new LionModel<>(context.bakeLayer(RenderInit.LION_LAYER)), 0.9F);
-        this.addLayer(new SleepingEyesFeatureRenderer(this));
+        this.addLayer(new SleepingEyesFeatureRenderer<>(this, LionEntity::isSleeping));
     }
 
     @Override
@@ -27,9 +27,4 @@ public class LionRenderer extends MobRenderer<LionEntity, LionModel<LionEntity>>
         return LION_LOCATION;
     }
 
-//    @Override
-//    protected void scale(PolarBear polarBear, PoseStack poseStack, float f) {
-//        poseStack.scale(1.2F, 1.2F, 1.2F);
-//        super.scale(polarBear, poseStack, f);
-//    }
 }

@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.untamed.UntamedMain;
 import net.untamed.entity.BuffaloEntity;
 import net.untamed.entity.model.BuffaloModel;
+import net.untamed.entity.render.feature.SleepingEyesFeatureRenderer;
 import net.untamed.init.RenderInit;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,6 +21,7 @@ public class BuffaloRenderer extends MobRenderer<BuffaloEntity, BuffaloModel<Buf
 
     public BuffaloRenderer(EntityRendererProvider.Context context) {
         super(context, new BuffaloModel<>(context.bakeLayer(RenderInit.BUFFALO_LAYER)), 0.4F);
+        this.addLayer(new SleepingEyesFeatureRenderer<>(this, BuffaloEntity::isResting));
     }
 
     @Override

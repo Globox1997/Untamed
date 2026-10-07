@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.untamed.UntamedMain;
 import net.untamed.entity.RhinoEntity;
 import net.untamed.entity.model.RhinoModel;
+import net.untamed.entity.render.feature.SleepingEyesFeatureRenderer;
 import net.untamed.init.RenderInit;
 import org.jetbrains.annotations.NotNull;
 
@@ -20,6 +21,7 @@ public class RhinoRenderer extends MobRenderer<RhinoEntity, RhinoModel<RhinoEnti
 
     public RhinoRenderer(EntityRendererProvider.Context context) {
         super(context, new RhinoModel<>(context.bakeLayer(RenderInit.RHINO_LAYER)), 0.9F);
+        this.addLayer(new SleepingEyesFeatureRenderer<>(this, RhinoEntity::isResting));
     }
 
     @Override

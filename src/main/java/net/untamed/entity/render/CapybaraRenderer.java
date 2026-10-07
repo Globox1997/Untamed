@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.untamed.UntamedMain;
 import net.untamed.entity.CapybaraEntity;
 import net.untamed.entity.model.CapybaraModel;
+import net.untamed.entity.render.feature.SleepingEyesFeatureRenderer;
 import net.untamed.init.RenderInit;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +19,7 @@ public class CapybaraRenderer extends MobRenderer<CapybaraEntity, CapybaraModel<
 
     public CapybaraRenderer(EntityRendererProvider.Context context) {
         super(context, new CapybaraModel<>(context.bakeLayer(RenderInit.CAPYBARA_LAYER)), 0.5F);
+        this.addLayer(new SleepingEyesFeatureRenderer<>(this, CapybaraEntity::isResting));
     }
 
     @Override

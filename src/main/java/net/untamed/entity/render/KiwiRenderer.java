@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.untamed.UntamedMain;
 import net.untamed.entity.KiwiEntity;
 import net.untamed.entity.model.KiwiModel;
+import net.untamed.entity.render.feature.SleepingEyesFeatureRenderer;
 import net.untamed.init.RenderInit;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +19,7 @@ public class KiwiRenderer extends MobRenderer<KiwiEntity, KiwiModel<KiwiEntity>>
 
     public KiwiRenderer(EntityRendererProvider.Context context) {
         super(context, new KiwiModel<>(context.bakeLayer(RenderInit.KIWI_LAYER)), 0.4F);
+        this.addLayer(new SleepingEyesFeatureRenderer<>(this, KiwiEntity::isSleeping));
     }
 
     @Override
