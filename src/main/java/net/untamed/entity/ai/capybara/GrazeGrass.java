@@ -19,7 +19,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class GrazeGrass extends Behavior<CapybaraEntity> {
 
-    private static final int START_CHANCE = 50;
+    private static final int START_CHANCE = 120;
     private static final int MIN_BITE_INTERVAL = 40;
     private static final int BITE_INTERVAL_VARIATION = 40;
     private static final double STEP_DISTANCE = 1.0D;

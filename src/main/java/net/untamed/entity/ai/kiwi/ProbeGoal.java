@@ -14,7 +14,7 @@ import java.util.EnumSet;
 
 public class ProbeGoal extends Goal {
 
-    private static final int START_CHANCE = 40;
+    private static final int START_CHANCE = 100;
     private static final double STEP_DISTANCE = 1.2D;
     private static final double STEP_SPEED = 0.5D;
 
@@ -78,7 +78,7 @@ public class ProbeGoal extends Goal {
 
     private void stepForward() {
         float yaw = (this.kiwi.getYRot() + (this.kiwi.getRandom().nextFloat() - 0.5F) * 90.0F) * Mth.DEG_TO_RAD;
-        this.kiwi.getMoveControl().setWantedPosition(this.kiwi.getX() - Mth.sin(yaw) * STEP_DISTANCE, this.kiwi.getY(), this.kiwi.getZ() + Mth.cos(yaw) * STEP_DISTANCE, STEP_SPEED);
+        this.kiwi.getNavigation().moveTo(this.kiwi.getX() - Mth.sin(yaw) * STEP_DISTANCE, this.kiwi.getY(), this.kiwi.getZ() + Mth.cos(yaw) * STEP_DISTANCE, STEP_SPEED);
     }
 
     private void probeEffects() {

@@ -11,6 +11,7 @@ public class HerdStrollGoal extends RandomStrollGoal {
     private static final double DRIFT_DISTANCE = 6.0D;
     private static final double LEADER_WAIT_DISTANCE = 12.0D;
     private static final int TRAVEL_INTERVAL = 40;
+    private static final int STROLL_INTERVAL = 60;
 
     private final HerdBovineEntity herdMob;
 
@@ -21,7 +22,7 @@ public class HerdStrollGoal extends RandomStrollGoal {
 
     @Override
     public boolean canUse() {
-        this.setInterval(this.herdMob.getHerdTravelTarget() != null ? TRAVEL_INTERVAL : DEFAULT_INTERVAL);
+        this.setInterval(this.herdMob.getHerdTravelTarget() != null ? TRAVEL_INTERVAL : STROLL_INTERVAL);
         return super.canUse();
     }
 

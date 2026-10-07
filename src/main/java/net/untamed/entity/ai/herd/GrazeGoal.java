@@ -10,7 +10,7 @@ import java.util.EnumSet;
 
 public class GrazeGoal extends Goal {
 
-    private static final int ACTIVE_CHANCE = 60;
+    private static final int ACTIVE_CHANCE = 120;
     private static final int RESTING_TIME_CHANCE = 300;
 
     private final HerdBovineEntity mob;
@@ -62,7 +62,7 @@ public class GrazeGoal extends Goal {
             this.mob.grazeAt(this.mob.blockPosition());
             float yaw = (this.mob.getYRot() + (this.mob.getRandom().nextFloat() - 0.5F) * 60.0F) * Mth.DEG_TO_RAD;
             Vec3 step = this.mob.position().add(-Mth.sin(yaw) * 1.2D, 0.0D, Mth.cos(yaw) * 1.2D);
-            this.mob.getMoveControl().setWantedPosition(step.x, step.y, step.z, 0.4D);
+            this.mob.getNavigation().moveTo(step.x, step.y, step.z, 0.4D);
         }
     }
 }

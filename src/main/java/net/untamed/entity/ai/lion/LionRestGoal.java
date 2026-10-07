@@ -10,11 +10,11 @@ import java.util.EnumSet;
 
 public class LionRestGoal extends Goal {
 
-    private static final int REST_TIME_CHANCE = 40;
-    private static final int ACTIVE_TIME_CHANCE = 1500;
-    private static final int CONTAGION_CHANCE = 10;
+    private static final int REST_TIME_CHANCE = 120;
+    private static final int ACTIVE_TIME_CHANCE = 3000;
+    private static final int CONTAGION_CHANCE = 40;
     private static final double CONTAGION_RANGE = 12.0D;
-    private static final int COOLDOWN = 200;
+    private static final int COOLDOWN = 600;
 
     private final AbstractLionEntity lion;
     private boolean seekingShade;
@@ -84,7 +84,7 @@ public class LionRestGoal extends Goal {
     }
 
     private void lieDown() {
-        this.restTicks = this.adjustedTickDelay(this.lion.isRestTime() ? 1200 + this.lion.getRandom().nextInt(2400) : 200 + this.lion.getRandom().nextInt(400));
+        this.restTicks = this.adjustedTickDelay(this.lion.isRestTime() ? 600 + this.lion.getRandom().nextInt(900) : 100 + this.lion.getRandom().nextInt(200));
         this.lion.getNavigation().stop();
         this.lion.setLionPose(AbstractLionEntity.LionPose.SLEEPING);
     }

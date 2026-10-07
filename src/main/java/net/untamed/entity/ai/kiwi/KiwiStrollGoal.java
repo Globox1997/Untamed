@@ -8,10 +8,12 @@ import org.jetbrains.annotations.Nullable;
 
 public class KiwiStrollGoal extends RandomStrollGoal {
 
+    private static final int STROLL_INTERVAL = 60;
+
     private final KiwiEntity kiwi;
 
     public KiwiStrollGoal(KiwiEntity kiwi, double speedModifier) {
-        super(kiwi, speedModifier);
+        super(kiwi, speedModifier, STROLL_INTERVAL);
         this.kiwi = kiwi;
     }
 

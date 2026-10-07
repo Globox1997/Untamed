@@ -23,6 +23,7 @@ public class RestIdle<E extends PathfinderMob> extends Behavior<E> {
     @Nullable
     private final Function<E, Optional<PositionTracker>> lookAroundTarget;
     private final Predicate<E> canRestHere;
+    private final int startChance;
 
     private long nextLookAroundTime;
 
@@ -36,6 +37,11 @@ public class RestIdle<E extends PathfinderMob> extends Behavior<E> {
 
     public RestIdle(int minDuration, int maxDuration, Predicate<E> canRestHere,
                     @Nullable Function<E, Optional<PositionTracker>> lookAroundTarget) {
+        this(minDuration, maxDuration, 60, canRestHere, lookAroundTarget);
+    }
+
+    public RestIdle(int minDuration, int maxDuration, int startChance, Predicate<E> canRestHere,
+                    @Nullable Function<E, Optional<PositionTracker>> lookAroundTarget) {
         super(ImmutableMap.of(
                 MemoryModuleType.IS_PANICKING, MemoryStatus.VALUE_ABSENT,
                 MemoryModuleType.TEMPTING_PLAYER, MemoryStatus.VALUE_ABSENT,
@@ -43,12 +49,13 @@ public class RestIdle<E extends PathfinderMob> extends Behavior<E> {
                 MemoryModuleType.WALK_TARGET, MemoryStatus.VALUE_ABSENT,
                 BrainInit.IDLE_REST, MemoryStatus.VALUE_ABSENT), minDuration, maxDuration);
         this.canRestHere = canRestHere;
+        this.startChance = startChance;
         this.lookAroundTarget = lookAroundTarget;
     }
 
     @Override
     protected boolean checkExtraStartConditions(ServerLevel level, E mob) {
-        return mob.getRandom().nextInt(60) == 0 && this.canRestHere.test(mob);
+        return mob.getRandom().nextInt(this.startChance) == 0 && this.canRestHere.test(mob);
     }
 
     @Override

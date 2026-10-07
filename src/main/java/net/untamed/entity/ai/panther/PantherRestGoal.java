@@ -11,11 +11,17 @@ import java.util.EnumSet;
 
 public class PantherRestGoal extends Goal {
 
+    private static final int START_CHANCE = 80;
+    private static final int MIN_REST_TICKS = 600;
+    private static final int REST_TICKS_VARIATION = 900;
+    private static final int COOLDOWN = 400;
     private static final int SEARCH_RANGE = 16;
     private static final double AT_SPOT = 1.5D;
 
     private final BlackPantherEntity panther;
     private boolean walking;
+    private int restTicks;
+    private long nextRestTime;
 
     public PantherRestGoal(BlackPantherEntity panther) {
         this.panther = panther;
@@ -24,12 +30,12 @@ public class PantherRestGoal extends Goal {
 
     @Override
     public boolean canUse() {
-        return this.canRest() && this.panther.onGround() && !this.panther.isInWater() && this.panther.getRandom().nextInt(reducedTickDelay(40)) == 0;
+        return this.canRest() && this.panther.onGround() && !this.panther.isInWater() && this.panther.level().getGameTime() >= this.nextRestTime && this.panther.getRandom().nextInt(reducedTickDelay(START_CHANCE)) == 0;
     }
 
     @Override
     public boolean canContinueToUse() {
-        return this.canRest() && (this.walking || this.panther.isResting());
+        return this.canRest() && (this.walking || (this.panther.isResting() && this.restTicks > 0));
     }
 
     private boolean canRest() {
@@ -73,6 +79,7 @@ public class PantherRestGoal extends Goal {
                 this.lieDown();
             }
         } else {
+            this.restTicks--;
             this.panther.getNavigation().stop();
         }
     }
@@ -81,9 +88,11 @@ public class PantherRestGoal extends Goal {
     public void stop() {
         this.walking = false;
         this.panther.clearPantherPose(BlackPantherEntity.PantherPose.RESTING);
+        this.nextRestTime = this.panther.level().getGameTime() + COOLDOWN;
     }
 
     private void lieDown() {
+        this.restTicks = this.adjustedTickDelay(MIN_REST_TICKS + this.panther.getRandom().nextInt(REST_TICKS_VARIATION));
         this.panther.getNavigation().stop();
         this.panther.setPantherPose(BlackPantherEntity.PantherPose.RESTING);
     }

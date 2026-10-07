@@ -14,13 +14,13 @@ import java.util.EnumSet;
 
 public class HyenaRestGoal extends Goal {
 
-    private static final int REST_TIME_CHANCE = 40;
-    private static final int ACTIVE_TIME_CHANCE = 1500;
-    private static final int CONTAGION_CHANCE = 10;
+    private static final int REST_TIME_CHANCE = 120;
+    private static final int ACTIVE_TIME_CHANCE = 3000;
+    private static final int CONTAGION_CHANCE = 40;
     private static final double CONTAGION_RANGE = 12.0D;
     private static final double DEN_REST_RANGE = 6.0D;
     private static final double DEN_SEEK_RANGE = 48.0D;
-    private static final int COOLDOWN = 200;
+    private static final int COOLDOWN = 600;
 
     private final HyenaEntity hyena;
     private boolean movingToSpot;
@@ -106,7 +106,7 @@ public class HyenaRestGoal extends Goal {
     }
 
     private void lieDown() {
-        this.restTicks = this.adjustedTickDelay(this.hyena.isRestTime() ? 1200 + this.hyena.getRandom().nextInt(2400) : 200 + this.hyena.getRandom().nextInt(400));
+        this.restTicks = this.adjustedTickDelay(this.hyena.isRestTime() ? 600 + this.hyena.getRandom().nextInt(900) : 100 + this.hyena.getRandom().nextInt(200));
         this.hyena.getNavigation().stop();
         this.hyena.setHyenaPose(HyenaEntity.HyenaPose.RESTING);
     }

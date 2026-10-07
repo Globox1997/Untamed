@@ -10,11 +10,11 @@ import java.util.EnumSet;
 
 public class HerdRestGoal extends Goal {
 
-    private static final int REST_TIME_CHANCE = 80;
-    private static final int OFF_TIME_CHANCE = 1200;
-    private static final int CONTAGION_CHANCE = 10;
+    private static final int REST_TIME_CHANCE = 200;
+    private static final int OFF_TIME_CHANCE = 2400;
+    private static final int CONTAGION_CHANCE = 40;
     private static final double CONTAGION_RANGE = 12.0D;
-    private static final int COOLDOWN = 200;
+    private static final int COOLDOWN = 600;
 
     private final HerdBovineEntity mob;
     private boolean seekingShade;
@@ -86,7 +86,7 @@ public class HerdRestGoal extends Goal {
     }
 
     private void lieDown() {
-        this.restTicks = this.adjustedTickDelay(this.mob.isRestTime() ? 600 + this.mob.getRandom().nextInt(1200) : 200 + this.mob.getRandom().nextInt(300));
+        this.restTicks = this.adjustedTickDelay(this.mob.isRestTime() ? 400 + this.mob.getRandom().nextInt(600) : 100 + this.mob.getRandom().nextInt(200));
         this.mob.getNavigation().stop();
         this.mob.setHerdPose(HerdBovineEntity.HerdPose.RESTING);
     }

@@ -10,10 +10,16 @@ import java.util.EnumSet;
 
 public class BearDenGoal extends Goal {
 
+    private static final int START_CHANCE = 80;
+    private static final int MIN_REST_TICKS = 600;
+    private static final int REST_TICKS_VARIATION = 900;
+    private static final int COOLDOWN = 400;
     private static final int SEARCH_RANGE = 16;
 
     private final BlackBearEntity bear;
     private boolean walking;
+    private int restTicks;
+    private long nextRestTime;
 
     public BearDenGoal(BlackBearEntity bear) {
         this.bear = bear;
@@ -23,12 +29,12 @@ public class BearDenGoal extends Goal {
     @Override
     public boolean canUse() {
         return this.bear.isSnowingHere() && !this.bear.isAlarmed() && this.bear.getTarget() == null && this.bear.onGround()
-                && this.bear.getRandom().nextInt(reducedTickDelay(20)) == 0;
+                && this.bear.level().getGameTime() >= this.nextRestTime && this.bear.getRandom().nextInt(reducedTickDelay(START_CHANCE)) == 0;
     }
 
     @Override
     public boolean canContinueToUse() {
-        return this.bear.isSnowingHere() && !this.bear.isAlarmed() && this.bear.getTarget() == null && (this.walking || this.bear.isResting());
+        return this.bear.isSnowingHere() && !this.bear.isAlarmed() && this.bear.getTarget() == null && (this.walking || (this.bear.isResting() && this.restTicks > 0));
     }
 
     @Override
@@ -53,6 +59,7 @@ public class BearDenGoal extends Goal {
                 this.lieDown();
             }
         } else {
+            this.restTicks--;
             this.bear.getNavigation().stop();
         }
     }
@@ -61,9 +68,11 @@ public class BearDenGoal extends Goal {
     public void stop() {
         this.walking = false;
         this.bear.clearBearPose(BlackBearEntity.BearPose.RESTING);
+        this.nextRestTime = this.bear.level().getGameTime() + COOLDOWN;
     }
 
     private void lieDown() {
+        this.restTicks = this.adjustedTickDelay(MIN_REST_TICKS + this.bear.getRandom().nextInt(REST_TICKS_VARIATION));
         this.bear.getNavigation().stop();
         this.bear.setBearPose(BlackBearEntity.BearPose.RESTING);
     }

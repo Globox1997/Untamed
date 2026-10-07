@@ -9,12 +9,13 @@ import org.jetbrains.annotations.Nullable;
 
 public class HyenaStrollGoal extends RandomStrollGoal {
 
+    private static final int STROLL_INTERVAL = 60;
     private static final double DEN_DRIFT_DISTANCE = 12.0D;
 
     private final HyenaEntity hyena;
 
     public HyenaStrollGoal(HyenaEntity hyena, double speedModifier) {
-        super(hyena, speedModifier);
+        super(hyena, speedModifier, STROLL_INTERVAL);
         this.hyena = hyena;
     }
 

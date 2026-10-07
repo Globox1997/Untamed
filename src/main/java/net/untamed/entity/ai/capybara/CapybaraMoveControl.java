@@ -7,7 +7,7 @@ import net.untamed.entity.CapybaraEntity;
 
 public class CapybaraMoveControl extends MoveControl {
 
-    private static final double ARRIVED_DIST_SQR = 2.5F;
+    private static final double ARRIVED_DIST_SQR = 2.5E-7;
     private static final double VERTICAL_NOISE_DIST = 0.1;
     private static final double INTENT_THRESHOLD = 0.5;
     private static final float PITCH_LEVEL_SPEED = 5.0F;

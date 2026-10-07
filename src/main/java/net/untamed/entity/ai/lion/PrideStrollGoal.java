@@ -9,12 +9,13 @@ import org.jetbrains.annotations.Nullable;
 
 public class PrideStrollGoal extends RandomStrollGoal {
 
+    private static final int STROLL_INTERVAL = 60;
     private static final double DRIFT_DISTANCE = 8.0D;
 
     private final AbstractLionEntity lion;
 
     public PrideStrollGoal(AbstractLionEntity lion, double speedModifier) {
-        super(lion, speedModifier);
+        super(lion, speedModifier, STROLL_INTERVAL);
         this.lion = lion;
     }
 

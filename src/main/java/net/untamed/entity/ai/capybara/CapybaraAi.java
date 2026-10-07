@@ -29,8 +29,9 @@ import java.util.function.Predicate;
 
 public class CapybaraAi {
 
-    private static final int REST_MIN_DURATION = 150;
-    private static final int REST_MAX_DURATION = 400;
+    private static final int REST_MIN_DURATION = 100;
+    private static final int REST_MAX_DURATION = 240;
+    private static final int REST_START_CHANCE = 300;
     private static final float SPEED_MULTIPLIER_PANIC = 1.6F;
     private static final float SPEED_MULTIPLIER_STROLL = 1.0F;
     private static final float SPEED_MULTIPLIER_SWIM = 0.9F;
@@ -111,7 +112,7 @@ public class CapybaraAi {
                                 ADULT_FOLLOW_RANGE, livingEntity -> SPEED_MULTIPLIER_WHEN_FOLLOWING_ADULT))),
                         Pair.of(4, new OccasionalDive(SPEED_MULTIPLIER_SWIM)),
                         Pair.of(5, new SeekLand(SPEED_MULTIPLIER_STROLL)),
-                        Pair.of(6, new RestIdle<>(REST_MIN_DURATION, REST_MAX_DURATION,
+                        Pair.of(6, new RestIdle<>(REST_MIN_DURATION, REST_MAX_DURATION, REST_START_CHANCE,
                                 c -> !c.isDiving() && (!c.isInWater() || c.hasSurfaceAccess()),
                                 CapybaraAi::herdLookTarget)),
                         Pair.of(7, new SoakInWater()),
@@ -142,7 +143,7 @@ public class CapybaraAi {
                 Pair.of(3, new HerdTogether(SPEED_MULTIPLIER_STROLL)),
                 Pair.of(4, new SeekWater(SPEED_MULTIPLIER_STROLL)),
                 Pair.of(5, new GrazeGrass()),
-                Pair.of(5, new RestIdle<>(REST_MIN_DURATION, REST_MAX_DURATION,
+                Pair.of(5, new RestIdle<>(REST_MIN_DURATION, REST_MAX_DURATION, REST_START_CHANCE,
                         c -> !c.isInWater() || c.hasSurfaceAccess(),
                         CapybaraAi::herdLookTarget)),
                 Pair.of(6, new GateBehavior<>(ImmutableMap.of(MemoryModuleType.WALK_TARGET,

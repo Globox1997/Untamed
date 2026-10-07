@@ -11,6 +11,10 @@ import java.util.EnumSet;
 
 public class OctopusDenGoal extends Goal {
 
+    private static final int START_CHANCE = 80;
+    private static final int MIN_REST_TICKS = 600;
+    private static final int REST_TICKS_VARIATION = 900;
+    private static final int COOLDOWN = 400;
     private static final int SEARCH_TRIES = 32;
     private static final int SEARCH_HORIZONTAL = 12;
     private static final int SEARCH_VERTICAL = 4;
@@ -19,6 +23,8 @@ public class OctopusDenGoal extends Goal {
 
     private final OctopusEntity octopus;
     private boolean walking;
+    private int restTicks;
+    private long nextRestTime;
 
     public OctopusDenGoal(OctopusEntity octopus) {
         this.octopus = octopus;
@@ -28,12 +34,12 @@ public class OctopusDenGoal extends Goal {
     @Override
     public boolean canUse() {
         return this.octopus.isRestTime() && this.octopus.isInWater() && !this.octopus.isThreatened() && this.octopus.getTarget() == null
-                && this.octopus.getRandom().nextInt(reducedTickDelay(20)) == 0;
+                && this.octopus.level().getGameTime() >= this.nextRestTime && this.octopus.getRandom().nextInt(reducedTickDelay(START_CHANCE)) == 0;
     }
 
     @Override
     public boolean canContinueToUse() {
-        return this.octopus.isRestTime() && this.octopus.isInWater() && !this.octopus.isThreatened() && (this.walking || this.octopus.isResting());
+        return this.octopus.isRestTime() && this.octopus.isInWater() && !this.octopus.isThreatened() && (this.walking || (this.octopus.isResting() && this.restTicks > 0));
     }
 
     @Override
@@ -60,6 +66,7 @@ public class OctopusDenGoal extends Goal {
                 this.rest();
             }
         } else {
+            this.restTicks--;
             this.octopus.getNavigation().stop();
         }
     }
@@ -68,9 +75,11 @@ public class OctopusDenGoal extends Goal {
     public void stop() {
         this.walking = false;
         this.octopus.clearOctopusPose(OctopusEntity.OctopusPose.RESTING);
+        this.nextRestTime = this.octopus.level().getGameTime() + COOLDOWN;
     }
 
     private void rest() {
+        this.restTicks = this.adjustedTickDelay(MIN_REST_TICKS + this.octopus.getRandom().nextInt(REST_TICKS_VARIATION));
         this.octopus.getNavigation().stop();
         this.octopus.setOctopusPose(OctopusEntity.OctopusPose.RESTING);
     }

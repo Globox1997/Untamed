@@ -10,12 +10,18 @@ import java.util.EnumSet;
 
 public class KiwiRestGoal extends Goal {
 
+    private static final int START_CHANCE = 80;
+    private static final int MIN_REST_TICKS = 600;
+    private static final int REST_TICKS_VARIATION = 900;
+    private static final int COOLDOWN = 400;
     private static final int SEARCH_RANGE = 16;
     private static final double MAX_BURROW_DISTANCE = 32.0D;
     private static final double AT_BURROW = 1.5D;
 
     private final KiwiEntity kiwi;
     private boolean walking;
+    private int restTicks;
+    private long nextRestTime;
 
     public KiwiRestGoal(KiwiEntity kiwi) {
         this.kiwi = kiwi;
@@ -25,12 +31,12 @@ public class KiwiRestGoal extends Goal {
     @Override
     public boolean canUse() {
         return this.kiwi.isRestTime() && !this.kiwi.isAlarmed() && !this.kiwi.isInLove() && this.kiwi.onGround() && !this.kiwi.isInWater()
-                && this.kiwi.getRandom().nextInt(reducedTickDelay(20)) == 0;
+                && this.kiwi.level().getGameTime() >= this.nextRestTime && this.kiwi.getRandom().nextInt(reducedTickDelay(START_CHANCE)) == 0;
     }
 
     @Override
     public boolean canContinueToUse() {
-        return this.kiwi.isRestTime() && !this.kiwi.isAlarmed() && !this.kiwi.isInLove() && (this.walking || this.kiwi.isSleeping());
+        return this.kiwi.isRestTime() && !this.kiwi.isAlarmed() && !this.kiwi.isInLove() && (this.walking || (this.kiwi.isSleeping() && this.restTicks > 0));
     }
 
     @Override
@@ -67,6 +73,7 @@ public class KiwiRestGoal extends Goal {
                 this.sleep();
             }
         } else {
+            this.restTicks--;
             this.kiwi.getNavigation().stop();
         }
     }
@@ -75,9 +82,11 @@ public class KiwiRestGoal extends Goal {
     public void stop() {
         this.walking = false;
         this.kiwi.clearKiwiPose(KiwiEntity.KiwiPose.SLEEPING);
+        this.nextRestTime = this.kiwi.level().getGameTime() + COOLDOWN;
     }
 
     private void sleep() {
+        this.restTicks = this.adjustedTickDelay(MIN_REST_TICKS + this.kiwi.getRandom().nextInt(REST_TICKS_VARIATION));
         this.kiwi.getNavigation().stop();
         this.kiwi.setKiwiPose(KiwiEntity.KiwiPose.SLEEPING);
     }
