@@ -154,10 +154,16 @@ public class BlackPantherModel<T extends BlackPantherEntity> extends Hierarchica
             float r = this.restAmount;
             this.waist.y += 8.5F * r;
             this.head.xRot = Mth.lerp(r, this.head.xRot, 0.25F);
-            this.leftLegFront.xRot = Mth.lerp(r, this.leftLegFront.xRot, -1.5F);
-            this.rightLegFront.xRot = Mth.lerp(r, this.rightLegFront.xRot, -1.5F);
-            this.leftLegBack.xRot = Mth.lerp(r, this.leftLegBack.xRot, -1.5F);
-            this.rightLegBack.xRot = Mth.lerp(r, this.rightLegBack.xRot, -1.5F);
+            this.head.y = Mth.lerp(r, this.head.y, 0.25F);
+            this.leftLegFront.xRot = Mth.lerp(r, this.leftLegFront.xRot, -1.2F);
+            this.rightLegFront.xRot = Mth.lerp(r, this.rightLegFront.xRot, -1.2F);
+            this.leftLegBack.xRot = Mth.lerp(r, this.leftLegBack.xRot, -1.1F);
+            this.rightLegBack.xRot = Mth.lerp(r, this.rightLegBack.xRot, -1.1F);
+
+            this.leftLegFront.yRot = Mth.lerp(this.restAmount, this.leftLegBack.yRot, -0.2F);
+            this.rightLegFront.yRot = Mth.lerp(this.restAmount, this.rightLegBack.yRot, 0.2F);
+            this.leftLegBack.yRot = Mth.lerp(this.restAmount, this.leftLegBack.yRot, -0.45F);
+            this.rightLegBack.yRot = Mth.lerp(this.restAmount, this.rightLegBack.yRot, 0.45F);
         }
     }
 
