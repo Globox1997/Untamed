@@ -98,26 +98,27 @@ public class VultureModel<T extends VultureEntity> extends HierarchicalModel<T> 
 
     @Override
     public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        float headYaw = netHeadYaw * ((float) Math.PI / 180.0F);
+        this.root().getAllParts().forEach(ModelPart::resetPose);
         float headPitchRad = Mth.clamp(headPitch * ((float) Math.PI / 180.0F), -0.6F, 0.6F);
-        this.resetPose();
-        this.head.yRot = headYaw;
+        this.head.yRot = netHeadYaw * ((float) Math.PI / 180.0F);
         int state = entity.getFlightState();
 
         if (entity.isPerched()) this.posePerched(ageInTicks);
-        else if (state == VultureEntity.FLIGHT_GLIDE) this.poseGlide(ageInTicks, headPitchRad);
-        else if (state == VultureEntity.FLIGHT_THERMAL) this.poseThermal(headPitchRad);
-        else if (state == VultureEntity.FLIGHT_TAKEOFF) this.poseFlap(ageInTicks, headPitchRad, 1.1F, 0.55F);
-        else if (state == VultureEntity.FLIGHT_DESCEND) this.poseFlap(ageInTicks, headPitchRad, 0.6F, 0.45F);
-        else this.poseGround(limbSwing, limbSwingAmount, headPitchRad);
+        else if (state == VultureEntity.FLIGHT_GROUND) {
+            int action = entity.getAction();
+            if (action == VultureEntity.ACTION_SQUABBLING) this.poseSquabble(ageInTicks);
+            else if (action == VultureEntity.ACTION_FEEDING) this.poseFeeding(ageInTicks);
+            else this.poseGround(limbSwing, limbSwingAmount, headPitchRad);
+        } else {
+            if (entity.isFlapping()) this.poseFlap(ageInTicks, headPitchRad, state == VultureEntity.FLIGHT_TAKEOFF ? 1.1F : 0.8F, 0.55F);
+            else this.poseGlide(ageInTicks, headPitchRad);
+            this.root.zRot = entity.getBank(ageInTicks - entity.tickCount);
+        }
     }
 
-    private void resetPose() {
-        this.root.zRot = 0.0F;
-        this.head.xRot = 0.0F;
-        this.leftWing.xRot = 0.0F; this.leftWing.yRot = 0.0F; this.leftWing.zRot = 0.0F;
-        this.rightWing.xRot = 0.0F; this.rightWing.yRot = 0.0F; this.rightWing.zRot = 0.0F;
-        this.leftFoot.xRot = 0.0F; this.rightFoot.xRot = 0.0F;
+    private void foldWings() {
+        this.leftWing.xRot = -0.1745F; this.leftWing.yRot = -0.8727F; this.leftWing.zRot = 1.3963F;
+        this.rightWing.xRot = -0.0873F; this.rightWing.yRot = 0.8727F; this.rightWing.zRot = -1.3963F;
     }
 
     private void poseFlap(float ageInTicks, float headPitchRad, float flapSpeed, float flapAmp) {
@@ -133,31 +134,40 @@ public class VultureModel<T extends VultureEntity> extends HierarchicalModel<T> 
         float wobble = Mth.cos(ageInTicks * 0.05F) * 0.03F;
         this.leftWing.zRot = -0.0873F + wobble;
         this.rightWing.zRot = 0.0873F - wobble;
-        this.head.xRot = headPitchRad;
-        this.leftFoot.xRot = 0.4F;
-        this.rightFoot.xRot = 0.4F;
-    }
-
-    private void poseThermal(float headPitchRad) {
-        this.root.zRot = 0.35F;
-        this.leftWing.zRot = -0.0873F;
-        this.rightWing.zRot = 0.0873F;
-        this.head.xRot = headPitchRad;
+        this.head.xRot = headPitchRad + 0.3F;
         this.leftFoot.xRot = 0.4F;
         this.rightFoot.xRot = 0.4F;
     }
 
     private void poseGround(float limbSwing, float limbSwingAmount, float headPitchRad) {
+        this.foldWings();
         this.head.xRot = headPitchRad;
-        this.leftWing.xRot = -0.1745F; this.leftWing.yRot = -0.8727F; this.leftWing.zRot = 1.3963F;
-        this.rightWing.xRot = -0.0873F; this.rightWing.yRot = 0.8727F; this.rightWing.zRot = -1.3963F;
         this.leftFoot.xRot = -0.7854F + Mth.cos(limbSwing * WALK_CYCLE_FREQ) * WALK_CYCLE_AMP * limbSwingAmount;
         this.rightFoot.xRot = -0.7854F + Mth.cos(limbSwing * WALK_CYCLE_FREQ + (float) Math.PI) * WALK_CYCLE_AMP * limbSwingAmount;
     }
 
+    private void poseFeeding(float ageInTicks) {
+        this.foldWings();
+        this.leftWing.zRot = 1.0F;
+        this.rightWing.zRot = -1.0F;
+        this.neck.xRot = 0.7F;
+        this.head.xRot = 0.6F + Mth.sin(ageInTicks * 0.6F) * 0.15F;
+        this.leftFoot.xRot = -0.7854F;
+        this.rightFoot.xRot = -0.7854F;
+    }
+
+    private void poseSquabble(float ageInTicks) {
+        float flutter = Mth.sin(ageInTicks * 1.2F) * 0.2F;
+        this.leftWing.zRot = -0.3F - flutter;
+        this.rightWing.zRot = 0.3F + flutter;
+        this.neck.xRot = 0.3F;
+        this.head.xRot = -0.2F;
+        this.leftFoot.xRot = -0.7854F;
+        this.rightFoot.xRot = -0.7854F;
+    }
+
     private void posePerched(float ageInTicks) {
-        this.leftWing.xRot = -0.1745F; this.leftWing.yRot = -0.8727F; this.leftWing.zRot = 1.3963F;
-        this.rightWing.xRot = -0.0873F; this.rightWing.yRot = 0.8727F; this.rightWing.zRot = -1.3963F;
+        this.foldWings();
         this.head.xRot = 0.5F + Mth.cos(ageInTicks * 0.03F) * 0.02F;
         this.leftFoot.xRot = -0.7854F;
         this.rightFoot.xRot = -0.7854F;

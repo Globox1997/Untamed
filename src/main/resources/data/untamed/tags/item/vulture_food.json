@@ -1,13 +1,11 @@
 {
   "values": [
     "minecraft:bone",
-    "minecraft:rotten_flesh",
     "minecraft:beef",
     "minecraft:porkchop",
     "minecraft:mutton",
     "minecraft:rotten_flesh",
     "minecraft:chicken",
-    "minecraft:rabbit",
-    "minecraft:mutton"
+    "minecraft:rabbit"
   ]
 }

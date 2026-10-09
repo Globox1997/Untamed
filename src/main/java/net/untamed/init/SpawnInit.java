@@ -28,7 +28,7 @@ public class SpawnInit {
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_FOREST), MobCategory.CREATURE, EntityInit.BLACK_BEAR, ConfigInit.CONFIG.blackBearSpawnWeight, 1, 2);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.BUFFALO, ConfigInit.CONFIG.buffaloSpawnWeight, 2, 4);
         BiomeModifications.addSpawn(BiomeSelectors.tag(ConventionalBiomeTags.IS_PLAINS), MobCategory.CREATURE, EntityInit.BISON, ConfigInit.CONFIG.bisonSpawnWeight, 2, 4);
-        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.VULTURE, ConfigInit.CONFIG.vultureSpawnWeight, 1, 3);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA).or(BiomeSelectors.tag(BiomeTags.IS_BADLANDS)), MobCategory.CREATURE, EntityInit.VULTURE, ConfigInit.CONFIG.vultureSpawnWeight, 2, 4);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_JUNGLE), MobCategory.CREATURE, EntityInit.BLACK_PANTHER, ConfigInit.CONFIG.blackPantherSpawnWeight, 1, 2);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.HYENA, ConfigInit.CONFIG.hyenaSpawnWeight, 1, 1);
 

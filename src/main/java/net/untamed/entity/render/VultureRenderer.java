@@ -8,6 +8,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.untamed.UntamedMain;
 import net.untamed.entity.VultureEntity;
 import net.untamed.entity.model.VultureModel;
+import net.untamed.entity.render.feature.SleepingEyesFeatureRenderer;
 import net.untamed.init.RenderInit;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,10 +19,11 @@ public class VultureRenderer extends MobRenderer<VultureEntity, VultureModel<Vul
 
     public VultureRenderer(EntityRendererProvider.Context context) {
         super(context, new VultureModel<>(context.bakeLayer(RenderInit.VULTURE_LAYER)), 0.4F);
+        this.addLayer(new SleepingEyesFeatureRenderer<>(this, VultureEntity::isPerched));
     }
 
     @Override
-    public @NotNull ResourceLocation getTextureLocation(VultureEntity buffaloEntity) {
+    public @NotNull ResourceLocation getTextureLocation(VultureEntity vultureEntity) {
         return VULTURE_LOCATION;
     }
 

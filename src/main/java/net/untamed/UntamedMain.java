@@ -18,6 +18,7 @@ public class UntamedMain implements ModInitializer {
 		ConfigInit.init();
 		BrainInit.init();
 		EntityInit.init();
+		EventInit.init();
 		ItemInit.init();
 		SoundInit.init();
 		SpawnInit.init();

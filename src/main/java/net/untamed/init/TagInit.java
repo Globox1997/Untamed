@@ -50,6 +50,7 @@ public class TagInit {
     public static final TagKey<EntityType<?>> HYENA_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("hyena_prey"));
     public static final TagKey<EntityType<?>> HYENA_LARGE_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("hyena_large_prey"));
     public static final TagKey<EntityType<?>> HYENA_LIVESTOCK_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("hyena_livestock_prey"));
+    public static final TagKey<EntityType<?>> VULTURE_RIVALS = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("vulture_rivals"));
     public static final TagKey<EntityType<?>> KIWI_PREDATORS = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("kiwi_predators"));
     public static final TagKey<EntityType<?>> OCTOPUS_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("octopus_prey"));
     public static final TagKey<EntityType<?>> BLACK_PANTHER_PREY = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("black_panther_prey"));

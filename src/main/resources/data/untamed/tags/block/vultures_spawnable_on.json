@@ -4,7 +4,7 @@
     "minecraft:coarse_dirt",
     "minecraft:sand",
     "minecraft:red_sand",
-    "minecraft:terracotta",
+    "#minecraft:terracotta",
     "minecraft:stone"
   ]
 }
