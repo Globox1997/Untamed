@@ -1,5 +1,10 @@
 {
   "values": [
-    "minecraft:grass_block"
+    "minecraft:grass_block",
+    "minecraft:coarse_dirt",
+    "minecraft:sand",
+    "minecraft:red_sand",
+    "minecraft:terracotta",
+    "minecraft:stone"
   ]
 }
