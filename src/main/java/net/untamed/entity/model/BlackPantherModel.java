@@ -14,7 +14,9 @@ import net.untamed.entity.BlackPantherEntity;
 @Environment(EnvType.CLIENT)
 public class BlackPantherModel<T extends BlackPantherEntity> extends HierarchicalModel<T> {
 
-    private static final float[] TAIL_CURL = {-1.0F, 0.15F, 0.35F, 0.55F};
+    private static final float[] TAIL_CURL = {-1.0F, 0.2F, 0.45F};
+    private static final float[] REST_TAIL_PITCH = {-1.2F, 1.2F, 0.0F};
+    private static final float[] REST_TAIL_YAW = {0.45F, 0.0F, 0.7F};
 
     private final ModelPart root;
     private final ModelPart waist;
@@ -24,7 +26,6 @@ public class BlackPantherModel<T extends BlackPantherEntity> extends Hierarchica
     private final ModelPart rightEar;
     private final ModelPart tail;
     private final ModelPart tail2;
-    private final ModelPart tail3;
     private final ModelPart tailTip;
     private final ModelPart leftLegFront;
     private final ModelPart rightLegFront;
@@ -48,13 +49,12 @@ public class BlackPantherModel<T extends BlackPantherEntity> extends Hierarchica
         this.rightEar = this.head.getChild("rightEar");
         this.tail = this.body.getChild("tail");
         this.tail2 = this.tail.getChild("tail2");
-        this.tail3 = this.tail2.getChild("tail3");
-        this.tailTip = this.tail3.getChild("tailTip");
+        this.tailTip = this.tail2.getChild("tailTip");
         this.leftLegFront = this.waist.getChild("leftLegFront");
         this.rightLegFront = this.waist.getChild("rightLegFront");
         this.leftLegBack = this.waist.getChild("leftLegBack");
         this.rightLegBack = this.waist.getChild("rightLegBack");
-        this.tailSegments = new ModelPart[]{this.tail, this.tail2, this.tail3, this.tailTip};
+        this.tailSegments = new ModelPart[]{this.tail, this.tail2, this.tailTip};
     }
 
     public static LayerDefinition createBodyLayer() {
@@ -77,11 +77,9 @@ public class BlackPantherModel<T extends BlackPantherEntity> extends Hierarchica
 
         PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(64, 0).addBox(-2.0F, -2.0F, 0.0F, 4.0F, 4.0F, 8.0F, new CubeDeformation(0.05F)), PartPose.offset(0.0F, -4.0F, 13.0F));
 
-        PartDefinition tail2 = tail.addOrReplaceChild("tail2", CubeListBuilder.create().texOffs(64, 14).addBox(-1.5F, -1.5F, 0.0F, 3.0F, 3.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 8.0F));
+        PartDefinition tail2 = tail.addOrReplaceChild("tail2", CubeListBuilder.create().texOffs(64, 14).addBox(-2.0F, -2.0F, 0.0F, 4.0F, 4.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 8.0F));
 
-        PartDefinition tail3 = tail2.addOrReplaceChild("tail3", CubeListBuilder.create().texOffs(64, 26).addBox(-1.5F, -1.5F, 0.0F, 3.0F, 3.0F, 6.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 7.0F));
-
-        tail3.addOrReplaceChild("tailTip", CubeListBuilder.create().texOffs(64, 37).addBox(-1.0F, -1.0F, 0.0F, 2.0F, 2.0F, 5.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 6.0F));
+        tail2.addOrReplaceChild("tailTip", CubeListBuilder.create().texOffs(64, 26).addBox(-1.5F, -1.5F, 0.0F, 3.0F, 3.0F, 7.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, 0.0F, 8.0F));
 
         waist.addOrReplaceChild("leftLegFront", CubeListBuilder.create().texOffs(1, 72).addBox(-2.0F, 0.0F, -2.0F, 4.0F, 15.0F, 4.0F, new CubeDeformation(0.0F)), PartPose.offset(4.5F, -6.0F, -11.0F));
 
@@ -180,8 +178,8 @@ public class BlackPantherModel<T extends BlackPantherEntity> extends Hierarchica
             segment.xRot = Mth.lerp(this.pounceAmount, segment.xRot, k == 0 ? -0.2F : 0.0F);
             segment.yRot += Mth.sin(ageInTicks * 0.6F - k * 0.5F) * 0.35F * (1.0F + k * 0.4F) * this.snarlAmount;
 
-            segment.xRot = Mth.lerp(this.restAmount, segment.xRot, k == 0 ? -1.3F : 0.0F);
-            segment.yRot = Mth.lerp(this.restAmount, segment.yRot, 0.45F);
+            segment.xRot = Mth.lerp(this.restAmount, segment.xRot, REST_TAIL_PITCH[k]);
+            segment.yRot = Mth.lerp(this.restAmount, segment.yRot, REST_TAIL_YAW[k]);
         }
         this.tailTip.yRot += Mth.sin(ageInTicks * 0.6F) * 0.4F * flickWindow * (1.0F - this.restAmount);
         this.tailTip.yRot += Mth.sin(ageInTicks * 0.9F) * 0.3F * this.stalkAmount;
