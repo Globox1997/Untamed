@@ -18,13 +18,6 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
-/**
- * Long calm pauses: stands still on land, floats still in water, occasionally
- * glancing around. While active, the IDLE_REST memory gates strolling and diving.
- * Starts only inside stroll-gaps (WALK_TARGET absent), so it never fights an
- * in-progress movement; if something legitimate writes a walk target (herd,
- * temptation, breeding), the rest simply ends early.
- */
 public class RestIdle<E extends PathfinderMob> extends Behavior<E> {
 
     @Nullable
@@ -71,14 +64,15 @@ public class RestIdle<E extends PathfinderMob> extends Behavior<E> {
 
     @Override
     protected boolean canStillUse(ServerLevel level, E mob, long time) {
-        return !mob.isPanicking() && !mob.getBrain().hasMemoryValue(MemoryModuleType.WALK_TARGET)
-                && this.canRestHere.test(mob);
+        return !mob.isPanicking() && !mob.getBrain().hasMemoryValue(MemoryModuleType.WALK_TARGET) && this.canRestHere.test(mob);
     }
 
     @Override
     protected void tick(ServerLevel level, E mob, long time) {
         mob.getBrain().setMemoryWithExpiry(BrainInit.IDLE_REST, Unit.INSTANCE, 20L);
-        if (time >= this.nextLookAroundTime) this.glanceAround(mob, time);
+        if (time >= this.nextLookAroundTime) {
+            this.glanceAround(mob, time);
+        }
     }
 
     private void glanceAround(E mob, long time) {

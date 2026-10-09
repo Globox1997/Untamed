@@ -7,13 +7,10 @@ import net.untamed.entity.CapybaraEntity;
 
 public class CapybaraMoveControl extends MoveControl {
 
-    // Tunables
-    // KNOWN ISSUE: Capybaras start to bey blade on riverbed
-    // when using vanilla SQR = 2.5000003E-7F;
-    private static final double ARRIVED_DIST_SQR = 2.5F;  // EVIL MAGIC NUMBER. FIX THE ERROR. WHY? IDK
-    private static final double VERTICAL_NOISE_DIST = 0.1;        // below this horizontal distance the bearing is noise
-    private static final double INTENT_THRESHOLD = 0.5;           // vertical gap needed to request descend/ascend
-    private static final float PITCH_LEVEL_SPEED = 5.0F;          // rotlerp step toward level body
+    private static final double ARRIVED_DIST_SQR = 2.5F;
+    private static final double VERTICAL_NOISE_DIST = 0.1;
+    private static final double INTENT_THRESHOLD = 0.5;
+    private static final float PITCH_LEVEL_SPEED = 5.0F;
 
     private final CapybaraEntity capybara;
     private final int maxTurnY;
@@ -40,9 +37,7 @@ public class CapybaraMoveControl extends MoveControl {
                 this.mob.setZza(0.0F);
             } else {
                 double horizontalDist = Math.sqrt(dx * dx + dz * dz);
-                float targetYaw = horizontalDist < VERTICAL_NOISE_DIST
-                        ? this.mob.getYRot()
-                        : (float) (Mth.atan2(dz, dx) * (180F / Math.PI)) - 90.0F;
+                float targetYaw = horizontalDist < VERTICAL_NOISE_DIST ? this.mob.getYRot() : (float) (Mth.atan2(dz, dx) * (180F / Math.PI)) - 90.0F;
                 this.mob.setYRot(this.rotlerp(this.mob.getYRot(), targetYaw, this.maxTurnY));
                 this.mob.yBodyRot = this.mob.getYRot();
                 this.mob.yHeadRot = this.mob.getYRot();

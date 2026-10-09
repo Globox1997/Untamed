@@ -64,6 +64,6 @@ public class ItemInit {
 
     public static void init() {
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, UNTAMED_ITEM_GROUP,
-                FabricItemGroup.builder().icon(() -> new ItemStack(Items.ACACIA_BOAT)).title(Component.translatable("item.untamed.item_group")).build());
+                FabricItemGroup.builder().icon(() -> new ItemStack(RAW_OCTOPUS)).title(Component.translatable("item.untamed.item_group")).build());
     }
 }

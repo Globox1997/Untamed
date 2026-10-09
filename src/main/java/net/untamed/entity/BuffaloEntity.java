@@ -6,7 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
@@ -67,12 +66,12 @@ public class BuffaloEntity extends Animal {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 8.0).add(Attributes.FOLLOW_RANGE, 20.0).add(Attributes.MOVEMENT_SPEED, 0.28);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 36.0D).add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.MOVEMENT_SPEED, 0.21D);
     }
 
     public static boolean checkBuffaloEntitySpawnRules(EntityType<BuffaloEntity> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
         Holder<Biome> holder = levelAccessor.getBiome(blockPos);
-        return !holder.is(BiomeTags.IS_TAIGA)
+        return !holder.is(BiomeTags.IS_SAVANNA)
                 ? checkAnimalSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource)
                 : isBrightEnoughToSpawn(levelAccessor, blockPos) && levelAccessor.getBlockState(blockPos.below()).is(TagInit.BUFFALOS_SPAWNABLE_ON);
     }
@@ -89,7 +88,7 @@ public class BuffaloEntity extends Animal {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isBaby() ? SoundInit.BUFFALO_IDLE_EVENT : SoundInit.BUFFALO_IDLE_EVENT;
+        return SoundInit.BUFFALO_IDLE_EVENT;
     }
 
     @Override
@@ -105,6 +104,11 @@ public class BuffaloEntity extends Animal {
     @Override
     protected void playStepSound(BlockPos blockPos, BlockState blockState) {
         this.playSound(SoundInit.BUFFALO_STEP_EVENT, 0.15F, 1.0F);
+    }
+
+    @Override
+    public float getVoicePitch() {
+        return this.isBaby() ? (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.7F : (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F;
     }
 
     @Override

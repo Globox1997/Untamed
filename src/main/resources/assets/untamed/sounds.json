@@ -158,10 +158,203 @@
   "octopus_step": {
     "sounds": [
       "untamed:octopus_step_1",
-      "untamed:octopus_step_2",
-      "untamed:octopus_step_3",
-      "untamed:octopus_step_4",
-      "untamed:octopus_step_5"
+      "untamed:octopus_step_2"
+    ]
+  },
+  "black_bear_idle": {
+    "sounds": [
+      "untamed:black_bear_idle_1",
+      "untamed:black_bear_idle_2",
+      "untamed:black_bear_idle_3"
+    ]
+  },
+  "black_bear_hurt": {
+    "sounds": [
+      "untamed:black_bear_hurt_1",
+      "untamed:black_bear_hurt_2",
+      "untamed:black_bear_hurt_3"
+    ]
+  },
+  "black_bear_death": {
+    "sounds": [
+      "untamed:black_bear_death_1",
+      "untamed:black_bear_death_2"
+    ]
+  },
+  "black_bear_step": {
+    "sounds": [
+      "untamed:black_bear_step_1",
+      "untamed:black_bear_step_2",
+      "untamed:black_bear_step_3"
+    ]
+  },
+  "black_bear_attack": {
+    "sounds": [
+      "untamed:black_bear_attack_1",
+      "untamed:black_bear_attack_2"
+    ]
+  },
+  "black_panther_idle": {
+    "sounds": [
+      "untamed:black_panther_idle_1",
+      "untamed:black_panther_idle_2",
+      "untamed:black_panther_idle_3",
+      "untamed:black_panther_idle_4"
+    ]
+  },
+  "black_panther_hurt": {
+    "sounds": [
+      "untamed:black_panther_hurt_1",
+      "untamed:black_panther_hurt_2",
+      "untamed:black_panther_hurt_3",
+      "untamed:black_panther_hurt_4"
+    ]
+  },
+  "black_panther_death": {
+    "sounds": [
+      "untamed:black_panther_death_1",
+      "untamed:black_panther_death_2",
+      "untamed:black_panther_death_3"
+    ]
+  },
+  "black_panther_step": {
+    "sounds": [
+      "untamed:black_panther_step_1",
+      "untamed:black_panther_step_2",
+      "untamed:black_panther_step_3"
+    ]
+  },
+  "black_panther_attack": {
+    "sounds": [
+      "untamed:black_panther_attack_1",
+      "untamed:black_panther_attack_2"
+    ]
+  },
+  "capybara_idle": {
+    "sounds": [
+      "untamed:capybara_idle_1",
+      "untamed:capybara_idle_2",
+      "untamed:capybara_idle_3",
+      "untamed:capybara_idle_4"
+    ]
+  },
+  "capybara_hurt": {
+    "sounds": [
+      "untamed:capybara_hurt_1",
+      "untamed:capybara_hurt_2",
+      "untamed:capybara_hurt_3"
+    ]
+  },
+  "capybara_death": {
+    "sounds": [
+      "untamed:capybara_death_1",
+      "untamed:capybara_death_2",
+      "untamed:capybara_death_3"
+    ]
+  },
+  "capybara_step": {
+    "sounds": [
+      "untamed:capybara_step_1",
+      "untamed:capybara_step_2"
+    ]
+  },
+  "rhino_idle": {
+    "sounds": [
+      "untamed:rhino_idle_1",
+      "untamed:rhino_idle_2",
+      "untamed:rhino_idle_3",
+      "untamed:rhino_idle_4",
+      "untamed:rhino_idle_5"
+    ]
+  },
+  "rhino_hurt": {
+    "sounds": [
+      "untamed:rhino_hurt_1",
+      "untamed:rhino_hurt_2",
+      "untamed:rhino_hurt_3"
+    ]
+  },
+  "rhino_death": {
+    "sounds": [
+      "untamed:rhino_death_1",
+      "untamed:rhino_death_2"
+    ]
+  },
+  "rhino_step": {
+    "sounds": [
+      "untamed:rhino_step_1",
+      "untamed:rhino_step_2"
+    ]
+  },
+  "rhino_attack": {
+    "sounds": [
+      "untamed:rhino_attack_1",
+      "untamed:rhino_attack_2"
+    ]
+  },
+  "vulture_idle": {
+    "sounds": [
+      "untamed:vulture_idle_1",
+      "untamed:vulture_idle_2",
+      "untamed:vulture_idle_3",
+      "untamed:vulture_idle_4",
+      "untamed:vulture_idle_5"
+    ]
+  },
+  "vulture_hurt": {
+    "sounds": [
+      "untamed:vulture_hurt_1",
+      "untamed:vulture_hurt_2",
+      "untamed:vulture_hurt_3"
+    ]
+  },
+  "vulture_death": {
+    "sounds": [
+      "untamed:vulture_death_1",
+      "untamed:vulture_death_2",
+      "untamed:vulture_death_3"
+    ]
+  },
+  "vulture_flap": {
+    "sounds": [
+      "untamed:vulture_flap_1",
+      "untamed:vulture_flap_2"
+    ]
+  },
+  "hyena_idle": {
+    "sounds": [
+      "untamed:hyena_idle_1",
+      "untamed:hyena_idle_2",
+      "untamed:hyena_idle_3",
+      "untamed:hyena_idle_4",
+      "untamed:hyena_idle_5"
+    ]
+  },
+  "hyena_hurt": {
+    "sounds": [
+      "untamed:hyena_hurt_1",
+      "untamed:hyena_hurt_2",
+      "untamed:hyena_hurt_3",
+      "untamed:hyena_hurt_4"
+    ]
+  },
+  "hyena_death": {
+    "sounds": [
+      "untamed:hyena_death_1",
+      "untamed:hyena_death_2",
+      "untamed:hyena_death_3"
+    ]
+  },
+  "hyena_step": {
+    "sounds": [
+      "untamed:hyena_step_1",
+      "untamed:hyena_step_2"
+    ]
+  },
+  "hyena_attack": {
+    "sounds": [
+      "untamed:hyena_attack_1",
+      "untamed:hyena_attack_2"
     ]
   }
 }

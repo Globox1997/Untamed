@@ -12,9 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Groups nearby living entities of the same type into the NEAREST_HERD_MEMBERS memory.
- */
 public class HerdSensor extends Sensor<LivingEntity> {
 
     private final int maxHerdSize;
@@ -33,8 +30,11 @@ public class HerdSensor extends Sensor<LivingEntity> {
                 .filter(livingEntity -> livingEntity.isAlive() && livingEntity.getType() == entity.getType())
                 .limit(this.maxHerdSize)
                 .toList();
-        if (herd.isEmpty()) brain.eraseMemory(BrainInit.NEAREST_HERD_MEMBERS);
-        else brain.setMemory(BrainInit.NEAREST_HERD_MEMBERS, herd);
+        if (herd.isEmpty()) {
+            brain.eraseMemory(BrainInit.NEAREST_HERD_MEMBERS);
+        } else {
+            brain.setMemory(BrainInit.NEAREST_HERD_MEMBERS, herd);
+        }
 
     }
 

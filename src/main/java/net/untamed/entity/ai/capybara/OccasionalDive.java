@@ -25,9 +25,7 @@ public class OccasionalDive extends Behavior<CapybaraEntity> {
     private boolean reroutedOnRiverbed;
 
     public OccasionalDive(float speedModifier) {
-        super(ImmutableMap.of(
-                MemoryModuleType.IS_PANICKING, MemoryStatus.VALUE_ABSENT,
-                MemoryModuleType.TEMPTING_PLAYER, MemoryStatus.VALUE_ABSENT,
+        super(ImmutableMap.of(MemoryModuleType.IS_PANICKING, MemoryStatus.VALUE_ABSENT, MemoryModuleType.TEMPTING_PLAYER, MemoryStatus.VALUE_ABSENT,
                 MemoryModuleType.BREED_TARGET, MemoryStatus.VALUE_ABSENT), 200, 400);
         this.speedModifier = speedModifier;
     }
@@ -36,10 +34,7 @@ public class OccasionalDive extends Behavior<CapybaraEntity> {
     protected boolean checkExtraStartConditions(ServerLevel level, CapybaraEntity capybara) {
         Vec3 delta = capybara.getDeltaMovement();
         boolean movingHorizontally = delta.x * delta.x + delta.z * delta.z > MIN_MOVE_SQR;
-        return capybara.isFloating()
-                && !capybara.isDiving()
-                && movingHorizontally
-                && capybara.getRandom().nextInt(DIVE_START_CHANCE) == 0
+        return capybara.isFloating() && !capybara.isDiving() && movingHorizontally && capybara.getRandom().nextInt(DIVE_START_CHANCE) == 0
                 && WaterUtils.getWaterDepth(level, capybara) >= WaterUtils.MIN_OPERABLE_WATER_DEPTH;
     }
 
@@ -70,8 +65,9 @@ public class OccasionalDive extends Behavior<CapybaraEntity> {
         int x = capybara.blockPosition().getX() + Mth.floor(Mth.cos(angle) * radius);
         int z = capybara.blockPosition().getZ() + Mth.floor(Mth.sin(angle) * radius);
         BlockPos target = WaterUtils.riverbedAt(level, x, z);
-        if (target != null && capybara.distanceToSqr(Vec3.atBottomCenterOf(target)) > MIN_TARGET_DIST_SQR)
+        if (target != null && capybara.distanceToSqr(Vec3.atBottomCenterOf(target)) > MIN_TARGET_DIST_SQR) {
             capybara.getNavigation().moveTo(target.getX() + 0.5, target.getY(), target.getZ() + 0.5, this.speedModifier);
+        }
     }
 
     // Sin uso. Still commented if another mobs requires. Maybe Octopus?

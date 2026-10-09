@@ -9,29 +9,19 @@ import net.untamed.entity.CapybaraEntity;
 import net.untamed.entity.ai.WaterUtils;
 import net.untamed.init.BrainInit;
 
-/**
- * The idle "soak": while resting in deep enough water, occasionally dips just below
- * the surface for a few seconds.
- */
 public class SoakInWater extends Behavior<CapybaraEntity> {
 
     private static final int SOAK_CHANCE = 300;
     private static final int MIN_WATER_DEPTH = 2;
 
     public SoakInWater() {
-        super(ImmutableMap.of(
-                MemoryModuleType.IS_PANICKING, MemoryStatus.VALUE_ABSENT,
-                MemoryModuleType.TEMPTING_PLAYER, MemoryStatus.VALUE_ABSENT,
-                MemoryModuleType.BREED_TARGET, MemoryStatus.VALUE_ABSENT,
+        super(ImmutableMap.of(MemoryModuleType.IS_PANICKING, MemoryStatus.VALUE_ABSENT, MemoryModuleType.TEMPTING_PLAYER, MemoryStatus.VALUE_ABSENT, MemoryModuleType.BREED_TARGET, MemoryStatus.VALUE_ABSENT,
                 BrainInit.IDLE_REST, MemoryStatus.VALUE_PRESENT), 10, 30);
     }
 
     @Override
     protected boolean checkExtraStartConditions(ServerLevel level, CapybaraEntity capybara) {
-        return capybara.isFloating()
-                && !capybara.isDiving()
-                && capybara.getRandom().nextInt(SOAK_CHANCE) == 0
-                && WaterUtils.getWaterDepth(level, capybara) >= MIN_WATER_DEPTH;
+        return capybara.isFloating() && !capybara.isDiving() && capybara.getRandom().nextInt(SOAK_CHANCE) == 0 && WaterUtils.getWaterDepth(level, capybara) >= MIN_WATER_DEPTH;
     }
 
     @Override

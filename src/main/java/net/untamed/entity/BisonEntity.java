@@ -1,13 +1,12 @@
 package net.untamed.entity;
 
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalBiomeTags;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Holder;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
 import net.minecraft.util.TimeUtil;
@@ -84,12 +83,12 @@ public class BisonEntity extends Animal implements NeutralMob {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 40.0).add(Attributes.FOLLOW_RANGE, 20.0).add(Attributes.MOVEMENT_SPEED, 0.22).add(Attributes.ATTACK_DAMAGE, 8.0).add(Attributes.ATTACK_KNOCKBACK, 1.0);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 36.0D).add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.MOVEMENT_SPEED, 0.22D).add(Attributes.ATTACK_DAMAGE, 4.0D).add(Attributes.ATTACK_KNOCKBACK, 0.5D);
     }
 
     public static boolean checkBisonEntitySpawnRules(EntityType<BisonEntity> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
         Holder<Biome> holder = levelAccessor.getBiome(blockPos);
-        return !holder.is(BiomeTags.IS_SAVANNA)
+        return !holder.is(ConventionalBiomeTags.IS_PLAINS)
                 ? checkAnimalSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource)
                 : isBrightEnoughToSpawn(levelAccessor, blockPos) && levelAccessor.getBlockState(blockPos.below()).is(TagInit.BISONS_SPAWNABLE_ON);
     }
@@ -134,7 +133,7 @@ public class BisonEntity extends Animal implements NeutralMob {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isBaby() ? SoundInit.BISON_IDLE_EVENT : SoundInit.BISON_IDLE_EVENT;
+        return SoundInit.BISON_IDLE_EVENT;
     }
 
     @Override
@@ -150,6 +149,11 @@ public class BisonEntity extends Animal implements NeutralMob {
     @Override
     protected void playStepSound(BlockPos blockPos, BlockState blockState) {
         this.playSound(SoundInit.BISON_STEP_EVENT, 0.15F, 1.0F);
+    }
+
+    @Override
+    public float getVoicePitch() {
+        return this.isBaby() ? (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.7F : (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F;
     }
 
     protected void playWarningSound() {

@@ -6,7 +6,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
@@ -30,6 +29,7 @@ import net.minecraft.world.level.ServerLevelAccessor;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.state.BlockState;
 import net.untamed.init.EntityInit;
+import net.untamed.init.SoundInit;
 import net.untamed.init.TagInit;
 import org.jetbrains.annotations.Nullable;
 
@@ -83,7 +83,7 @@ public class RhinoEntity extends Animal implements NeutralMob {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 40.0).add(Attributes.FOLLOW_RANGE, 20.0).add(Attributes.MOVEMENT_SPEED, 0.22).add(Attributes.ATTACK_DAMAGE, 8.0).add(Attributes.ATTACK_KNOCKBACK, 1.0);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 40.0).add(Attributes.FOLLOW_RANGE, 16.0D).add(Attributes.MOVEMENT_SPEED, 0.2D).add(Attributes.ATTACK_DAMAGE, 8.0D).add(Attributes.ATTACK_KNOCKBACK, 1.0D).add(Attributes.ARMOR, 2.0D);
     }
 
     public static boolean checkRhinoEntitySpawnRules(EntityType<RhinoEntity> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
@@ -133,27 +133,32 @@ public class RhinoEntity extends Animal implements NeutralMob {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isBaby() ? SoundEvents.POLAR_BEAR_AMBIENT_BABY : SoundEvents.POLAR_BEAR_AMBIENT;
+        return SoundInit.RHINO_IDLE_EVENT;
     }
 
     @Override
     protected SoundEvent getHurtSound(DamageSource damageSource) {
-        return SoundEvents.POLAR_BEAR_HURT;
+        return SoundInit.RHINO_HURT_EVENT;
     }
 
     @Override
     protected SoundEvent getDeathSound() {
-        return SoundEvents.POLAR_BEAR_DEATH;
+        return SoundInit.RHINO_DEATH_EVENT;
     }
 
     @Override
     protected void playStepSound(BlockPos blockPos, BlockState blockState) {
-        this.playSound(SoundEvents.POLAR_BEAR_STEP, 0.15F, 1.0F);
+        this.playSound(SoundInit.RHINO_STEP_EVENT, 0.15F, 1.0F);
+    }
+
+    @Override
+    public float getVoicePitch() {
+        return this.isBaby() ? (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.7F : (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F;
     }
 
     protected void playWarningSound() {
         if (this.warningSoundTicks <= 0) {
-            this.makeSound(SoundEvents.POLAR_BEAR_WARNING);
+            this.makeSound(SoundInit.RHINO_ATTACK_EVENT);
             this.warningSoundTicks = 40;
         }
     }

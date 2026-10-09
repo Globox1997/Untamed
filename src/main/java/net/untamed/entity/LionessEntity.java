@@ -8,7 +8,6 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.DamageTypeTags;
 import net.minecraft.util.RandomSource;
@@ -96,7 +95,7 @@ public class LionessEntity extends Animal implements NeutralMob {
     }
 
     public static AttributeSupplier.Builder createAttributes() {
-        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 26.0).add(Attributes.FOLLOW_RANGE, 25.0).add(Attributes.MOVEMENT_SPEED, 0.27).add(Attributes.ATTACK_DAMAGE, 5.0);
+        return Mob.createMobAttributes().add(Attributes.MAX_HEALTH, 26.0D).add(Attributes.FOLLOW_RANGE, 28.0D).add(Attributes.MOVEMENT_SPEED, 0.27D).add(Attributes.ATTACK_DAMAGE, 7.0D);
     }
 
     public static boolean checkLionessEntitySpawnRules(EntityType<LionessEntity> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
@@ -146,7 +145,7 @@ public class LionessEntity extends Animal implements NeutralMob {
 
     @Override
     protected SoundEvent getAmbientSound() {
-        return this.isBaby() ? SoundInit.LION_IDLE_EVENT : SoundInit.LION_IDLE_EVENT;
+        return SoundInit.LION_IDLE_EVENT;
     }
 
     @Override

@@ -19,7 +19,9 @@ public class CapybaraPredatorsSensor extends Sensor<CapybaraEntity> {
     private static final long PREDATOR_MEMORY_EXPIRY = 200L;
     private static final long PANIC_MEMORY_EXPIRY = 120L;
 
-    public CapybaraPredatorsSensor() { super(10); }
+    public CapybaraPredatorsSensor() {
+        super(10);
+    }
 
     @Override
     protected void doTick(ServerLevel serverLevel, CapybaraEntity livingEntity) {
@@ -29,7 +31,9 @@ public class CapybaraPredatorsSensor extends Sensor<CapybaraEntity> {
         if (predator.isPresent()) {
             brain.setMemoryWithExpiry(BrainInit.NEAREST_VISIBLE_PREDATOR, predator.get(), PREDATOR_MEMORY_EXPIRY);
             brain.setMemoryWithExpiry(MemoryModuleType.IS_PANICKING, true, PANIC_MEMORY_EXPIRY);
-        } else brain.eraseMemory(BrainInit.NEAREST_VISIBLE_PREDATOR);
+        } else {
+            brain.eraseMemory(BrainInit.NEAREST_VISIBLE_PREDATOR);
+        }
     }
 
 

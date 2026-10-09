@@ -52,7 +52,6 @@ public class CapybaraAi {
             BrainInit.CAPYBARA_TEMPTATIONS);
 
     private static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(
-            // Vanilla
             MemoryModuleType.LOOK_TARGET,
             MemoryModuleType.NEAREST_LIVING_ENTITIES,
             MemoryModuleType.NEAREST_VISIBLE_LIVING_ENTITIES,
@@ -68,7 +67,6 @@ public class CapybaraAi {
             MemoryModuleType.IS_TEMPTED,
             MemoryModuleType.IS_PANICKING,
             MemoryModuleType.IS_IN_WATER,
-            // Custom
             BrainInit.NEAREST_VISIBLE_PREDATOR,
             BrainInit.NEAREST_HERD_MEMBERS,
             BrainInit.IDLE_REST,
@@ -156,7 +154,7 @@ public class CapybaraAi {
                                 e -> !e.isFloating()
                                         && (e.getWaterAnchor() == null || e.blockPosition().distSqr(e.getWaterAnchor()) < 576)
                                         && !e.getBrain().hasMemoryValue(BrainInit.IDLE_REST)
-                                                && e.getRandom().nextInt(40) == 0,
+                                        && e.getRandom().nextInt(40) == 0,
                                 RandomStroll.stroll(SPEED_MULTIPLIER_STROLL)), 1))))));
     }
 
