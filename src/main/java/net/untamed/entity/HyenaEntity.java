@@ -45,6 +45,9 @@ import java.util.*;
 public class HyenaEntity extends Animal implements NeutralMob {
 
     private static final EntityDataAccessor<Byte> DATA_HYENA_POSE = SynchedEntityData.defineId(HyenaEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> DATA_REST_VARIANT = SynchedEntityData.defineId(HyenaEntity.class, EntityDataSerializers.BYTE);
+    private static final int REST_VARIANTS = 3;
+    private int restVariant;
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 
     public static final int MAX_CLAN_SIZE = 5;
@@ -167,6 +170,7 @@ public class HyenaEntity extends Animal implements NeutralMob {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_HYENA_POSE, (byte) HyenaPose.NONE.ordinal());
+        builder.define(DATA_REST_VARIANT, (byte) 0);
     }
 
     @Override
@@ -572,6 +576,9 @@ public class HyenaEntity extends Animal implements NeutralMob {
     }
 
     public void setHyenaPose(HyenaPose pose) {
+        if (pose == HyenaPose.RESTING && this.entityData.get(DATA_HYENA_POSE) != (byte) HyenaPose.RESTING.ordinal()) {
+            this.entityData.set(DATA_REST_VARIANT, (byte) this.random.nextInt(REST_VARIANTS));
+        }
         this.entityData.set(DATA_HYENA_POSE, (byte) pose.ordinal());
     }
 
@@ -579,6 +586,10 @@ public class HyenaEntity extends Animal implements NeutralMob {
         if (this.getHyenaPose() == pose) {
             this.setHyenaPose(HyenaPose.NONE);
         }
+    }
+
+    public int getRestVariant() {
+        return this.restVariant;
     }
 
     public boolean isResting() {
@@ -619,6 +630,9 @@ public class HyenaEntity extends Animal implements NeutralMob {
 
         if (this.level().isClientSide()) {
             HyenaPose pose = this.getHyenaPose();
+            if (this.restAmount <= 0.0F) {
+                this.restVariant = this.entityData.get(DATA_REST_VARIANT);
+            }
             this.restAmountO = this.restAmount;
             this.sniffAmountO = this.sniffAmount;
             this.alertAmountO = this.alertAmount;

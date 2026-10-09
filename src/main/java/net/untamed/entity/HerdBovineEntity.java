@@ -33,6 +33,9 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
 
     private static final EntityDataAccessor<Byte> DATA_HERD_ROLE = SynchedEntityData.defineId(HerdBovineEntity.class, EntityDataSerializers.BYTE);
     private static final EntityDataAccessor<Byte> DATA_HERD_POSE = SynchedEntityData.defineId(HerdBovineEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> DATA_REST_VARIANT = SynchedEntityData.defineId(HerdBovineEntity.class, EntityDataSerializers.BYTE);
+    private static final int REST_VARIANTS = 2;
+    private int restVariant;
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 
     private static final int HERD_REFRESH_INTERVAL = 40;
@@ -143,6 +146,7 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
         super.defineSynchedData(builder);
         builder.define(DATA_HERD_ROLE, (byte) HerdRole.HERD.ordinal());
         builder.define(DATA_HERD_POSE, (byte) HerdPose.NONE.ordinal());
+        builder.define(DATA_REST_VARIANT, (byte) 0);
     }
 
     @Override
@@ -458,6 +462,9 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
     }
 
     public void setHerdPose(HerdPose pose) {
+        if (pose == HerdPose.RESTING && this.entityData.get(DATA_HERD_POSE) != (byte) HerdPose.RESTING.ordinal()) {
+            this.entityData.set(DATA_REST_VARIANT, (byte) this.random.nextInt(REST_VARIANTS));
+        }
         this.entityData.set(DATA_HERD_POSE, (byte) pose.ordinal());
     }
 
@@ -465,6 +472,10 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
         if (this.getHerdPose() == pose) {
             this.setHerdPose(HerdPose.NONE);
         }
+    }
+
+    public int getRestVariant() {
+        return this.restVariant;
     }
 
     public boolean isResting() {
@@ -502,6 +513,9 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
         if (this.level().isClientSide()) {
             HerdPose pose = this.getHerdPose();
             this.grazeAmountO = this.grazeAmount;
+            if (this.restAmount <= 0.0F) {
+                this.restVariant = this.entityData.get(DATA_REST_VARIANT);
+            }
             this.restAmountO = this.restAmount;
             this.warnAmountO = this.warnAmount;
             this.chargeAmountO = this.chargeAmount;

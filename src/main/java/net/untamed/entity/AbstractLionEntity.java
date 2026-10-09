@@ -38,6 +38,9 @@ import java.util.*;
 public abstract class AbstractLionEntity extends Animal implements NeutralMob {
 
     private static final EntityDataAccessor<Byte> DATA_LION_POSE = SynchedEntityData.defineId(AbstractLionEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> DATA_REST_VARIANT = SynchedEntityData.defineId(AbstractLionEntity.class, EntityDataSerializers.BYTE);
+    private static final int REST_VARIANTS = 2;
+    private int restVariant;
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
 
     public static final double TERRITORY_RADIUS = 32.0D;
@@ -151,6 +154,7 @@ public abstract class AbstractLionEntity extends Animal implements NeutralMob {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_LION_POSE, (byte) LionPose.NONE.ordinal());
+        builder.define(DATA_REST_VARIANT, (byte) 0);
     }
 
     @Override
@@ -534,6 +538,9 @@ public abstract class AbstractLionEntity extends Animal implements NeutralMob {
     }
 
     public void setLionPose(LionPose pose) {
+        if (pose == LionPose.SLEEPING && this.entityData.get(DATA_LION_POSE) != (byte) LionPose.SLEEPING.ordinal()) {
+            this.entityData.set(DATA_REST_VARIANT, (byte) this.random.nextInt(REST_VARIANTS));
+        }
         this.entityData.set(DATA_LION_POSE, (byte) pose.ordinal());
     }
 
@@ -541,6 +548,10 @@ public abstract class AbstractLionEntity extends Animal implements NeutralMob {
         if (this.getLionPose() == pose) {
             this.setLionPose(LionPose.NONE);
         }
+    }
+
+    public int getRestVariant() {
+        return this.restVariant;
     }
 
     public boolean isSleeping() {
@@ -577,6 +588,9 @@ public abstract class AbstractLionEntity extends Animal implements NeutralMob {
 
         if (this.level().isClientSide()) {
             LionPose pose = this.getLionPose();
+            if (this.sleepAmount <= 0.0F) {
+                this.restVariant = this.entityData.get(DATA_REST_VARIANT);
+            }
             this.sleepAmountO = this.sleepAmount;
             this.stalkAmountO = this.stalkAmount;
             this.roarAmountO = this.roarAmount;

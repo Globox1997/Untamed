@@ -48,6 +48,9 @@ import java.util.*;
 public class BlackPantherEntity extends Animal implements NeutralMob {
 
     private static final EntityDataAccessor<Byte> DATA_PANTHER_POSE = SynchedEntityData.defineId(BlackPantherEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> DATA_REST_VARIANT = SynchedEntityData.defineId(BlackPantherEntity.class, EntityDataSerializers.BYTE);
+    private static final int REST_VARIANTS = 3;
+    private int restVariant;
     private static final UniformInt PERSISTENT_ANGER_TIME = TimeUtil.rangeOfSeconds(20, 39);
     private static final int MAX_HUNGER = 48000;
     public static final int HUNGRY = 18000;
@@ -166,6 +169,7 @@ public class BlackPantherEntity extends Animal implements NeutralMob {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_PANTHER_POSE, (byte) PantherPose.NONE.ordinal());
+        builder.define(DATA_REST_VARIANT, (byte) 0);
     }
 
     @Override
@@ -393,6 +397,9 @@ public class BlackPantherEntity extends Animal implements NeutralMob {
     }
 
     public void setPantherPose(PantherPose pose) {
+        if (pose == PantherPose.RESTING && this.entityData.get(DATA_PANTHER_POSE) != (byte) PantherPose.RESTING.ordinal()) {
+            this.entityData.set(DATA_REST_VARIANT, (byte) this.random.nextInt(REST_VARIANTS));
+        }
         this.entityData.set(DATA_PANTHER_POSE, (byte) pose.ordinal());
     }
 
@@ -405,6 +412,10 @@ public class BlackPantherEntity extends Animal implements NeutralMob {
     public void startPounce() {
         this.setPantherPose(PantherPose.POUNCE);
         this.timedPoseTicks = 15;
+    }
+
+    public int getRestVariant() {
+        return this.restVariant;
     }
 
     public boolean isResting() {
@@ -443,6 +454,9 @@ public class BlackPantherEntity extends Animal implements NeutralMob {
             PantherPose pose = this.getPantherPose();
             this.stalkAmountO = this.stalkAmount;
             this.pounceAmountO = this.pounceAmount;
+            if (this.restAmount <= 0.0F) {
+                this.restVariant = this.entityData.get(DATA_REST_VARIANT);
+            }
             this.restAmountO = this.restAmount;
             this.snarlAmountO = this.snarlAmount;
             this.fishAmountO = this.fishAmount;

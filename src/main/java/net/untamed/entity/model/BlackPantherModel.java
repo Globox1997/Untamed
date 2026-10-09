@@ -17,6 +17,14 @@ public class BlackPantherModel<T extends BlackPantherEntity> extends Hierarchica
     private static final float[] TAIL_CURL = {-1.0F, 0.2F, 0.45F};
     private static final float[] REST_TAIL_PITCH = {-1.2F, 1.2F, 0.0F};
     private static final float[] REST_TAIL_YAW = {0.45F, 0.0F, 0.7F};
+    private static final float[] SIDE_TAIL_PITCH = {0.0F, 0.0F, -0.6F};
+    private static final float[] SIDE_TAIL_YAW = {0.6F, -0.6F, 0.0F};
+    private static final float SIDE_ROLL = 1.5F;
+    private static final float HEAD_COUNTER_ROLL = 0.75F;
+    private static final float SIDE_LEG_SPREAD_LOWER = 0.15F;
+    private static final float SIDE_LEG_SPREAD_UPPER = 0.55F;
+    private static final float UPPER_FRONT_LEG_DROP = 1.0F;
+    private static final float UPPER_BACK_LEG_DROP = 1.0F;
 
     private final ModelPart root;
     private final ModelPart waist;
@@ -36,6 +44,7 @@ public class BlackPantherModel<T extends BlackPantherEntity> extends Hierarchica
     private float stalkAmount;
     private float pounceAmount;
     private float restAmount;
+    private int restVariant;
     private float snarlAmount;
     private float fishAmount;
 
@@ -97,6 +106,7 @@ public class BlackPantherModel<T extends BlackPantherEntity> extends Hierarchica
         this.stalkAmount = entity.getStalkAmount(partialTick);
         this.pounceAmount = entity.getPounceAmount(partialTick);
         this.restAmount = entity.getRestAmount(partialTick);
+        this.restVariant = entity.getRestVariant();
         this.snarlAmount = entity.getSnarlAmount(partialTick);
         this.fishAmount = entity.getFishAmount(partialTick);
     }
@@ -148,7 +158,30 @@ public class BlackPantherModel<T extends BlackPantherEntity> extends Hierarchica
             this.head.xRot = Mth.lerp(s, this.head.xRot, 0.5F);
             this.rightLegFront.xRot = Mth.lerp(s, this.rightLegFront.xRot, -1.3F + Mth.sin(ageInTicks * 0.6F) * 0.5F);
         }
-        if (this.restAmount > 0.0F) {
+        if (this.restAmount > 0.0F && this.restVariant != 0) {
+            float r = this.restAmount;
+            float roll = SIDE_ROLL * (this.restVariant == 1 ? 1.0F : -1.0F);
+            this.waist.zRot = Mth.lerp(r, this.waist.zRot, roll);
+            this.waist.y += 2.5F * r;
+            this.waist.x -= 6.0F * Mth.sin(roll) * r;
+            this.head.y = Mth.lerp(r, this.head.y, -0.2F);
+            this.head.xRot = Mth.lerp(r, this.head.xRot, 0.1F);
+            this.head.yRot = Mth.lerp(r, this.head.yRot, 0.0F);
+            this.head.zRot = Mth.lerp(r, this.head.zRot, -roll * HEAD_COUNTER_ROLL);
+            float side = Math.signum(roll);
+            ModelPart lowerFront = side > 0.0F ? this.leftLegFront : this.rightLegFront;
+            ModelPart upperFront = side > 0.0F ? this.rightLegFront : this.leftLegFront;
+            ModelPart lowerBack = side > 0.0F ? this.leftLegBack : this.rightLegBack;
+            ModelPart upperBack = side > 0.0F ? this.rightLegBack : this.leftLegBack;
+            lowerFront.xRot = Mth.lerp(r, lowerFront.xRot, -0.4f);
+            upperFront.xRot = Mth.lerp(r, upperFront.xRot, -0.55f);
+            lowerBack.xRot = Mth.lerp(r, lowerBack.xRot, 0.35f);
+            upperBack.xRot = Mth.lerp(r, upperBack.xRot, 0.65f);
+            upperFront.zRot = Mth.lerp(r, upperFront.zRot, -0.85f * side);
+            upperBack.zRot = Mth.lerp(r, upperBack.zRot, -0.75f * side);
+
+            
+        } else if (this.restAmount > 0.0F) {
             float r = this.restAmount;
             this.waist.y += 8.5F * r;
             this.head.xRot = Mth.lerp(r, this.head.xRot, 0.25F);
@@ -168,8 +201,11 @@ public class BlackPantherModel<T extends BlackPantherEntity> extends Hierarchica
     private void animateTail(float limbSwing, float limbSwingAmount, float ageInTicks) {
         float flickWindow = Mth.clamp(Mth.sin(ageInTicks * 0.021F) * 4.0F - 3.0F, 0.0F, 1.0F);
         float calm = 1.0F - 0.8F * this.stalkAmount;
+        float side = this.restVariant == 1 ? 1.0F : -1.0F;
         for (int k = 0; k < this.tailSegments.length; k++) {
             ModelPart segment = this.tailSegments[k];
+            float restPitch = this.restVariant == 0 ? REST_TAIL_PITCH[k] : SIDE_TAIL_PITCH[k];
+            float restYaw = this.restVariant == 0 ? REST_TAIL_YAW[k] : SIDE_TAIL_YAW[k] * side;
             float growth = 1.0F + k * 0.6F;
             segment.xRot = TAIL_CURL[k];
             segment.yRot = (Mth.sin(limbSwing * 0.6662F - k * 0.7F) * 0.12F * limbSwingAmount + Mth.sin(ageInTicks * 0.06F - k * 0.6F) * 0.04F) * growth * calm;
@@ -178,8 +214,8 @@ public class BlackPantherModel<T extends BlackPantherEntity> extends Hierarchica
             segment.xRot = Mth.lerp(this.pounceAmount, segment.xRot, k == 0 ? -0.2F : 0.0F);
             segment.yRot += Mth.sin(ageInTicks * 0.6F - k * 0.5F) * 0.35F * (1.0F + k * 0.4F) * this.snarlAmount;
 
-            segment.xRot = Mth.lerp(this.restAmount, segment.xRot, REST_TAIL_PITCH[k]);
-            segment.yRot = Mth.lerp(this.restAmount, segment.yRot, REST_TAIL_YAW[k]);
+            segment.xRot = Mth.lerp(this.restAmount, segment.xRot, restPitch);
+            segment.yRot = Mth.lerp(this.restAmount, segment.yRot, restYaw);
         }
         this.tailTip.yRot += Mth.sin(ageInTicks * 0.6F) * 0.4F * flickWindow * (1.0F - this.restAmount);
         this.tailTip.yRot += Mth.sin(ageInTicks * 0.9F) * 0.3F * this.stalkAmount;

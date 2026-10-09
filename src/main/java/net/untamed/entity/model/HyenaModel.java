@@ -14,6 +14,13 @@ import net.untamed.entity.HyenaEntity;
 @Environment(EnvType.CLIENT)
 public class HyenaModel<T extends HyenaEntity> extends HierarchicalModel<T> {
 
+    private static final float SIDE_ROLL = 1.5F;
+    private static final float HEAD_COUNTER_ROLL = 0.75F;
+    private static final float SIDE_LEG_SPREAD_LOWER = 0.15F;
+    private static final float SIDE_LEG_SPREAD_UPPER = 0.55F;
+    private static final float UPPER_FRONT_LEG_DROP = 0.8F;
+    private static final float UPPER_BACK_LEG_DROP = 0.95F;
+
     private final ModelPart root;
     private final ModelPart body;
     private final ModelPart body2;
@@ -26,6 +33,7 @@ public class HyenaModel<T extends HyenaEntity> extends HierarchicalModel<T> {
     private final ModelPart leftFrontLeg;
     private final ModelPart rightFrontLeg;
     private float restAmount;
+    private int restVariant;
     private float sniffAmount;
     private float alertAmount;
     private float excitedAmount;
@@ -87,6 +95,7 @@ public class HyenaModel<T extends HyenaEntity> extends HierarchicalModel<T> {
     @Override
     public void prepareMobModel(T entity, float f, float g, float partialTick) {
         this.restAmount = entity.getRestAmount(partialTick);
+        this.restVariant = entity.getRestVariant();
         this.sniffAmount = entity.getSniffAmount(partialTick);
         this.alertAmount = entity.getAlertAmount(partialTick);
         this.excitedAmount = entity.getExcitedAmount(partialTick);
@@ -132,18 +141,48 @@ public class HyenaModel<T extends HyenaEntity> extends HierarchicalModel<T> {
             this.head.xRot = Mth.lerp(this.whoopAmount, this.head.xRot, 0.7F);
         }
         if (this.restAmount > 0.0F) {
-            float drop = 7.0F * this.restAmount;
-            this.body.y += drop;
-            this.head.xRot = Mth.lerp(this.restAmount, this.head.xRot, 0.2F);
-            this.leftFrontLeg.xRot = Mth.lerp(this.restAmount, this.leftFrontLeg.xRot, -1.45F);
-            this.rightFrontLeg.xRot = Mth.lerp(this.restAmount, this.rightFrontLeg.xRot, -1.45F);
-            this.leftBackLeg.xRot = Mth.lerp(this.restAmount, this.leftBackLeg.xRot, -1.45F);
-            this.rightBackLeg.xRot = Mth.lerp(this.restAmount, this.rightBackLeg.xRot, -1.45F);
-
-            this.leftBackLeg.yRot = Mth.lerp(this.restAmount, this.leftBackLeg.yRot, -0.3F);
-            this.rightBackLeg.yRot = Mth.lerp(this.restAmount, this.rightBackLeg.yRot, 0.3F);
-            this.tail.xRot = Mth.lerp(this.restAmount, this.tail.xRot, 1.3F);
+            if (this.restVariant == 0) {
+                this.poseRestBelly();
+            } else {
+                this.poseRestSide(this.restVariant == 1 ? 1.0F : -1.0F);
+            }
         }
+    }
+
+    private void poseRestBelly() {
+        float drop = 7.0F * this.restAmount;
+        this.body.y += drop;
+        this.head.xRot = Mth.lerp(this.restAmount, this.head.xRot, 0.2F);
+        this.leftFrontLeg.xRot = Mth.lerp(this.restAmount, this.leftFrontLeg.xRot, -1.45F);
+        this.rightFrontLeg.xRot = Mth.lerp(this.restAmount, this.rightFrontLeg.xRot, -1.45F);
+        this.leftBackLeg.xRot = Mth.lerp(this.restAmount, this.leftBackLeg.xRot, -1.45F);
+        this.rightBackLeg.xRot = Mth.lerp(this.restAmount, this.rightBackLeg.xRot, -1.45F);
+
+        this.leftBackLeg.yRot = Mth.lerp(this.restAmount, this.leftBackLeg.yRot, -0.3F);
+        this.rightBackLeg.yRot = Mth.lerp(this.restAmount, this.rightBackLeg.yRot, 0.3F);
+        this.tail.xRot = Mth.lerp(this.restAmount, this.tail.xRot, 1.3F);
+    }
+
+    private void poseRestSide(float side) {
+        float r = this.restAmount;
+        float roll = SIDE_ROLL * side;
+        this.body.zRot = Mth.lerp(r, this.body.zRot, roll);
+        this.body.y += 7.0F * r;
+        this.body.x -= 3.0F * Mth.sin(roll) * r;
+        this.head.xRot = Mth.lerp(r, this.head.xRot, 0.1F);
+        this.head.yRot = Mth.lerp(r, this.head.yRot, 0.0F);
+        this.head.zRot = Mth.lerp(r, this.head.zRot, -roll * HEAD_COUNTER_ROLL);
+        ModelPart lowerFront = side > 0.0F ? this.leftFrontLeg : this.rightFrontLeg;
+        ModelPart upperFront = side > 0.0F ? this.rightFrontLeg : this.leftFrontLeg;
+        ModelPart lowerBack = side > 0.0F ? this.leftBackLeg : this.rightBackLeg;
+        ModelPart upperBack = side > 0.0F ? this.rightBackLeg : this.leftBackLeg;
+        lowerFront.xRot = Mth.lerp(r, lowerFront.xRot, -SIDE_LEG_SPREAD_LOWER);
+        upperFront.xRot = Mth.lerp(r, upperFront.xRot, -SIDE_LEG_SPREAD_UPPER);
+        lowerBack.xRot = Mth.lerp(r, lowerBack.xRot, SIDE_LEG_SPREAD_LOWER);
+        upperBack.xRot = Mth.lerp(r, upperBack.xRot, SIDE_LEG_SPREAD_UPPER);
+        upperFront.zRot = Mth.lerp(r, upperFront.zRot, -UPPER_FRONT_LEG_DROP * side);
+        upperBack.zRot = Mth.lerp(r, upperBack.zRot, -UPPER_BACK_LEG_DROP * side);
+        this.tail.xRot = Mth.lerp(r, this.tail.xRot, 1.0F);
     }
 
     @Override

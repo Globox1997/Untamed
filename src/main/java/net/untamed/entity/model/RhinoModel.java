@@ -27,6 +27,7 @@ public class RhinoModel<T extends RhinoEntity> extends HierarchicalModel<T> {
     private final ModelPart rightFrontLeg;
     private float grazeAmount;
     private float restAmount;
+    private int restVariant;
     private float warnAmount;
     private float chargeAmount;
     private float alertAmount;
@@ -92,6 +93,7 @@ public class RhinoModel<T extends RhinoEntity> extends HierarchicalModel<T> {
     public void prepareMobModel(T entity, float f, float g, float partialTick) {
         this.grazeAmount = entity.getGrazeAmount(partialTick);
         this.restAmount = entity.getRestAmount(partialTick);
+        this.restVariant = entity.getRestVariant();
         this.warnAmount = entity.getWarnAmount(partialTick);
         this.chargeAmount = entity.getChargeAmount(partialTick);
         this.alertAmount = entity.getAlertAmount(partialTick);
@@ -134,7 +136,7 @@ public class RhinoModel<T extends RhinoEntity> extends HierarchicalModel<T> {
         if (this.restAmount > 0.0F) {
             float drop = 8.0F * this.restAmount;
             this.body.y += drop;
-            this.body.xRot += 0.2F * this.restAmount;
+            this.body.xRot += 0.2F * (this.restVariant == 0 ? 1.0F : -1.0F) * this.restAmount;
             this.head.y += 7.0F * this.restAmount;
             this.head.zRot = Mth.lerp(this.restAmount, this.head.zRot, -0.1F);
             this.tail.y += drop;
