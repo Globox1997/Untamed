@@ -38,6 +38,9 @@ import org.jetbrains.annotations.Nullable;
 public class KiwiEntity extends Animal {
 
     private static final EntityDataAccessor<Byte> DATA_KIWI_POSE = SynchedEntityData.defineId(KiwiEntity.class, EntityDataSerializers.BYTE);
+    private static final EntityDataAccessor<Byte> DATA_REST_VARIANT = SynchedEntityData.defineId(KiwiEntity.class, EntityDataSerializers.BYTE);
+    private static final int REST_VARIANTS = 2;
+    private int restVariant;
 
     private int alarmTicks;
     @Nullable
@@ -113,6 +116,7 @@ public class KiwiEntity extends Animal {
     protected void defineSynchedData(SynchedEntityData.Builder builder) {
         super.defineSynchedData(builder);
         builder.define(DATA_KIWI_POSE, (byte) KiwiPose.NONE.ordinal());
+        builder.define(DATA_REST_VARIANT, (byte) 0);
     }
 
     public boolean isRestTime() {
@@ -182,6 +186,9 @@ public class KiwiEntity extends Animal {
     }
 
     public void setKiwiPose(KiwiPose pose) {
+        if (pose == KiwiPose.SLEEPING && this.entityData.get(DATA_KIWI_POSE) != (byte) KiwiPose.SLEEPING.ordinal()) {
+            this.entityData.set(DATA_REST_VARIANT, (byte) this.random.nextInt(REST_VARIANTS));
+        }
         this.entityData.set(DATA_KIWI_POSE, (byte) pose.ordinal());
     }
 
@@ -189,6 +196,10 @@ public class KiwiEntity extends Animal {
         if (this.getKiwiPose() == pose) {
             this.setKiwiPose(KiwiPose.NONE);
         }
+    }
+
+    public int getRestVariant() {
+        return this.restVariant;
     }
 
     public boolean isSleeping() {
@@ -212,6 +223,9 @@ public class KiwiEntity extends Animal {
         super.tick();
         if (this.level().isClientSide()) {
             KiwiPose pose = this.getKiwiPose();
+            if (this.sleepAmount <= 0.0F) {
+                this.restVariant = this.entityData.get(DATA_REST_VARIANT);
+            }
             this.sleepAmountO = this.sleepAmount;
             this.probeAmountO = this.probeAmount;
             this.defendAmountO = this.defendAmount;

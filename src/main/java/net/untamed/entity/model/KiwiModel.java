@@ -21,6 +21,7 @@ public class KiwiModel<T extends KiwiEntity> extends HierarchicalModel<T> {
     private final ModelPart leftLeg;
     private final ModelPart rightLeg;
     private float sleepAmount;
+    private int restVariant;
     private float probeAmount;
     private float defendAmount;
 
@@ -59,6 +60,7 @@ public class KiwiModel<T extends KiwiEntity> extends HierarchicalModel<T> {
     @Override
     public void prepareMobModel(T entity, float f, float g, float partialTick) {
         this.sleepAmount = entity.getSleepAmount(partialTick);
+        this.restVariant = entity.getRestVariant();
         this.probeAmount = entity.getProbeAmount(partialTick);
         this.defendAmount = entity.getDefendAmount(partialTick);
     }
@@ -89,7 +91,7 @@ public class KiwiModel<T extends KiwiEntity> extends HierarchicalModel<T> {
         if (this.sleepAmount > 0.0F) {
             this.waist.y += 3.5F * this.sleepAmount;
             this.head.xRot = Mth.lerp(this.sleepAmount, this.head.xRot, 0.4F);
-            this.head.yRot = Mth.lerp(this.sleepAmount, this.head.yRot, 2.3F);
+            this.head.yRot = Mth.lerp(this.sleepAmount, this.head.yRot, this.restVariant == 0 ? 2.3F : -2.3F);
             this.leftLeg.xRot = Mth.lerp(this.sleepAmount, this.leftLeg.xRot, 1.5F);
             this.rightLeg.xRot = Mth.lerp(this.sleepAmount, this.rightLeg.xRot, 1.5F);
         }
