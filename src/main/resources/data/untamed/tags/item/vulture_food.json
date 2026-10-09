@@ -1,8 +1,9 @@
 {
   "values": [
-    "minecraft:short_grass",
-    "minecraft:tall_grass",
-    "minecraft:fern",
-    "minecraft:wheat"
+    "minecraft:bone",
+    "minecraft:rotten_flesh",
+    "minecraft:beef",
+    "minecraft:porkchop",
+    "minecraft:mutton"
   ]
 }
