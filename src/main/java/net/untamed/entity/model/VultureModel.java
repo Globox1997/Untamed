@@ -47,7 +47,7 @@ public class VultureModel<T extends VultureEntity> extends HierarchicalModel<T> 
         MeshDefinition meshdefinition = new MeshDefinition();
         PartDefinition partdefinition = meshdefinition.getRoot();
 
-        PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
+        PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 25.7F, 0.0F));
 
         PartDefinition leftWing = root.addOrReplaceChild("leftWing", CubeListBuilder.create(), PartPose.offset(4.0F, -10.0F, -1.5F));
 
