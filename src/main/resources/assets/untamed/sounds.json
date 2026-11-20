@@ -367,5 +367,30 @@
       "untamed:hyena_whoop_3",
       "untamed:hyena_whoop_4"
     ]
+  },
+  "gazelle_idle": {
+    "sounds": [
+      "untamed:gazelle_idle_1",
+      "untamed:gazelle_idle_2"
+    ]
+  },
+  "gazelle_hurt": {
+    "sounds": [
+      "untamed:gazelle_hurt_1",
+      "untamed:gazelle_hurt_2",
+      "untamed:gazelle_hurt_3"
+    ]
+  },
+  "gazelle_death": {
+    "sounds": [
+      "untamed:gazelle_death_1",
+      "untamed:gazelle_death_2"
+    ]
+  },
+  "gazelle_step": {
+    "sounds": [
+      "untamed:gazelle_step_1",
+      "untamed:gazelle_step_2"
+    ]
   }
 }

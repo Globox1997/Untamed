@@ -53,6 +53,9 @@ public class ItemInit {
     public static final Item RAW_HYENA = register("raw_hyena", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
     public static final Item COOKED_HYENA = register("cooked_hyena", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build())));
 
+    public static final Item RAW_GAZELLE = register("raw_gazelle", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
+    public static final Item COOKED_GAZELLE = register("cooked_gazelle", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build())));
+
     private static Item register(String id, Item item) {
         return register(UntamedMain.identifierOf(id), item);
     }

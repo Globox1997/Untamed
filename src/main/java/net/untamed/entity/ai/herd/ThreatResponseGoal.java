@@ -139,7 +139,7 @@ public class ThreatResponseGoal extends Goal {
             return distance < profile.fleeDistance() * scale ? Stage.FLEE : Stage.NONE;
         }
 
-        boolean protectingCalf = this.mob.hasCalfNearby(CALF_PROTECT_RANGE);
+        boolean protectingCalf = this.mob.fightsBack() && this.mob.hasCalfNearby(CALF_PROTECT_RANGE);
         double warn = profile.warnDistance() * scale + (protectingCalf ? CALF_WARN_BONUS : 0.0D);
         if (distance < warn) {
             return Stage.WARN;

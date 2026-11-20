@@ -31,6 +31,7 @@ public class SpawnInit {
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA).or(BiomeSelectors.tag(BiomeTags.IS_BADLANDS)), MobCategory.CREATURE, EntityInit.VULTURE, ConfigInit.CONFIG.vultureSpawnWeight, 2, 4);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_JUNGLE), MobCategory.CREATURE, EntityInit.BLACK_PANTHER, ConfigInit.CONFIG.blackPantherSpawnWeight, 1, 2);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.HYENA, ConfigInit.CONFIG.hyenaSpawnWeight, 1, 1);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.GAZELLE, ConfigInit.CONFIG.gazelleSpawnWeight, 2, 4);
 
 //        ConventionalBiomeTags.IS_ICY Penguin
 //        BiomeTags.IS_FOREST Racoon
@@ -64,6 +65,7 @@ public class SpawnInit {
         SpawnPlacements.register(EntityInit.VULTURE, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, VultureEntity::checkVultureEntitySpawnRules);
         SpawnPlacements.register(EntityInit.BLACK_PANTHER, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BlackPantherEntity::checkBlackPantherEntitySpawnRules);
         SpawnPlacements.register(EntityInit.HYENA, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, HyenaEntity::checkHyenaEntitySpawnRules);
+        SpawnPlacements.register(EntityInit.GAZELLE, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GazelleEntity::checkGazelleEntitySpawnRules);
     }
 
 }

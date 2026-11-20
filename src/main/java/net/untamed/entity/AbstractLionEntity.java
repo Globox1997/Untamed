@@ -473,6 +473,9 @@ public abstract class AbstractLionEntity extends Animal implements NeutralMob {
         if (animal.isLeashed() || animal.hasCustomName() || (animal instanceof TamableAnimal tamable && tamable.isTame()) || (animal instanceof AbstractHorse horse && horse.isTamed())) {
             return false;
         }
+        if (animal instanceof GazelleEntity gazelle && gazelle.isStotting()) {
+            return false;
+        }
         return !animal.getType().is(TagInit.LION_LARGE_PREY) || hunters >= 3 || animal.isBaby();
     }
 

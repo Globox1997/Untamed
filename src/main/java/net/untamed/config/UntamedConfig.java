@@ -56,6 +56,10 @@ public class UntamedConfig implements ConfigData {
     @ConfigEntry.Gui.RequiresRestart
     @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
     public int hyenaSpawnWeight = 3;
+    @ConfigEntry.Category("spawn_setting")
+    @ConfigEntry.Gui.RequiresRestart
+    @ConfigEntry.BoundedDiscrete(min = 0, max = 100)
+    public int gazelleSpawnWeight = 3;
 
     @ConfigEntry.Category("behavior_setting")
     public boolean lionsHuntLivestock = true;
@@ -63,4 +67,6 @@ public class UntamedConfig implements ConfigData {
     public boolean hyenasHuntLivestock = true;
     @ConfigEntry.Category("behavior_setting")
     public boolean panthersHuntLivestock = true;
+    @ConfigEntry.Category("behavior_setting")
+    public boolean gazellesLeapObstacles = true;
 }

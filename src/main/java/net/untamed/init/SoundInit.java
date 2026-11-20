@@ -71,6 +71,11 @@ public class SoundInit {
     public static SoundEvent HYENA_ATTACK_EVENT = register("hyena_attack");
     public static SoundEvent HYENA_WHOOP_EVENT = register("hyena_whoop");
 
+    public static SoundEvent GAZELLE_IDLE_EVENT = register("gazelle_idle");
+    public static SoundEvent GAZELLE_HURT_EVENT = register("gazelle_hurt");
+    public static SoundEvent GAZELLE_DEATH_EVENT = register("gazelle_death");
+    public static SoundEvent GAZELLE_STEP_EVENT = register("gazelle_step");
+
     private static SoundEvent register(String id) {
         return Registry.register(BuiltInRegistries.SOUND_EVENT, UntamedMain.identifierOf(id), SoundEvent.createVariableRangeEvent(UntamedMain.identifierOf(id)));
     }

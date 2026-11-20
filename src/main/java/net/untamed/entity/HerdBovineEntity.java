@@ -123,8 +123,10 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.addGoal(0, new FloatGoal(this));
-        this.goalSelector.addGoal(1, new PanicGoal(this, 2.0, pathfinderMob -> pathfinderMob.isBaby() ? DamageTypeTags.PANIC_CAUSES : DamageTypeTags.PANIC_ENVIRONMENTAL_CAUSES));
-        this.goalSelector.addGoal(2, new WarningMeleeAttackGoal(this, 1.25));
+        this.goalSelector.addGoal(1, new PanicGoal(this, 2.0, pathfinderMob -> pathfinderMob.isBaby() || !this.fightsBack() ? DamageTypeTags.PANIC_CAUSES : DamageTypeTags.PANIC_ENVIRONMENTAL_CAUSES));
+        if (this.fightsBack()) {
+            this.goalSelector.addGoal(2, new WarningMeleeAttackGoal(this, 1.25));
+        }
         this.goalSelector.addGoal(3, new BreedGoal(this, 1.0));
         this.goalSelector.addGoal(4, new ThreatResponseGoal(this));
         this.goalSelector.addGoal(5, new FollowMotherGoal(this));
@@ -135,9 +137,11 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
         this.goalSelector.addGoal(9, new HerdStrollGoal(this, 0.8));
         this.goalSelector.addGoal(10, new LookAtPlayerGoal(this, Player.class, 6.0F));
         this.goalSelector.addGoal(11, new RandomLookAroundGoal(this));
-        this.targetSelector.addGoal(1, new HerdHurtByTargetGoal(this));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isAngryAt));
-        this.targetSelector.addGoal(5, new ResetUniversalAngerTargetGoal<>(this, false));
+        if (this.fightsBack()) {
+            this.targetSelector.addGoal(1, new HerdHurtByTargetGoal(this));
+            this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, Player.class, 10, true, false, this::isAngryAt));
+            this.targetSelector.addGoal(5, new ResetUniversalAngerTargetGoal<>(this, false));
+        }
         this.registerSpeciesGoals();
     }
 
@@ -403,6 +407,10 @@ public abstract class HerdBovineEntity extends Animal implements NeutralMob {
         this.setPersistentAngerTarget(player.getUUID());
         this.startPersistentAngerTimer();
         this.playerTolerance.remove(player.getUUID());
+    }
+
+    public boolean fightsBack() {
+        return true;
     }
 
     public boolean defendsAsGroup() {
