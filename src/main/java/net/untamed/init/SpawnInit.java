@@ -32,9 +32,10 @@ public class SpawnInit {
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_JUNGLE), MobCategory.CREATURE, EntityInit.BLACK_PANTHER, ConfigInit.CONFIG.blackPantherSpawnWeight, 1, 2);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.HYENA, ConfigInit.CONFIG.hyenaSpawnWeight, 1, 1);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.GAZELLE, ConfigInit.CONFIG.gazelleSpawnWeight, 2, 4);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_FOREST), MobCategory.CREATURE, EntityInit.RACCOON, ConfigInit.CONFIG.raccoonSpawnWeight, 1, 4);
 
 //        ConventionalBiomeTags.IS_ICY Penguin
-//        BiomeTags.IS_FOREST Racoon
+//        BiomeTags.IS_FOREST Raccoon
 //        BiomeTags.IS_SAVANNA Elephant
 //        IS_MOUNTAIN Snow Leopard
         // Swamp and river alligator
@@ -66,6 +67,7 @@ public class SpawnInit {
         SpawnPlacements.register(EntityInit.BLACK_PANTHER, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, BlackPantherEntity::checkBlackPantherEntitySpawnRules);
         SpawnPlacements.register(EntityInit.HYENA, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, HyenaEntity::checkHyenaEntitySpawnRules);
         SpawnPlacements.register(EntityInit.GAZELLE, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GazelleEntity::checkGazelleEntitySpawnRules);
+        SpawnPlacements.register(EntityInit.RACCOON, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RaccoonEntity::checkRaccoonEntitySpawnRules);
     }
 
 }

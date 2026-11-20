@@ -41,7 +41,9 @@ public class EntityInit {
     public static final EntityType<HyenaEntity> HYENA = register(
             "hyena", 9921357, 12357740, EntityType.Builder.of(HyenaEntity::new, MobCategory.CREATURE).sized(0.9F, 1.2F).clientTrackingRange(10).build());
     public static final EntityType<GazelleEntity> GAZELLE = register(
-            "gazelle", 9924176, 5585966, EntityType.Builder.of(GazelleEntity::new, MobCategory.CREATURE).sized(0.6F, 1.25F).clientTrackingRange(10).build());
+            "gazelle", 9924176, 5585966, EntityType.Builder.of(GazelleEntity::new, MobCategory.CREATURE).sized(0.7F, 1.45F).clientTrackingRange(10).eyeHeight(1.4f).build());
+    public static final EntityType<RaccoonEntity> RACCOON = register(
+            "raccoon", 7563621, 11643042, EntityType.Builder.of(RaccoonEntity::new, MobCategory.CREATURE).sized(0.75F, 0.7F).clientTrackingRange(10).build());
 
     private static <T extends Entity> EntityType<T> register(String id, int primaryColor, int secondaryColor, EntityType<T> entityType) {
         if (primaryColor != 0) {
@@ -67,5 +69,6 @@ public class EntityInit {
         FabricDefaultAttributeRegistry.register(BLACK_PANTHER, BlackPantherEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(HYENA, HyenaEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(GAZELLE, GazelleEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(RACCOON, RaccoonEntity.createAttributes());
     }
 }

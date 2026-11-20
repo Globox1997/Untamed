@@ -12,6 +12,7 @@
   "entity.untamed.black_panther": "Black Panther",
   "entity.untamed.hyena": "Hyena",
   "entity.untamed.gazelle": "Gazelle",
+  "entity.untamed.raccoon": "Raccoon",
 
   "item.untamed.item_group": "Untamed",
 
@@ -28,6 +29,7 @@
   "item.untamed.black_panther_spawn_egg": "Black Panther Spawn Egg",
   "item.untamed.hyena_spawn_egg": "Hyena Spawn Egg",
   "item.untamed.gazelle_spawn_egg": "Gazelle Spawn Egg",
+  "item.untamed.raccoon_spawn_egg": "Raccoon Spawn Egg",
 
   "item.untamed.raw_lion": "Raw Lion",
   "item.untamed.cooked_lion": "Cooked Lion",
@@ -53,6 +55,8 @@
   "item.untamed.cooked_hyena": "Cooked Hyena",
   "item.untamed.raw_gazelle": "Raw Gazelle",
   "item.untamed.cooked_gazelle": "Cooked Gazelle",
+  "item.untamed.raw_raccoon": "Raw Raccoon",
+  "item.untamed.cooked_raccoon": "Cooked Raccoon",
 
   "tag.item.untamed.lion_food": "Lion Food",
   "tag.item.untamed.lioness_food": "Lioness Food",
@@ -69,6 +73,7 @@
   "tag.item.untamed.black_panther_food": "Black Panther Food",
   "tag.item.untamed.hyena_food": "Hyena Food",
   "tag.item.untamed.gazelle_food": "Gazelle Food",
+  "tag.item.untamed.raccoon_food": "Raccoon Food",
 
   "tag.block.untamed.lions_spawnable_on": "Lions Spawnable On",
   "tag.block.untamed.rhinos_spawnable_on": "Rhinos Spawnable On",
@@ -82,6 +87,7 @@
   "tag.block.untamed.black_panthers_spawnable_on": "Black Panthers Spawnable On",
   "tag.block.untamed.hyenas_spawnable_on": "Hyenas Spawnable On",
   "tag.block.untamed.gazelles_spawnable_on": "Gazelles Spawnable On",
+  "tag.block.untamed.raccoons_spawnable_on": "Raccoons Spawnable On",
 
   "tag.block.untamed.herd_grazeable": "Herd Grazeable",
 
@@ -89,6 +95,7 @@
   "tag.entity_type.untamed.buffalo_threats": "Buffalo Threats",
   "tag.entity_type.untamed.vulture_rivals": "Vulture Rivals",
   "tag.entity_type.untamed.gazelle_predators": "Gazelle Predators",
+  "tag.entity_type.untamed.raccoon_predators": "Raccoon Predators",
   "tag.entity_type.untamed.lion_prey": "Lion Prey",
   "tag.entity_type.untamed.lion_large_prey": "Lion Large Prey",
   "tag.entity_type.untamed.lion_livestock_prey": "Lion Livestock Prey",
@@ -119,9 +126,12 @@
   "text.autoconfig.untamed.option.blackPantherSpawnWeight": "Black Panther Spawn Weight",
   "text.autoconfig.untamed.option.hyenaSpawnWeight": "Hyena Spawn Weight",
   "text.autoconfig.untamed.option.gazelleSpawnWeight": "Gazelle Spawn Weight",
+  "text.autoconfig.untamed.option.raccoonSpawnWeight": "Raccoon Spawn Weight",
   "text.autoconfig.untamed.category.behavior_setting": "Behavior",
   "text.autoconfig.untamed.option.lionsHuntLivestock": "Lions Hunt Livestock",
   "text.autoconfig.untamed.option.gazellesLeapObstacles": "Fleeing Gazelles Leap Fences",
+  "text.autoconfig.untamed.option.raccoonsRaidCrops": "Raccoons Raid Crops",
+  "text.autoconfig.untamed.option.raccoonsRaidContainers": "Raccoons Raid Chests and Barrels",
   "text.autoconfig.untamed.option.hyenasHuntLivestock": "Hyenas Hunt Livestock",
   "text.autoconfig.untamed.option.panthersHuntLivestock": "Panthers Hunt Livestock"
 }

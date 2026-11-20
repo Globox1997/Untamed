@@ -392,5 +392,34 @@
       "untamed:gazelle_step_1",
       "untamed:gazelle_step_2"
     ]
+  },
+  "raccoon_idle": {
+    "sounds": [
+      "untamed:raccoon_idle_1",
+      "untamed:raccoon_idle_2",
+      "untamed:raccoon_idle_3",
+      "untamed:raccoon_idle_4"
+    ]
+  },
+  "raccoon_hurt": {
+    "sounds": [
+      "untamed:raccoon_hurt_1",
+      "untamed:raccoon_hurt_2",
+      "untamed:raccoon_hurt_3",
+      "untamed:raccoon_hurt_4"
+    ]
+  },
+  "raccoon_death": {
+    "sounds": [
+      "untamed:raccoon_death_1",
+      "untamed:raccoon_death_2",
+      "untamed:raccoon_death_3"
+    ]
+  },
+  "raccoon_step": {
+    "sounds": [
+      "untamed:raccoon_step_1",
+      "untamed:raccoon_step_2"
+    ]
   }
 }

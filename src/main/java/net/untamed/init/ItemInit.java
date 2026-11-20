@@ -12,11 +12,12 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.untamed.UntamedMain;
 
 public class ItemInit {
 
+    // TODO: Later, change food values
+    
     // Item Group
     public static final ResourceKey<CreativeModeTab> UNTAMED_ITEM_GROUP = ResourceKey.create(Registries.CREATIVE_MODE_TAB, UntamedMain.identifierOf("item_group"));
 
@@ -55,6 +56,9 @@ public class ItemInit {
 
     public static final Item RAW_GAZELLE = register("raw_gazelle", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
     public static final Item COOKED_GAZELLE = register("cooked_gazelle", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build())));
+
+    public static final Item RAW_RACCOON = register("raw_raccoon", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
+    public static final Item COOKED_RACCOON = register("cooked_raccoon", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build())));
 
     private static Item register(String id, Item item) {
         return register(UntamedMain.identifierOf(id), item);
