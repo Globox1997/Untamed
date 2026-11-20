@@ -13,6 +13,7 @@
   "entity.untamed.hyena": "Hyena",
   "entity.untamed.gazelle": "Gazelle",
   "entity.untamed.raccoon": "Raccoon",
+  "entity.untamed.snow_leopard": "Snow Leopard",
 
   "item.untamed.item_group": "Untamed",
 
@@ -30,6 +31,7 @@
   "item.untamed.hyena_spawn_egg": "Hyena Spawn Egg",
   "item.untamed.gazelle_spawn_egg": "Gazelle Spawn Egg",
   "item.untamed.raccoon_spawn_egg": "Raccoon Spawn Egg",
+  "item.untamed.snow_leopard_spawn_egg": "Snow Leopard Spawn Egg",
 
   "item.untamed.raw_lion": "Raw Lion",
   "item.untamed.cooked_lion": "Cooked Lion",
@@ -57,6 +59,8 @@
   "item.untamed.cooked_gazelle": "Cooked Gazelle",
   "item.untamed.raw_raccoon": "Raw Raccoon",
   "item.untamed.cooked_raccoon": "Cooked Raccoon",
+  "item.untamed.raw_leopard": "Raw Leopard",
+  "item.untamed.cooked_leopard": "Cooked Leopard",
 
   "tag.item.untamed.lion_food": "Lion Food",
   "tag.item.untamed.lioness_food": "Lioness Food",
@@ -74,6 +78,7 @@
   "tag.item.untamed.hyena_food": "Hyena Food",
   "tag.item.untamed.gazelle_food": "Gazelle Food",
   "tag.item.untamed.raccoon_food": "Raccoon Food",
+  "tag.item.untamed.snow_leopard_food": "Snow Leopard Food",
 
   "tag.block.untamed.lions_spawnable_on": "Lions Spawnable On",
   "tag.block.untamed.rhinos_spawnable_on": "Rhinos Spawnable On",
@@ -88,6 +93,7 @@
   "tag.block.untamed.hyenas_spawnable_on": "Hyenas Spawnable On",
   "tag.block.untamed.gazelles_spawnable_on": "Gazelles Spawnable On",
   "tag.block.untamed.raccoons_spawnable_on": "Raccoons Spawnable On",
+  "tag.block.untamed.snow_leopards_spawnable_on": "Snow Leopards Spawnable On",
 
   "tag.block.untamed.herd_grazeable": "Herd Grazeable",
 
@@ -110,6 +116,9 @@
   "tag.entity_type.untamed.octopus_prey": "Octopus Prey",
   "tag.entity_type.untamed.black_panther_prey": "Black Panther Prey",
   "tag.entity_type.untamed.black_panther_livestock_prey": "Black Panther Livestock Prey",
+  "tag.entity_type.untamed.snow_leopard_prey": "Snow Leopard Prey",
+  "tag.entity_type.untamed.snow_leopard_livestock_prey": "Snow Leopard Livestock Prey",
+  "tag.worldgen.biome.untamed.snow_leopard_habitat": "Snow Leopard Habitat",
   "tag.entity_type.untamed.black_panther_fish": "Black Panther Fish",
 
   "text.autoconfig.untamed.title": "Untamed",
@@ -127,11 +136,13 @@
   "text.autoconfig.untamed.option.hyenaSpawnWeight": "Hyena Spawn Weight",
   "text.autoconfig.untamed.option.gazelleSpawnWeight": "Gazelle Spawn Weight",
   "text.autoconfig.untamed.option.raccoonSpawnWeight": "Raccoon Spawn Weight",
+  "text.autoconfig.untamed.option.snowLeopardSpawnWeight": "Snow Leopard Spawn Weight",
   "text.autoconfig.untamed.category.behavior_setting": "Behavior",
   "text.autoconfig.untamed.option.lionsHuntLivestock": "Lions Hunt Livestock",
   "text.autoconfig.untamed.option.gazellesLeapObstacles": "Fleeing Gazelles Leap Fences",
   "text.autoconfig.untamed.option.raccoonsRaidCrops": "Raccoons Raid Crops",
   "text.autoconfig.untamed.option.raccoonsRaidContainers": "Raccoons Raid Chests and Barrels",
   "text.autoconfig.untamed.option.hyenasHuntLivestock": "Hyenas Hunt Livestock",
-  "text.autoconfig.untamed.option.panthersHuntLivestock": "Panthers Hunt Livestock"
+  "text.autoconfig.untamed.option.panthersHuntLivestock": "Panthers Hunt Livestock",
+  "text.autoconfig.untamed.option.snowLeopardsHuntLivestock": "Snow Leopards Hunt Livestock"
 }

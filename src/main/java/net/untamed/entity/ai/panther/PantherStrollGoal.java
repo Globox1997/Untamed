@@ -1,15 +1,15 @@
 package net.untamed.entity.ai.panther;
 
 import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
-import net.untamed.entity.BlackPantherEntity;
+import net.untamed.entity.AbstractBigCatEntity;
 
 public class PantherStrollGoal extends RandomStrollGoal {
 
     private static final int STROLL_INTERVAL = 60;
 
-    private final BlackPantherEntity panther;
+    private final AbstractBigCatEntity panther;
 
-    public PantherStrollGoal(BlackPantherEntity panther, double speedModifier) {
+    public PantherStrollGoal(AbstractBigCatEntity panther, double speedModifier) {
         super(panther, speedModifier, STROLL_INTERVAL);
         this.panther = panther;
     }

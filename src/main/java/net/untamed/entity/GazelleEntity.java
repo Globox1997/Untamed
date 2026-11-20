@@ -204,15 +204,15 @@ public class GazelleEntity extends HerdBovineEntity {
         if (predator instanceof HyenaEntity hyena) {
             return hyena.isResting();
         }
-        return predator instanceof BlackPantherEntity panther && panther.isResting();
+        return predator instanceof AbstractBigCatEntity cat && cat.isResting();
     }
 
     private static boolean isStalking(LivingEntity predator) {
         if (predator instanceof AbstractLionEntity lion) {
             return lion.getLionPose() == AbstractLionEntity.LionPose.STALKING;
         }
-        if (predator instanceof BlackPantherEntity panther) {
-            return panther.getPantherPose() == BlackPantherEntity.PantherPose.STALKING;
+        if (predator instanceof AbstractBigCatEntity cat) {
+            return cat.getPantherPose() == AbstractBigCatEntity.PantherPose.STALKING;
         }
         return predator.isDiscrete();
     }

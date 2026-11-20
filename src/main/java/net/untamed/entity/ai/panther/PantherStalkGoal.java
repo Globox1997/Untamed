@@ -4,7 +4,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.animal.Animal;
 import net.minecraft.world.phys.Vec3;
-import net.untamed.entity.BlackPantherEntity;
+import net.untamed.entity.AbstractBigCatEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
@@ -25,7 +25,7 @@ public class PantherStalkGoal extends Goal {
     private static final int FAILED_HUNT_COOLDOWN = 1200;
     private static final int NO_PREY_COOLDOWN = 200;
 
-    private final BlackPantherEntity panther;
+    private final AbstractBigCatEntity panther;
     @Nullable
     private LivingEntity prey;
     private boolean chasing;
@@ -35,7 +35,7 @@ public class PantherStalkGoal extends Goal {
     private int attackCooldown;
     private int repathTicks;
 
-    public PantherStalkGoal(BlackPantherEntity panther) {
+    public PantherStalkGoal(AbstractBigCatEntity panther) {
         this.panther = panther;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK, Goal.Flag.JUMP));
     }
@@ -78,7 +78,7 @@ public class PantherStalkGoal extends Goal {
         this.attackCooldown = 0;
         this.repathTicks = 0;
         this.panther.setHunting(true);
-        this.panther.setPantherPose(BlackPantherEntity.PantherPose.STALKING);
+        this.panther.setPantherPose(AbstractBigCatEntity.PantherPose.STALKING);
     }
 
     @Override
@@ -141,7 +141,7 @@ public class PantherStalkGoal extends Goal {
 
     @Override
     public void stop() {
-        this.panther.clearPantherPose(BlackPantherEntity.PantherPose.STALKING);
+        this.panther.clearPantherPose(AbstractBigCatEntity.PantherPose.STALKING);
         this.panther.setHunting(false);
         this.panther.getNavigation().stop();
         if (this.failed || this.ticks >= MAX_TICKS) {

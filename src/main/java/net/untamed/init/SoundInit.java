@@ -81,6 +81,14 @@ public class SoundInit {
     public static SoundEvent RACCOON_DEATH_EVENT = register("raccoon_death");
     public static SoundEvent RACCOON_STEP_EVENT = register("raccoon_step");
 
+    public static SoundEvent SNOW_LEOPARD_IDLE_EVENT = register("snow_leopard_idle");
+    public static SoundEvent SNOW_LEOPARD_HURT_EVENT = register("snow_leopard_hurt");
+    public static SoundEvent SNOW_LEOPARD_DEATH_EVENT = register("snow_leopard_death");
+    public static SoundEvent SNOW_LEOPARD_STEP_EVENT = register("snow_leopard_step");
+    public static SoundEvent SNOW_LEOPARD_ATTACK_EVENT = register("snow_leopard_attack");
+    public static SoundEvent SNOW_LEOPARD_PRUSTEN_EVENT = register("snow_leopard_prusten");
+    public static SoundEvent SNOW_LEOPARD_YOWL_EVENT = register("snow_leopard_yowl");
+
     private static SoundEvent register(String id) {
         return Registry.register(BuiltInRegistries.SOUND_EVENT, UntamedMain.identifierOf(id), SoundEvent.createVariableRangeEvent(UntamedMain.identifierOf(id)));
     }

@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.phys.Vec3;
-import net.untamed.entity.BlackPantherEntity;
+import net.untamed.entity.AbstractBigCatEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
@@ -18,12 +18,12 @@ public class PantherRestGoal extends Goal {
     private static final int SEARCH_RANGE = 16;
     private static final double AT_SPOT = 1.5D;
 
-    private final BlackPantherEntity panther;
+    private final AbstractBigCatEntity panther;
     private boolean walking;
     private int restTicks;
     private long nextRestTime;
 
-    public PantherRestGoal(BlackPantherEntity panther) {
+    public PantherRestGoal(AbstractBigCatEntity panther) {
         this.panther = panther;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK, Goal.Flag.JUMP));
     }
@@ -59,7 +59,7 @@ public class PantherRestGoal extends Goal {
         if (this.panther.isBaby()) {
             return this.panther.getDenPos();
         }
-        for (BlackPantherEntity cub : this.panther.getCubs()) {
+        for (AbstractBigCatEntity cub : this.panther.getCubs()) {
             if (cub.isAlive() && cub.isYoungCub() && cub.getDenPos() != null) {
                 return cub.getDenPos();
             }
@@ -87,13 +87,13 @@ public class PantherRestGoal extends Goal {
     @Override
     public void stop() {
         this.walking = false;
-        this.panther.clearPantherPose(BlackPantherEntity.PantherPose.RESTING);
+        this.panther.clearPantherPose(AbstractBigCatEntity.PantherPose.RESTING);
         this.nextRestTime = this.panther.level().getGameTime() + COOLDOWN;
     }
 
     private void lieDown() {
         this.restTicks = this.adjustedTickDelay(MIN_REST_TICKS + this.panther.getRandom().nextInt(REST_TICKS_VARIATION));
         this.panther.getNavigation().stop();
-        this.panther.setPantherPose(BlackPantherEntity.PantherPose.RESTING);
+        this.panther.setPantherPose(AbstractBigCatEntity.PantherPose.RESTING);
     }
 }

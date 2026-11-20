@@ -26,6 +26,7 @@ public class RenderInit {
     public static final ModelLayerLocation HYENA_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("hyena_render_layer"), "hyena_render_layer");
     public static final ModelLayerLocation GAZELLE_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("gazelle_render_layer"), "gazelle_render_layer");
     public static final ModelLayerLocation RACCOON_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("raccoon_render_layer"), "raccoon_render_layer");
+    public static final ModelLayerLocation SNOW_LEOPARD_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("snow_leopard_render_layer"), "snow_leopard_render_layer");
 
     public static void init() {
         // Entity Renderer
@@ -43,6 +44,7 @@ public class RenderInit {
         EntityRendererRegistry.register(EntityInit.HYENA, HyenaRenderer::new);
         EntityRendererRegistry.register(EntityInit.GAZELLE, GazelleRenderer::new);
         EntityRendererRegistry.register(EntityInit.RACCOON, RaccoonRenderer::new);
+        EntityRendererRegistry.register(EntityInit.SNOW_LEOPARD, SnowLeopardRenderer::new);
         // Entity Layer
         EntityModelLayerRegistry.registerModelLayer(LION_LAYER, LionModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(LIONESS_LAYER, LionessModel::createBodyLayer);
@@ -58,5 +60,6 @@ public class RenderInit {
         EntityModelLayerRegistry.registerModelLayer(HYENA_LAYER, HyenaModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(GAZELLE_LAYER, GazelleModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(RACCOON_LAYER, RaccoonModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(SNOW_LEOPARD_LAYER, SnowLeopardModel::createBodyLayer);
     }
 }

@@ -4,7 +4,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.phys.Vec3;
-import net.untamed.entity.BlackPantherEntity;
+import net.untamed.entity.AbstractBigCatEntity;
 
 import java.util.EnumSet;
 
@@ -14,11 +14,11 @@ public class CubStayHiddenGoal extends Goal {
     private static final double STOP_DISTANCE = 2.0D;
     private static final int COVER_SEARCH_RANGE = 8;
 
-    private final BlackPantherEntity cub;
+    private final AbstractBigCatEntity cub;
     private boolean denChecked;
     private int repathTicks;
 
-    public CubStayHiddenGoal(BlackPantherEntity cub) {
+    public CubStayHiddenGoal(AbstractBigCatEntity cub) {
         this.cub = cub;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
     }

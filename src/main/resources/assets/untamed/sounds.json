@@ -421,5 +421,50 @@
       "untamed:raccoon_step_1",
       "untamed:raccoon_step_2"
     ]
+  },
+  "snow_leopard_idle": {
+    "sounds": [
+      "untamed:leopard_idle_1",
+      "untamed:leopard_idle_2",
+      "untamed:leopard_idle_3",
+      "untamed:leopard_idle_4"
+    ]
+  },
+  "snow_leopard_hurt": {
+    "sounds": [
+      "untamed:leopard_hurt_1",
+      "untamed:leopard_hurt_2",
+      "untamed:leopard_hurt_3"
+    ]
+  },
+  "snow_leopard_death": {
+    "sounds": [
+      "untamed:leopard_death_1",
+      "untamed:leopard_death_2",
+      "untamed:leopard_death_3"
+    ]
+  },
+  "snow_leopard_step": {
+    "sounds": [
+      "untamed:leopard_step_1",
+      "untamed:leopard_step_2"
+    ]
+  },
+  "snow_leopard_attack": {
+    "sounds": [
+      "untamed:leopard_attack_1"
+    ]
+  },
+  "snow_leopard_prusten": {
+    "sounds": [
+      "untamed:leopard_idle_1",
+      "untamed:leopard_idle_2"
+    ]
+  },
+  "snow_leopard_yowl": {
+    "sounds": [
+      "untamed:leopard_idle_3",
+      "untamed:leopard_idle_4"
+    ]
   }
 }

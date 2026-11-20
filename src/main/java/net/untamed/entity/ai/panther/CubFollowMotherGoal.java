@@ -1,7 +1,7 @@
 package net.untamed.entity.ai.panther;
 
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.untamed.entity.BlackPantherEntity;
+import net.untamed.entity.AbstractBigCatEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
@@ -12,12 +12,12 @@ public class CubFollowMotherGoal extends Goal {
     private static final double STOP_DISTANCE = 2.5D;
     private static final double RUN_DISTANCE = 12.0D;
 
-    private final BlackPantherEntity cub;
+    private final AbstractBigCatEntity cub;
     @Nullable
-    private BlackPantherEntity mother;
+    private AbstractBigCatEntity mother;
     private int repathTicks;
 
-    public CubFollowMotherGoal(BlackPantherEntity cub) {
+    public CubFollowMotherGoal(AbstractBigCatEntity cub) {
         this.cub = cub;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE));
     }

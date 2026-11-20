@@ -1,13 +1,13 @@
 package net.untamed.entity.ai.panther;
 
 import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
-import net.untamed.entity.BlackPantherEntity;
+import net.untamed.entity.AbstractBigCatEntity;
 
 public class PantherHurtByTargetGoal extends HurtByTargetGoal {
 
-    private final BlackPantherEntity panther;
+    private final AbstractBigCatEntity panther;
 
-    public PantherHurtByTargetGoal(BlackPantherEntity panther) {
+    public PantherHurtByTargetGoal(AbstractBigCatEntity panther) {
         super(panther);
         this.panther = panther;
     }

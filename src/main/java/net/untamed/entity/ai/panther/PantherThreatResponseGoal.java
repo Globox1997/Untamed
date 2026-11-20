@@ -6,7 +6,7 @@ import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.ai.util.LandRandomPos;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.phys.Vec3;
-import net.untamed.entity.BlackPantherEntity;
+import net.untamed.entity.AbstractBigCatEntity;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.EnumSet;
@@ -27,14 +27,14 @@ public class PantherThreatResponseGoal extends Goal {
         NONE, HIDE, GUARD, SNARL, FLEE
     }
 
-    private final BlackPantherEntity panther;
+    private final AbstractBigCatEntity panther;
     @Nullable
     private Player player;
     private int snarlTicks;
     private int repathTicks;
     private boolean cornered;
 
-    public PantherThreatResponseGoal(BlackPantherEntity panther) {
+    public PantherThreatResponseGoal(AbstractBigCatEntity panther) {
         this.panther = panther;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
     }
@@ -44,7 +44,7 @@ public class PantherThreatResponseGoal extends Goal {
         if (this.panther.getTarget() != null) {
             return false;
         }
-        this.player = this.panther.level().getNearestPlayer(this.panther.getX(), this.panther.getY(), this.panther.getZ(), NOTICE_DISTANCE,
+        this.player = this.panther.level().getNearestPlayer(this.panther.getX(), this.panther.getY(), this.panther.getZ(), this.noticeDistance(),
                 entity -> EntitySelector.NO_CREATIVE_OR_SPECTATOR.test(entity) && entity.isAlive());
         if (this.player == null) {
             return false;
@@ -69,12 +69,12 @@ public class PantherThreatResponseGoal extends Goal {
         this.snarlTicks = 0;
         this.repathTicks = 0;
         this.cornered = false;
-        this.panther.clearPantherPose(BlackPantherEntity.PantherPose.RESTING);
+        this.panther.clearPantherPose(AbstractBigCatEntity.PantherPose.RESTING);
     }
 
     @Override
     public void stop() {
-        this.panther.clearPantherPose(BlackPantherEntity.PantherPose.SNARLING);
+        this.panther.clearPantherPose(AbstractBigCatEntity.PantherPose.SNARLING);
         this.panther.getNavigation().stop();
         this.player = null;
     }
@@ -86,7 +86,7 @@ public class PantherThreatResponseGoal extends Goal {
         }
         Stage stage = this.computeStage(this.player);
         if (stage != Stage.SNARL) {
-            this.panther.clearPantherPose(BlackPantherEntity.PantherPose.SNARLING);
+            this.panther.clearPantherPose(AbstractBigCatEntity.PantherPose.SNARLING);
             this.snarlTicks = Math.max(0, this.snarlTicks - 1);
         }
         this.panther.getLookControl().setLookAt(this.player, 30.0F, 30.0F);
@@ -99,7 +99,7 @@ public class PantherThreatResponseGoal extends Goal {
             }
             case SNARL -> {
                 this.panther.getNavigation().stop();
-                this.panther.setPantherPose(BlackPantherEntity.PantherPose.SNARLING);
+                this.panther.setPantherPose(AbstractBigCatEntity.PantherPose.SNARLING);
                 this.panther.playWarningSound();
                 this.panther.alarm(100);
                 this.snarlTicks++;
@@ -137,7 +137,7 @@ public class PantherThreatResponseGoal extends Goal {
             return;
         }
         this.repathTicks = 20;
-        BlackPantherEntity mother = this.panther.getMother();
+        AbstractBigCatEntity mother = this.panther.getMother();
         BlockPos den = this.panther.getDenPos();
         if (mother != null) {
             this.panther.getNavigation().moveTo(mother, 1.4D);
@@ -148,13 +148,17 @@ public class PantherThreatResponseGoal extends Goal {
         }
     }
 
+    private double noticeDistance() {
+        return NOTICE_DISTANCE * this.panther.getNoticeDistanceScale();
+    }
+
     private Stage computeStage(Player player) {
         if (this.panther.isFood(player.getMainHandItem()) || this.panther.isFood(player.getOffhandItem())) {
             return Stage.NONE;
         }
         double distance = this.panther.distanceTo(player);
         if (this.panther.isBaby()) {
-            return distance < NOTICE_DISTANCE * 0.6D ? Stage.FLEE : Stage.NONE;
+            return distance < this.noticeDistance() * 0.6D ? Stage.FLEE : Stage.NONE;
         }
         double scale = 1.0D - 0.5D * this.panther.getTolerance(player) / MAX_TOLERANCE;
         if (player.isDiscrete()) {
@@ -164,11 +168,11 @@ public class PantherThreatResponseGoal extends Goal {
             if (distance < CUB_GUARD_DISTANCE * scale) {
                 return Stage.SNARL;
             }
-            return distance < NOTICE_DISTANCE * scale ? Stage.GUARD : Stage.NONE;
+            return distance < this.noticeDistance() * scale ? Stage.GUARD : Stage.NONE;
         }
-        if (distance < SNARL_DISTANCE * scale || (this.cornered && distance < NOTICE_DISTANCE * 0.5D * scale)) {
+        if ((this.panther.snarlsAtCloseRange() && distance < SNARL_DISTANCE * scale) || (this.cornered && distance < NOTICE_DISTANCE * 0.5D * scale)) {
             return Stage.SNARL;
         }
-        return distance < NOTICE_DISTANCE * scale ? Stage.HIDE : Stage.NONE;
+        return distance < this.noticeDistance() * scale ? Stage.HIDE : Stage.NONE;
     }
 }

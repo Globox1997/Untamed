@@ -17,7 +17,8 @@ import net.untamed.UntamedMain;
 public class ItemInit {
 
     // TODO: Later, change food values
-    
+    // ALSO MAYBE CHANGE SOUND VOLUMES AGAIN
+
     // Item Group
     public static final ResourceKey<CreativeModeTab> UNTAMED_ITEM_GROUP = ResourceKey.create(Registries.CREATIVE_MODE_TAB, UntamedMain.identifierOf("item_group"));
 
@@ -59,6 +60,9 @@ public class ItemInit {
 
     public static final Item RAW_RACCOON = register("raw_raccoon", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
     public static final Item COOKED_RACCOON = register("cooked_raccoon", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build())));
+
+    public static final Item RAW_LEOPARD = register("raw_leopard", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
+    public static final Item COOKED_LEOPARD = register("cooked_leopard", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build())));
 
     private static Item register(String id, Item item) {
         return register(UntamedMain.identifierOf(id), item);
