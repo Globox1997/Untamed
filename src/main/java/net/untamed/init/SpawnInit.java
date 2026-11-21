@@ -34,6 +34,8 @@ public class SpawnInit {
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_SAVANNA), MobCategory.CREATURE, EntityInit.GAZELLE, ConfigInit.CONFIG.gazelleSpawnWeight, 2, 4);
         BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_FOREST), MobCategory.CREATURE, EntityInit.RACCOON, ConfigInit.CONFIG.raccoonSpawnWeight, 1, 4);
         BiomeModifications.addSpawn(BiomeSelectors.tag(TagInit.SNOW_LEOPARD_HABITAT), MobCategory.CREATURE, EntityInit.SNOW_LEOPARD, ConfigInit.CONFIG.snowLeopardSpawnWeight, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_JUNGLE), MobCategory.CREATURE, EntityInit.QUETZAL, ConfigInit.CONFIG.quetzalSpawnWeight, 1, 2);
+        BiomeModifications.addSpawn(BiomeSelectors.tag(BiomeTags.IS_FOREST), MobCategory.CREATURE, EntityInit.BLUEWING, ConfigInit.CONFIG.bluewingSpawnWeight, 2, 4);
 
 //        ConventionalBiomeTags.IS_ICY Penguin
 //        BiomeTags.IS_FOREST Raccoon
@@ -70,6 +72,8 @@ public class SpawnInit {
         SpawnPlacements.register(EntityInit.GAZELLE, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, GazelleEntity::checkGazelleEntitySpawnRules);
         SpawnPlacements.register(EntityInit.RACCOON, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, RaccoonEntity::checkRaccoonEntitySpawnRules);
         SpawnPlacements.register(EntityInit.SNOW_LEOPARD, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, SnowLeopardEntity::checkSnowLeopardEntitySpawnRules);
+        SpawnPlacements.register(EntityInit.QUETZAL, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING, QuetzalEntity::checkQuetzalEntitySpawnRules);
+        SpawnPlacements.register(EntityInit.BLUEWING, SpawnPlacementTypes.ON_GROUND, Heightmap.Types.MOTION_BLOCKING, BluewingEntity::checkBluewingEntitySpawnRules);
     }
 
 }

@@ -466,5 +466,32 @@
       "untamed:leopard_idle_3",
       "untamed:leopard_idle_4"
     ]
+  },
+  "bird_idle": {
+    "sounds": [
+      "untamed:bird_idle_1",
+      "untamed:bird_idle_2"
+    ]
+  },
+  "bird_hurt": {
+    "sounds": [
+      "untamed:bird_hurt_1",
+      "untamed:bird_hurt_2",
+      "untamed:bird_hurt_3"
+    ]
+  },
+  "bird_death": {
+    "sounds": [
+      "untamed:bird_death_1",
+      "untamed:bird_death_2",
+      "untamed:bird_death_3",
+      "untamed:bird_death_4"
+    ]
+  },
+  "bird_flap": {
+    "sounds": [
+      "untamed:bird_wing_flap_1",
+      "untamed:bird_wing_flap_2"
+    ]
   }
 }

@@ -27,6 +27,8 @@ public class RenderInit {
     public static final ModelLayerLocation GAZELLE_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("gazelle_render_layer"), "gazelle_render_layer");
     public static final ModelLayerLocation RACCOON_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("raccoon_render_layer"), "raccoon_render_layer");
     public static final ModelLayerLocation SNOW_LEOPARD_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("snow_leopard_render_layer"), "snow_leopard_render_layer");
+    public static final ModelLayerLocation QUETZAL_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("quetzal_render_layer"), "quetzal_render_layer");
+    public static final ModelLayerLocation BLUEWING_LAYER = new ModelLayerLocation(UntamedMain.identifierOf("bluewing_render_layer"), "bluewing_render_layer");
 
     public static void init() {
         // Entity Renderer
@@ -45,6 +47,8 @@ public class RenderInit {
         EntityRendererRegistry.register(EntityInit.GAZELLE, GazelleRenderer::new);
         EntityRendererRegistry.register(EntityInit.RACCOON, RaccoonRenderer::new);
         EntityRendererRegistry.register(EntityInit.SNOW_LEOPARD, SnowLeopardRenderer::new);
+        EntityRendererRegistry.register(EntityInit.QUETZAL, QuetzalRenderer::new);
+        EntityRendererRegistry.register(EntityInit.BLUEWING, BluewingRenderer::new);
         // Entity Layer
         EntityModelLayerRegistry.registerModelLayer(LION_LAYER, LionModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(LIONESS_LAYER, LionessModel::createBodyLayer);
@@ -61,5 +65,7 @@ public class RenderInit {
         EntityModelLayerRegistry.registerModelLayer(GAZELLE_LAYER, GazelleModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(RACCOON_LAYER, RaccoonModel::createBodyLayer);
         EntityModelLayerRegistry.registerModelLayer(SNOW_LEOPARD_LAYER, SnowLeopardModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(QUETZAL_LAYER, QuetzalModel::createBodyLayer);
+        EntityModelLayerRegistry.registerModelLayer(BLUEWING_LAYER, BluewingModel::createBodyLayer);
     }
 }

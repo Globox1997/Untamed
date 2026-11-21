@@ -81,7 +81,7 @@ public class RaccoonModel<T extends RaccoonEntity> extends HierarchicalModel<T> 
 
         PartDefinition tail = body.addOrReplaceChild("tail", CubeListBuilder.create().texOffs(1, 31).addBox(-2.0F, -2.0F, 0.0F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, -0.5F, 5.0F, TAIL_BASE_PITCH, 0.0F, 0.0F));
 
-        PartDefinition tail2 = tail.addOrReplaceChild("tail2", CubeListBuilder.create().texOffs(16, 31).addBox(-2.0F, -2.0F, 0.0F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 3.0F, TAIL_MID_PITCH, 0.0F, 0.0F));
+        PartDefinition tail2 = tail.addOrReplaceChild("tail2", CubeListBuilder.create().texOffs(16, 31).addBox(-2.0F, -2.0F, 0.0F, 4.0F, 4.0F, 3.0F, new CubeDeformation(-0.01F)), PartPose.offsetAndRotation(0.0F, 0.0F, 3.0F, TAIL_MID_PITCH, 0.0F, 0.0F));
 
         tail2.addOrReplaceChild("tail3", CubeListBuilder.create().texOffs(1, 39).addBox(-2.0F, -2.0F, 0.0F, 4.0F, 4.0F, 3.0F, new CubeDeformation(0.0F)), PartPose.offsetAndRotation(0.0F, 0.0F, 3.0F, TAIL_TIP_PITCH, 0.0F, 0.0F));
 

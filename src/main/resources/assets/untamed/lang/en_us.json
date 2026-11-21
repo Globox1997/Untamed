@@ -14,6 +14,8 @@
   "entity.untamed.gazelle": "Gazelle",
   "entity.untamed.raccoon": "Raccoon",
   "entity.untamed.snow_leopard": "Snow Leopard",
+  "entity.untamed.quetzal": "Quetzal",
+  "entity.untamed.bluewing": "Bluewing",
 
   "item.untamed.item_group": "Untamed",
 
@@ -32,6 +34,8 @@
   "item.untamed.gazelle_spawn_egg": "Gazelle Spawn Egg",
   "item.untamed.raccoon_spawn_egg": "Raccoon Spawn Egg",
   "item.untamed.snow_leopard_spawn_egg": "Snow Leopard Spawn Egg",
+  "item.untamed.quetzal_spawn_egg": "Quetzal Spawn Egg",
+  "item.untamed.bluewing_spawn_egg": "Bluewing Spawn Egg",
 
   "item.untamed.raw_lion": "Raw Lion",
   "item.untamed.cooked_lion": "Cooked Lion",
@@ -61,6 +65,8 @@
   "item.untamed.cooked_raccoon": "Cooked Raccoon",
   "item.untamed.raw_leopard": "Raw Leopard",
   "item.untamed.cooked_leopard": "Cooked Leopard",
+  "item.untamed.raw_bird": "Raw Bird",
+  "item.untamed.cooked_bird": "Cooked Bird",
 
   "tag.item.untamed.lion_food": "Lion Food",
   "tag.item.untamed.lioness_food": "Lioness Food",
@@ -79,6 +85,8 @@
   "tag.item.untamed.gazelle_food": "Gazelle Food",
   "tag.item.untamed.raccoon_food": "Raccoon Food",
   "tag.item.untamed.snow_leopard_food": "Snow Leopard Food",
+  "tag.item.untamed.quetzal_food": "Quetzal Food",
+  "tag.item.untamed.bluewing_food": "Bluewing Food",
 
   "tag.block.untamed.lions_spawnable_on": "Lions Spawnable On",
   "tag.block.untamed.rhinos_spawnable_on": "Rhinos Spawnable On",
@@ -94,6 +102,8 @@
   "tag.block.untamed.gazelles_spawnable_on": "Gazelles Spawnable On",
   "tag.block.untamed.raccoons_spawnable_on": "Raccoons Spawnable On",
   "tag.block.untamed.snow_leopards_spawnable_on": "Snow Leopards Spawnable On",
+  "tag.block.untamed.quetzals_spawnable_on": "Quetzals Spawnable On",
+  "tag.block.untamed.bluewings_spawnable_on": "Bluewings Spawnable On",
 
   "tag.block.untamed.herd_grazeable": "Herd Grazeable",
 
@@ -117,6 +127,8 @@
   "tag.entity_type.untamed.black_panther_prey": "Black Panther Prey",
   "tag.entity_type.untamed.black_panther_livestock_prey": "Black Panther Livestock Prey",
   "tag.entity_type.untamed.snow_leopard_prey": "Snow Leopard Prey",
+  "tag.entity_type.untamed.bird_predators": "Bird Predators",
+  "tag.entity_type.untamed.bluewing_prey": "Bluewing Prey",
   "tag.entity_type.untamed.snow_leopard_livestock_prey": "Snow Leopard Livestock Prey",
   "tag.worldgen.biome.untamed.snow_leopard_habitat": "Snow Leopard Habitat",
   "tag.entity_type.untamed.black_panther_fish": "Black Panther Fish",
@@ -137,6 +149,8 @@
   "text.autoconfig.untamed.option.gazelleSpawnWeight": "Gazelle Spawn Weight",
   "text.autoconfig.untamed.option.raccoonSpawnWeight": "Raccoon Spawn Weight",
   "text.autoconfig.untamed.option.snowLeopardSpawnWeight": "Snow Leopard Spawn Weight",
+  "text.autoconfig.untamed.option.quetzalSpawnWeight": "Quetzal Spawn Weight",
+  "text.autoconfig.untamed.option.bluewingSpawnWeight": "Bluewing Spawn Weight",
   "text.autoconfig.untamed.category.behavior_setting": "Behavior",
   "text.autoconfig.untamed.option.lionsHuntLivestock": "Lions Hunt Livestock",
   "text.autoconfig.untamed.option.gazellesLeapObstacles": "Fleeing Gazelles Leap Fences",
