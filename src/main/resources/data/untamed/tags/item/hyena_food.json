@@ -1,6 +1,7 @@
 {
   "values": [
     "#minecraft:meat",
-    "minecraft:bone"
+    "minecraft:bone",
+    "untamed:heavy_bone"
   ]
 }

@@ -66,6 +66,31 @@
         }
       ],
       "rolls": 1.0
+    },
+    {
+      "bonus_rolls": 0.0,
+      "conditions": [
+        {
+          "condition": "minecraft:killed_by_player"
+        },
+        {
+          "condition": "minecraft:random_chance_with_enchanted_bonus",
+          "enchantment": "minecraft:looting",
+          "unenchanted_chance": 0.1,
+          "enchanted_chance": {
+            "type": "minecraft:linear",
+            "base": 0.12,
+            "per_level_above_first": 0.02
+          }
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "untamed:panther_claw"
+        }
+      ],
+      "rolls": 1.0
     }
   ],
   "random_sequence": "untamed:entities/black_panther"

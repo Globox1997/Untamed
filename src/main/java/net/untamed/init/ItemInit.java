@@ -13,6 +13,7 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.untamed.UntamedMain;
+import net.untamed.item.ClawArrowItem;
 
 public class ItemInit {
 
@@ -66,6 +67,19 @@ public class ItemInit {
 
     public static final Item RAW_BIRD = register("raw_bird", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(2).saturationModifier(0.3F).build())));
     public static final Item COOKED_BIRD = register("cooked_bird", new Item(new Item.Properties().food(new FoodProperties.Builder().nutrition(4).saturationModifier(0.6F).build())));
+
+    public static final Item BISON_FUR = register("bison_fur", new Item(new Item.Properties()));
+    public static final Item BISON_HORN = register("bison_horn", new Item(new Item.Properties()));
+    public static final Item BLACK_BEAR_PELT = register("black_bear_pelt", new Item(new Item.Properties()));
+    public static final Item CAPYBARA_HIDE = register("capybara_hide", new Item(new Item.Properties()));
+    public static final Item HEAVY_BONE = register("heavy_bone", new Item(new Item.Properties()));
+    public static final Item LION_CLAW = register("lion_claw", new Item(new Item.Properties()));
+    public static final Item LION_PELT = register("lion_pelt", new Item(new Item.Properties()));
+    public static final Item PANTHER_CLAW = register("panther_claw", new Item(new Item.Properties()));
+    public static final Item RACCOON_FUR = register("raccoon_fur", new Item(new Item.Properties()));
+    public static final Item SNOW_LEOPARD_FUR = register("snow_leopard_fur", new Item(new Item.Properties()));
+    public static final Item CLAW_ARROW = register("claw_arrow", new ClawArrowItem(new Item.Properties()));
+    public static final Item SPOTTED_PELT = register("spotted_pelt", new Item(new Item.Properties()));
 
     private static Item register(String id, Item item) {
         return register(UntamedMain.identifierOf(id), item);

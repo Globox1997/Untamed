@@ -284,7 +284,7 @@ public abstract class AbstractBirdEntity extends Animal implements FlyingAnimal 
 
     @Override
     protected void onFlap() {
-        this.playSound(SoundInit.BIRD_FLAP_EVENT, 0.15F, this.getSpeciesPitch() + (this.random.nextFloat() - 0.5F) * 0.2F);
+        this.playSound(SoundInit.BIRD_FLAP_EVENT, 0.35F, this.getSpeciesPitch() + (this.random.nextFloat() - 0.5F) * 0.2F);
         this.nextFlapSound = this.flyDist + FLAP_SOUND_STEP;
     }
 

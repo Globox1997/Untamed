@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "untamed:heavy_bone"
+    },
+    {
+      "item": "untamed:heavy_bone"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:bone_block"
+  }
+}

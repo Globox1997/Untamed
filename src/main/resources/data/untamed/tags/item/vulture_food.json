@@ -6,6 +6,7 @@
     "minecraft:mutton",
     "minecraft:rotten_flesh",
     "minecraft:chicken",
-    "minecraft:rabbit"
+    "minecraft:rabbit",
+    "untamed:heavy_bone"
   ]
 }

@@ -23,6 +23,7 @@ public class UntamedMain implements ModInitializer {
 		SoundInit.init();
 		SpawnInit.init();
 		TagInit.init();
+		CompatInit.init();
 	}
 
 	public static ResourceLocation identifierOf(String path) {
