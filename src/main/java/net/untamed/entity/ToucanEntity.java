@@ -1,63 +1,63 @@
 package net.untamed.entity;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.PassiveEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.AgeableMob;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.Level;
 import net.untamed.entity.base.AbstractBirdEntity;
 import net.untamed.init.EntityInit;
 import net.untamed.init.SoundInit;
 import org.jetbrains.annotations.Nullable;
 
 public class ToucanEntity extends AbstractBirdEntity {
-    public static final TagKey<Item> BREEDING_ITEMS = TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "fruits"));
 
-    public ToucanEntity(EntityType<? extends AbstractBirdEntity> entityType, World world) {
-        super(entityType, world);
+    public static final TagKey<Item> BREEDING_ITEMS = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "fruits"));
+
+    public ToucanEntity(EntityType<? extends AbstractBirdEntity> entityType, Level level) {
+        super(entityType, level);
     }
 
-    public static DefaultAttributeContainer.Builder createToucanAttributes() {
-        return MobEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 8.0)
-                .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.45)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.2);
-    }
-
-    @Override
-    protected void initGoals() {
-        this.goalSelector.add(0, new SwimGoal(this));
-        this.goalSelector.add(1, new EscapeDangerGoal(this, 1.25));
-        this.goalSelector.add(2, new AnimalMateGoal(this, 1.0));
-        this.goalSelector.add(3, new TemptGoal(this, 1.1, Ingredient.fromTag(BREEDING_ITEMS), false));
-        this.goalSelector.add(4, new FollowParentGoal(this, 1.1));
-        this.goalSelector.add(5, new FlyOntoTreeGoal(this, 1.0));
-        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8.0F));
-        this.goalSelector.add(7, new LookAroundGoal(this));
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 8.0D)
+                .add(Attributes.FLYING_SPEED, 0.45D)
+                .add(Attributes.MOVEMENT_SPEED, 0.2D);
     }
 
     @Override
-    public boolean isBreedingItem(ItemStack stack) {
-        return stack.isIn(BREEDING_ITEMS);
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new PanicGoal(this, 1.25D));
+        this.goalSelector.addGoal(2, new BreedGoal(this, 1.0D));
+        this.goalSelector.addGoal(3, new TemptGoal(this, 1.1D, Ingredient.of(BREEDING_ITEMS), false));
+        this.goalSelector.addGoal(4, new FollowParentGoal(this, 1.1D));
+        this.goalSelector.addGoal(5, new WaterAvoidingRandomFlyingGoal(this, 1.0D));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+    }
+
+    @Override
+    public boolean isFood(ItemStack stack) {
+        return stack.is(BREEDING_ITEMS);
     }
 
     @Nullable
     @Override
-    public PassiveEntity createChild(ServerWorld world, PassiveEntity entity) {
-        return EntityInit.TOUCAN.create(world);
+    public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
+        return EntityInit.TOUCAN.create(level);
     }
 
     @Nullable
@@ -68,7 +68,7 @@ public class ToucanEntity extends AbstractBirdEntity {
 
     @Nullable
     @Override
-    protected SoundEvent getHurtSound(DamageSource source) {
+    protected SoundEvent getHurtSound(DamageSource damageSource) {
         return SoundInit.TOUCAN_HURT;
     }
 
