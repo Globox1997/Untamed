@@ -50,7 +50,9 @@ public class EntityInit {
             "quetzal", 3842382, 12464677, EntityType.Builder.of(QuetzalEntity::new, MobCategory.CREATURE).sized(0.4F, 0.9F).clientTrackingRange(8).build());
     public static final EntityType<BluewingEntity> BLUEWING = register(
             "bluewing", 6856379, 14329120, EntityType.Builder.of(BluewingEntity::new, MobCategory.CREATURE).sized(0.5F, 0.5F).clientTrackingRange(8).build());
-
+    public static final EntityType<ToucanEntity> TOUCAN = register(
+            "toucan", 1908258, 16224030, EntityType.Builder.of(ToucanEntity::new, MobCategory.CREATURE).sized(0.5F, 0.7F).clientTrackingRange(8).build());
+    
     private static <T extends Entity> EntityType<T> register(String id, int primaryColor, int secondaryColor, EntityType<T> entityType) {
         if (primaryColor != 0) {
             Item item = Registry.register(BuiltInRegistries.ITEM, UntamedMain.identifierOf(id + "_spawn_egg"),
@@ -79,5 +81,6 @@ public class EntityInit {
         FabricDefaultAttributeRegistry.register(SNOW_LEOPARD, SnowLeopardEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(QUETZAL, QuetzalEntity.createAttributes());
         FabricDefaultAttributeRegistry.register(BLUEWING, BluewingEntity.createAttributes());
+        FabricDefaultAttributeRegistry.register(TOUCAN, ToucanEntity.createAttributes());
     }
 }
