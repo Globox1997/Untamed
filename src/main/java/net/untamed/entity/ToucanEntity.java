@@ -49,6 +49,11 @@ public class ToucanEntity extends AbstractBirdEntity {
         this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
     }
 
+    public static boolean checkToucanEntitySpawnRules(EntityType<ToucanEntity> entityType, LevelAccessor levelAccessor, MobSpawnType mobSpawnType, BlockPos blockPos, RandomSource randomSource) {
+        return !levelAccessor.getBiome(blockPos).is(BiomeTags.IS_JUNGLE) ? checkAnimalSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource)
+                : isBrightEnoughToSpawn(levelAccessor, blockPos) && levelAccessor.getBlockState(blockPos.below()).is(TagInit.TOUCANS_SPAWNABLE_ON);
+    }
+    
     @Override
     public boolean isFood(ItemStack stack) {
         return stack.is(BREEDING_ITEMS);
@@ -77,4 +82,5 @@ public class ToucanEntity extends AbstractBirdEntity {
     protected SoundEvent getDeathSound() {
         return SoundInit.TOUCAN_DEATH;
     }
+    
 }
