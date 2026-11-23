@@ -1,4 +1,4 @@
-package net.untamed.mixin; // Match your mod's mixin package
+package net.untamed.mixin;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.ai.goal.target.NonTameRandomTargetGoal;
