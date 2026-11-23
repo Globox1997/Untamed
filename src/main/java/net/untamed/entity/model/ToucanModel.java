@@ -2,13 +2,16 @@ package net.untamed.entity.model;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.model.*;
-import net.minecraft.client.render.entity.model.SinglePartEntityModel;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.model.HierarchicalModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.model.geom.PartPose;
+import net.minecraft.client.model.geom.builders.*;
+import net.minecraft.util.Mth;
 import net.untamed.entity.ToucanEntity;
 
 @Environment(EnvType.CLIENT)
-public class ToucanModel<T extends ToucanEntity> extends SinglePartEntityModel<T> {
+public class ToucanModel<T extends ToucanEntity> extends HierarchicalModel<T> {
+
     private final ModelPart root;
     private final ModelPart body;
     private final ModelPart head;
@@ -29,66 +32,66 @@ public class ToucanModel<T extends ToucanEntity> extends SinglePartEntityModel<T
         this.rightLeg = this.body.getChild("right_leg");
     }
 
-    public static TexturedModelData getTexturedModelData() {
-        ModelData modelData = new ModelData();
-        ModelPartData modelPartData = modelData.getRoot();
+    public static LayerDefinition createBodyLayer() {
+        MeshDefinition meshDefinition = new MeshDefinition();
+        PartDefinition partDefinition = meshDefinition.getRoot();
 
-        ModelPartData body = modelPartData.addChild("body", ModelPartBuilder.create()
-                .uv(0, 0).cuboid(-2.5F, -3.0F, -3.5F, 5.0F, 5.0F, 7.0F),
-                ModelTransform.pivot(0.0F, 19.0F, 0.0F));
+        PartDefinition body = partDefinition.addOrReplaceChild("body", CubeListBuilder.create()
+                .texOffs(0, 0).addBox(-2.5F, -3.0F, -3.5F, 5.0F, 5.0F, 7.0F),
+                PartPose.offset(0.0F, 19.0F, 0.0F));
 
-        ModelPartData head = body.addChild("head", ModelPartBuilder.create()
-                .uv(0, 12).cuboid(-2.0F, -4.0F, -2.5F, 4.0F, 4.0F, 4.0F),
-                ModelTransform.pivot(0.0F, -2.5F, -2.5F));
+        PartDefinition head = body.addOrReplaceChild("head", CubeListBuilder.create()
+                .texOffs(0, 12).addBox(-2.0F, -4.0F, -2.5F, 4.0F, 4.0F, 4.0F),
+                PartPose.offset(0.0F, -2.5F, -2.5F));
 
-        head.addChild("beak", ModelPartBuilder.create()
-                .uv(16, 12).cuboid(-1.5F, -3.5F, -7.5F, 3.0F, 3.0F, 5.0F),
-                ModelTransform.NONE);
+        head.addOrReplaceChild("beak", CubeListBuilder.create()
+                .texOffs(16, 12).addBox(-1.5F, -3.5F, -7.5F, 3.0F, 3.0F, 5.0F),
+                PartPose.ZERO);
 
-        body.addChild("left_wing", ModelPartBuilder.create()
-                .uv(0, 20).cuboid(0.0F, 0.0F, -2.5F, 1.0F, 4.0F, 6.0F),
-                ModelTransform.pivot(2.5F, -2.5F, -0.5F));
+        body.addOrReplaceChild("left_wing", CubeListBuilder.create()
+                .texOffs(0, 20).addBox(0.0F, 0.0F, -2.5F, 1.0F, 4.0F, 6.0F),
+                PartPose.offset(2.5F, -2.5F, -0.5F));
 
-        body.addChild("right_wing", ModelPartBuilder.create()
-                .uv(14, 20).cuboid(-1.0F, 0.0F, -2.5F, 1.0F, 4.0F, 6.0F),
-                ModelTransform.pivot(-2.5F, -2.5F, -0.5F));
+        body.addOrReplaceChild("right_wing", CubeListBuilder.create()
+                .texOffs(14, 20).addBox(-1.0F, 0.0F, -2.5F, 1.0F, 4.0F, 6.0F),
+                PartPose.offset(-2.5F, -2.5F, -0.5F));
 
-        body.addChild("tail", ModelPartBuilder.create()
-                .uv(24, 0).cuboid(-1.5F, -0.5F, 0.0F, 3.0F, 1.0F, 5.0F),
-                ModelTransform.of(0.0F, -1.0F, 3.5F, -0.2618F, 0.0F, 0.0F));
+        body.addOrReplaceChild("tail", CubeListBuilder.create()
+                .texOffs(24, 0).addBox(-1.5F, -0.5F, 0.0F, 3.0F, 1.0F, 5.0F),
+                PartPose.offsetAndRotation(0.0F, -1.0F, 3.5F, -0.2618F, 0.0F, 0.0F));
 
-        body.addChild("left_leg", ModelPartBuilder.create()
-                .uv(24, 6).cuboid(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F),
-                ModelTransform.pivot(1.25F, 2.0F, 0.0F));
+        body.addOrReplaceChild("left_leg", CubeListBuilder.create()
+                .texOffs(24, 6).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F),
+                PartPose.offset(1.25F, 2.0F, 0.0F));
 
-        body.addChild("right_leg", ModelPartBuilder.create()
-                .uv(28, 6).cuboid(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F),
-                ModelTransform.pivot(-1.25F, 2.0F, 0.0F));
+        body.addOrReplaceChild("right_leg", CubeListBuilder.create()
+                .texOffs(28, 6).addBox(-0.5F, 0.0F, -0.5F, 1.0F, 3.0F, 1.0F),
+                PartPose.offset(-1.25F, 2.0F, 0.0F));
 
-        return TexturedModelData.of(modelData, 64, 64);
+        return LayerDefinition.create(meshDefinition, 64, 64);
     }
 
     @Override
-    public void setAngles(T entity, float limbAngle, float limbDistance, float animationProgress, float headYaw, float headPitch) {
-        this.head.pitch = headPitch * 0.017453292F;
-        this.head.yaw = headYaw * 0.017453292F;
+    public void setupAnim(T entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+        this.head.xRot = headPitch * ((float) Math.PI / 180F);
+        this.head.yRot = netHeadYaw * ((float) Math.PI / 180F);
 
-        if (!entity.isOnGround()) {
-            float flap = MathHelper.cos(animationProgress * 1.4F) * 1.1F;
-            this.leftWing.roll = -flap - 0.2F;
-            this.rightWing.roll = flap + 0.2F;
-            this.leftLeg.pitch = 0.4F;
-            this.rightLeg.pitch = 0.4F;
+        if (!entity.onGround()) {
+            float flap = Mth.cos(ageInTicks * 1.4F) * 1.1F;
+            this.leftWing.zRot = -flap - 0.2F;
+            this.rightWing.zRot = flap + 0.2F;
+            this.leftLeg.xRot = 0.4F;
+            this.rightLeg.xRot = 0.4F;
         } else {
-            this.leftWing.roll = 0.0F;
-            this.rightWing.roll = 0.0F;
-            this.leftLeg.pitch = MathHelper.cos(limbAngle * 0.6662F) * 1.4F * limbDistance;
-            this.rightLeg.pitch = MathHelper.cos(limbAngle * 0.6662F + (float) Math.PI) * 1.4F * limbDistance;
+            this.leftWing.zRot = 0.0F;
+            this.rightWing.zRot = 0.0F;
+            this.leftLeg.xRot = Mth.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount;
+            this.rightLeg.xRot = Mth.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount;
         }
     }
 
     @Override
-    public ModelPart getPart() {
+    public ModelPart root() {
         return this.root;
     }
 }
