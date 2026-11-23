@@ -27,6 +27,7 @@ public class TagInit {
     public static final TagKey<Block> BLUEWINGS_SPAWNABLE_ON = TagKey.create(Registries.BLOCK, UntamedMain.identifierOf("bluewings_spawnable_on"));
     public static final TagKey<Block> SNOW_LEOPARDS_SPAWNABLE_ON = TagKey.create(Registries.BLOCK, UntamedMain.identifierOf("snow_leopards_spawnable_on"));
     public static final TagKey<Biome> SNOW_LEOPARD_HABITAT = TagKey.create(Registries.BIOME, UntamedMain.identifierOf("snow_leopard_habitat"));
+    public static final TagKey<Block> TOUCANS_SPAWNABLE_ON = TagKey.create(Registries.BLOCK, UntamedMain.identifierOf("toucans_spawnable_on"));
 
     public static final TagKey<Block> HERD_GRAZEABLE = TagKey.create(Registries.BLOCK, UntamedMain.identifierOf("herd_grazeable"));
     public static final TagKey<Block> HYENA_COOLING_SPOTS = TagKey.create(Registries.BLOCK, UntamedMain.identifierOf("hyena_cooling_spots"));
@@ -53,6 +54,7 @@ public class TagInit {
     public static final TagKey<Item> QUETZAL_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("quetzal_food"));
     public static final TagKey<Item> BLUEWING_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("bluewing_food"));
     public static final TagKey<Item> SNOW_LEOPARD_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("snow_leopard_food"));
+    public static final TagKey<Item> TOUCAN_FOOD = TagKey.create(Registries.ITEM, UntamedMain.identifierOf("toucan_food"));
 
     public static final TagKey<EntityType<?>> CAPYBARA_PREDATORS = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("capybara_predators"));
     public static final TagKey<EntityType<?>> BUFFALO_THREATS = TagKey.create(Registries.ENTITY_TYPE, UntamedMain.identifierOf("buffalo_threats"));
