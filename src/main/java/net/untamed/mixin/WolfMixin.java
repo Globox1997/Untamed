@@ -10,9 +10,9 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import net.untamed.entity.Gazelle;
-import net.untamed.entity.Kiwi;
-import net.untamed.entity.Raccoon;
+import net.untamed.entity.GazelleEntity;
+import net.untamed.entity.KiwiEntity;
+import net.untamed.entity.RaccoonEntity;
 
 @Mixin(Wolf.class)
 public abstract class WolfMixin extends TamableAnimal {
