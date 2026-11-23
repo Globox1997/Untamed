@@ -24,8 +24,6 @@ import org.jetbrains.annotations.Nullable;
 
 public class ToucanEntity extends AbstractBirdEntity {
 
-    public static final TagKey<Item> BREEDING_ITEMS = TagKey.create(Registries.ITEM, ResourceLocation.fromNamespaceAndPath("c", "fruits"));
-
     public ToucanEntity(EntityType<? extends AbstractBirdEntity> entityType, Level level) {
         super(entityType, level);
     }
@@ -53,12 +51,12 @@ public class ToucanEntity extends AbstractBirdEntity {
         return !levelAccessor.getBiome(blockPos).is(BiomeTags.IS_JUNGLE) ? checkAnimalSpawnRules(entityType, levelAccessor, mobSpawnType, blockPos, randomSource)
                 : isBrightEnoughToSpawn(levelAccessor, blockPos) && levelAccessor.getBlockState(blockPos.below()).is(TagInit.TOUCANS_SPAWNABLE_ON);
     }
-    
-    @Override
-    public boolean isFood(ItemStack stack) {
-        return stack.is(BREEDING_ITEMS);
-    }
 
+    @Override
+    protected TagKey<Item> getFoodTag() {
+        return TagInit.TOUCAN_FOOD;
+    }
+    
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel level, AgeableMob otherParent) {
