@@ -11,11 +11,11 @@ import net.untamed.entity.model.ToucanEntityModel;
 import net.untamed.init.RenderInit;
 
 @Environment(EnvType.CLIENT)
-public class ToucanEntityRenderer extends MobEntityRenderer<ToucanEntity, ToucanEntityModel<ToucanEntity>> {
+public class ToucanRenderer extends MobEntityRenderer<ToucanEntity, ToucanEntityModel<ToucanEntity>> {
 
     private static final Identifier TEXTURE = Identifier.of(UntamedMain.MOD_ID, "textures/entity/toucan.png");
 
-    public ToucanEntityRenderer(EntityRendererFactory.Context context) {
+    public ToucanRenderer(EntityRendererFactory.Context context) {
         super(context, new ToucanEntityModel<>(context.getPart(RenderInit.TOUCAN_LAYER)), 0.3F);
     }
 
